@@ -1,0 +1,13 @@
+.expenses_table_large {
+    display: none;
+}
+
+@media screen and (min-width: 500px) {
+    .expenses_table_small {
+        display: none;
+    }
+
+    .expenses_table_large {
+        display: contents;
+    }
+}

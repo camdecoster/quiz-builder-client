@@ -1,0 +1,33 @@
+:root {
+    --blue-dark: #040084;
+    --blue-medium: #0141cf;
+    --blue-light: #1874d2;
+    --blue-lighter: #5392d1;
+    --orange-dark: #fd6600;
+    --orange-medium: #fd7f00;
+    --orange-light: #fecc98;
+    --red-dark: #ff3c31;
+    --red-medium: #ff635c;
+    --red-light: #ff9995;
+    --light: white;
+    --light-accent: rgb(175, 175, 175);
+    --light-accent-2: rgb(125, 125, 125);
+    --link-color: var(--orange-medium);
+    --link-color-active: var(--orange-light);
+    --link-color-hover: blue;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--blue-dark);
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}

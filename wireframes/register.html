@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Account Registration</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.css"
+        />
+        <link rel="stylesheet" type="text/css" href="index.css" />
+    </head>
+    <body>
+        <nav role="navigation">Nav</nav>
+        <!-- <main role="main">
+            <section>
+                <header>
+                    <h3>Sign up for Quiz Builder</h3>
+                </header>
+                <form class="signup-form">
+                    <div>
+                        <label for="first-name">First name</label>
+                        <input
+                            placeholder="First Name"
+                            type="text"
+                            name="first-name"
+                            id="first-name"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="last-name">Last name</label>
+                        <input
+                            type="text"
+                            name="last-name"
+                            id="last-name"
+                            placeholder="Last Name"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="username">Email</label>
+                        <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            required
+                        />
+                    </div>
+                    <button type="submit">Sign Up</button>
+                    <div>
+                        <p>Already have an account? Login.</p>
+                    </div>
+                </form>
+            </section>
+        </main> -->
+        <main>
+            <section id="RegistrationPage" class="route_page">
+                <header><h3>Sign up for Quiz Builder</h3></header>
+                <form id="RegistrationForm">
+                    <div>
+                        <label for="email">Email</label
+                        ><input
+                            type="email"
+                            name="email"
+                            id="email"
+                            required=""
+                        />
+                    </div>
+                    <div>
+                        <label for="password">Password</label
+                        ><input
+                            type="password"
+                            name="password"
+                            id="password"
+                            required=""
+                            value="test1"
+                        />
+                    </div>
+                    <div>
+                        <label for="password_repeat">Enter Password Again</label
+                        ><input
+                            type="password"
+                            name="password_repeat"
+                            id="password_repeat"
+                            required=""
+                            value=""
+                        />
+                    </div>
+                    <button id="button_password_reqs" type="button">
+                        Click For Password Requirements</button
+                    ><button id="button_register" type="submit" disabled="">
+                        Register
+                    </button>
+                    <div>
+                        <p>
+                            Already have an account?
+                            <a href="login-page.html">Login</a>.
+                        </p>
+                    </div>
+                    <!-- <div role="alert">
+                        <p class="errorMessage">Passwords do not match</p>
+                    </div> -->
+                </form>
+            </section>
+        </main>
+        <footer role="content-info">Footer</footer>
+    </body>
+</html>

@@ -1,0 +1,146 @@
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Raleway:wght@400&family=Roboto+Condensed&family=Roboto+Slab:wght@300&display=swap");
+
+#App {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--blue-dark);
+    color: var(--light);
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+th {
+    font-family: "Roboto Slab", serif;
+}
+
+section h1 {
+    font-size: 25px;
+}
+
+section h2 {
+    font-size: 22px;
+}
+
+.container_page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: inherit;
+}
+
+.container_page.nav_open {
+    margin-left: 200px;
+}
+
+#App main {
+    box-sizing: border-box;
+    min-width: 100%;
+    max-width: min(100vw, 800px);
+    padding: 10px;
+    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.route_page {
+    width: 100%;
+    max-width: 800px;
+}
+
+.route_page form {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+}
+
+main > section {
+    background-color: var(--blue-dark);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:active {
+    color: var(--link-color-active);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input,
+form select {
+    margin-bottom: 20px;
+}
+
+input,
+select {
+    height: 40px;
+    box-sizing: border-box;
+    min-width: 100%;
+    height: 30px;
+    padding-left: 10px;
+    background-color: var(--light);
+    border: 2px solid var(--blue-medium);
+    border-radius: 15px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+button {
+    height: 40px;
+    border: 2px solid var(--blue-medium);
+    border-radius: 20px;
+    background-color: var(--blue-light);
+    color: inherit;
+}
+
+button:active {
+    background-color: var(--blue-medium);
+    border-color: var(--blue-light);
+}
+
+textarea#description {
+    box-sizing: border-box;
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    background-color: var(--light);
+    border: 1px solid var(--blue-medium);
+    border-radius: 15px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+header {
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    display: inline-block;
+}
+
+@media screen and (min-width: 400px) {
+    body {
+        font-size: 20px;
+    }
+}

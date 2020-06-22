@@ -1,0 +1,16 @@
+.landing_image {
+    max-width: 100%;
+}
+
+.landing_link {
+    text-align: center;
+}
+
+@media screen and (min-width: 400px) {
+    #LandingPage h3 {
+        font-size: 30px;
+    }
+    #LandingPage p {
+        font-size: 25px;
+    }
+}

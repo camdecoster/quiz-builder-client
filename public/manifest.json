@@ -1,0 +1,20 @@
+{
+    "short_name": "Expense Tracker",
+    "name": "Expense Tracker Budgeting App",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "favicon164.png",
+            "type": "image/png",
+            "sizes": "164x164"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}
