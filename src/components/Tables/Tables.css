@@ -1,0 +1,50 @@
+table {
+    border-collapse: collapse;
+    text-align: center;
+    background-color: var(--blue-medium);
+    font-size: 12.7px;
+}
+
+table a {
+    font-weight: bold;
+}
+
+th {
+    background-color: var(--blue-light);
+}
+
+table,
+th,
+td {
+    border: 1px solid var(--light);
+}
+
+th,
+td {
+    margin: 0;
+    padding: 0.5rem;
+}
+
+th {
+    text-align: left;
+}
+
+#container_table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: inherit;
+    overflow-x: auto;
+}
+
+@media screen and (min-width: 400px) {
+    table {
+        font-size: 17px;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    table {
+        font-size: 19px;
+    }
+}

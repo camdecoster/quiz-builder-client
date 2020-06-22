@@ -18,9 +18,9 @@ export default function LoginPage(props) {
 
     function handleLoginSuccess() {
         // Trigger fetching of these items by causing rerender
-        context.setCategories([]);
-        context.setPayment_methods([]);
-        context.setExpenses([]);
+        // context.setCategories([]);
+        // context.setPayment_methods([]);
+        // context.setExpenses([]);
 
         // Route user to dashboard
         history.push("/");

@@ -1,0 +1,28 @@
+footer {
+    box-sizing: border-box;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 2px solid var(--blue-medium);
+    display: flex;
+    justify-content: center;
+    background-color: inherit;
+    font-size: 18px;
+}
+
+footer .container_flex {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+footer p {
+    display: inline;
+}
+
+footer .faIcon {
+    font-size: 30px;
+}

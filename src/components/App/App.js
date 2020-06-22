@@ -5,24 +5,23 @@ import { Route, Switch } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faBars,
-    faUserCircle,
-    faPlusCircle,
+    faCreditCard,
     faDollarSign,
+    faList,
+    faListAlt,
     faMoneyBill,
     faMoneyBillWave,
-    faCreditCard,
-    faList,
+    faPlayCircle,
+    faPlusCircle,
+    faPlusSquare,
     faSignInAlt,
     faSignOutAlt,
-    faPlusSquare,
-    faPlayCircle,
+    faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { faGithubSquare, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 // Configuration
 import "./App.css";
-import CategoryApiService from "../../services/category-api-service";
-import ExpenseApiService from "../../services/expense-api-service";
-import PaymentMethodApiService from "../../services/payment_method-api-service";
 import TokenService from "../../services/token-service";
 import TrackerContext from "../../contexts/TrackerContext";
 
@@ -35,40 +34,37 @@ import PublicOnlyRoute from "../Utilities/PublicOnlyRoute/PublicOnlyRoute";
 import PageNotFound from "../PageNotFound/PageNotFound";
 
 // Routes
-import CategoriesPage from "../../routes/Categories/CategoriesPage/CategoriesPage";
 import DashboardPage from "../../routes/DashboardPage/DashboardPage";
-import ExpensesPage from "../../routes/Expenses/ExpensesPage/ExpensesPage";
 import LandingPage from "../../routes/LandingPage/LandingPage";
 import LoginPage from "../../routes/LoginPage/LoginPage";
-import PaymentMethodsPage from "../../routes/Payment_methods/PaymentMethodsPage/PaymentMethodsPage";
 import RegistrationPage from "../../routes/RegistrationPage/RegistrationPage";
 
 export default function App() {
     // Initialize state
-    const [categories, setCategories] = useState([]);
     const [classNames, setClassNames] = useState({
         App_container_page: "container_page",
         SideBar: "",
     });
     const [dateCurrent, setDateCurrent] = useState(new Date());
     const [error, setError] = useState(null);
-    const [expenses, setExpenses] = useState([]);
-    const [payment_methods, setPayment_methods] = useState([]);
 
     // Add Font Awesome icons to library
     library.add(
         faBars,
-        faUserCircle,
-        faPlusCircle,
+        faCreditCard,
         faDollarSign,
+        faGithubSquare,
+        faLinkedin,
+        faList,
+        faListAlt,
         faMoneyBill,
         faMoneyBillWave,
-        faCreditCard,
-        faList,
+        faPlayCircle,
+        faPlusCircle,
+        faPlusSquare,
         faSignInAlt,
         faSignOutAlt,
-        faPlusSquare,
-        faPlayCircle
+        faUserCircle
     );
 
     // Toggle classNames for every item in given object
@@ -115,45 +111,39 @@ export default function App() {
         });
     }
 
-    useEffect(() => {
-        // Only get info from API if user is logged in
+    // useEffect(() => {
+    //     // Only get info from API if user is logged in
 
-        // Get categories from API, store in context
-        if (TokenService.hasAuthToken()) {
-            CategoryApiService.getCategories().then((categories) =>
-                setCategories(categories)
-            );
-        }
+    //     // Get categories from API, store in context
+    //     if (TokenService.hasAuthToken()) {
+    //         CategoryApiService.getCategories().then((categories) =>
+    //             setCategories(categories)
+    //         );
+    //     }
 
-        // Get payment methods from API, store in context
-        if (TokenService.hasAuthToken()) {
-            PaymentMethodApiService.getPayment_methods().then(
-                (payment_methods) => setPayment_methods(payment_methods)
-            );
-        }
+    //     // Get payment methods from API, store in context
+    //     if (TokenService.hasAuthToken()) {
+    //         PaymentMethodApiService.getPayment_methods().then(
+    //             (payment_methods) => setPayment_methods(payment_methods)
+    //         );
+    //     }
 
-        // Get expenses from API, store in context
-        if (TokenService.hasAuthToken()) {
-            ExpenseApiService.getExpenses().then((expenses) =>
-                setExpenses(expenses)
-            );
-        }
-    }, [
-        JSON.stringify(categories),
-        JSON.stringify(payment_methods),
-        JSON.stringify(expenses),
-        TokenService.hasAuthToken(),
-    ]);
+    //     // Get expenses from API, store in context
+    //     if (TokenService.hasAuthToken()) {
+    //         ExpenseApiService.getExpenses().then((expenses) =>
+    //             setExpenses(expenses)
+    //         );
+    //     }
+    // }, [
+    //     JSON.stringify(categories),
+    //     JSON.stringify(payment_methods),
+    //     JSON.stringify(expenses),
+    //     TokenService.hasAuthToken(),
+    // ]);
 
     const contextValue = {
-        categories: categories,
         dateCurrent: dateCurrent,
-        expenses: expenses,
-        payment_methods: payment_methods,
-        setCategories: setCategories,
         setClassNames: setClassNames,
-        setExpenses: setExpenses,
-        setPayment_methods: setPayment_methods,
         toggleClassNames: toggleClassNames,
     };
 
@@ -208,7 +198,7 @@ export default function App() {
                                     </ErrorBoundary>
                                 )}
                             />
-                            <PrivateRoute
+                            {/* <PrivateRoute
                                 path='/expenses'
                                 render={(routerProps) => (
                                     <ErrorBoundary
@@ -237,7 +227,7 @@ export default function App() {
                                         <PaymentMethodsPage {...routerProps} />
                                     </ErrorBoundary>
                                 )}
-                            />
+                            /> */}
                             <PublicOnlyRoute
                                 path='/demo'
                                 render={(routerProps) => (

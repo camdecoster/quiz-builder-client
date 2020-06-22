@@ -1,0 +1,19 @@
+#button_register:disabled {
+    background-color: darkgray;
+    color: black;
+}
+
+#button_password_reqs {
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+    background-color: transparent;
+    border: 0;
+    color: var(--orange-medium);
+    font-size: 10px;
+    font-weight: bold;
+}
+
+#password_reqs {
+    width: 300px;
+}

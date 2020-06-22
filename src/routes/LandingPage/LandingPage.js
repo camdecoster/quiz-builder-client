@@ -1,8 +1,8 @@
 // React
 import React from "react";
 import { Link } from "react-router-dom";
-import ImageBudget from "../../images/budget.jpg";
-import ImageChart from "../../images/bar-chart.png";
+import ImageQuizKeyboard from "../../images/quiz-keyboard.jpg";
+import ImageFriendsWithPhone from "../../images/friends_talking_phone.jpg";
 import ImageItems from "../../images/groceries.jpg";
 
 // Configuration
@@ -12,56 +12,55 @@ export default function LandingPage() {
     return (
         <section id='LandingPage' className='route_page'>
             <section>
-                <h3>Start keeping track</h3>
+                <h3>We all like quizzes</h3>
                 <img
                     className='landing_image'
-                    src={ImageItems}
-                    alt='basket of colorful vegetables sitting on dark surface'
+                    src={ImageQuizKeyboard}
+                    alt='close up picture of keyboard with quiz button'
                 />
                 <p>
-                    How do you spend your money? Most people can think of big
-                    items like rent and car payments, but then it starts to get
-                    fuzzy. Did I buy pizza this week or last week? How much did
-                    I spend on groceries? Expense Tracker aims to help people
-                    track their spending by making it easy to add an expense and
-                    quickly see where money is being spent by category.
+                    It's a scientific fact that everyone likes to answer
+                    questions when the outcome doesn't matter and the content is
+                    enlightening or silly. It's also widely known that people
+                    are competitive and want to prove how much they know. That's
+                    why you should build a quiz and send it to your friends. And
+                    since you're already here at Quiz Builder, why not start
+                    here?
                 </p>
             </section>
 
             <section>
-                <h3>Start using a budget</h3>
-                <img
-                    className='landing_image'
-                    src={ImageBudget}
-                    alt='budget and tracking documents on table with pen and bowl of paperclips'
-                />
+                <h3>What is it?</h3>
                 <p>
-                    Once you know where your money is being spent, you can
-                    figure out how you should spend it in the future. Expense
-                    Tracker can help you set a budget and keep your spending
-                    focused on the things you want.
+                    [<em>Placeholder for image of Quiz Builder interface</em>]
+                </p>
+                <p>
+                    Quiz Builder is a site that helps you create simple multiple
+                    choice quizzes and share them with your friends. To get
+                    started, create an account and build your first quiz! Each
+                    quiz can have up to 20 questions and each question can have
+                    up to 8 answer choices.
                 </p>
             </section>
 
             <section>
-                <h3>Start learning</h3>
+                <h3>Share with your Friends</h3>
                 <img
                     className='landing_image'
-                    src={ImageChart}
-                    alt='horizontal bar chart showing budget category spending vs. category budget amount'
+                    src={ImageFriendsWithPhone}
+                    alt='three friends talking around a phone'
                 />
                 <p>
-                    Expense Tracker will use your financial history to show you
-                    monthly, annual, and lifetime spending. Use this information
-                    to help guide your spending in the future.
+                    After you're done, share the quiz URL with anyone you want
+                    to take it. All quizzes will be public, so anyone can take
+                    them. Are you feeling lucky? Click the random quiz button
+                    and try someone else's quiz. Get started today!
                 </p>
             </section>
 
             <section>
                 <Link to='/register'>
-                    <h3 className='landing_link'>
-                        Sign up for Expense Tracker
-                    </h3>
+                    <h3 className='landing_link'>Sign up for Quiz Builder</h3>
                 </Link>
                 <Link to='/demo'>
                     <h3 className='landing_link'>Try the Demo</h3>

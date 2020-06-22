@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NavBar> component renders the UI with authorization with the UserMenu showing 1`] = `
+<nav
+  role="navigation"
+>
+  <h1>
+    <a
+      href="/"
+      onClick={[Function]}
+      title="Go to Dashboard"
+    >
+      Expense Tracker
+    </a>
+  </h1>
+  <div
+    className="link_list"
+  >
+    <a
+      aria-label="Log In"
+      href="/login"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Log In"
+    >
+      <button
+        aria-label="Log In"
+        className="link_button"
+        type="button"
+      />
+    </a>
+    <a
+      aria-label="Register"
+      href="/register"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Register"
+    >
+      <button
+        aria-label="Register"
+        className="link_button"
+        type="button"
+      />
+    </a>
+  </div>
+  
+</nav>
+`;
+
+exports[`<NavBar> component renders the UI with authorization with the UserMenu showing 2`] = `
+<nav
+  role="navigation"
+>
+  <h1>
+    <a
+      href="/"
+      onClick={[Function]}
+      title="Go to Dashboard"
+    >
+      Expense Tracker
+    </a>
+  </h1>
+  <div
+    className="link_list"
+  >
+    <a
+      aria-label="Log In"
+      href="/login"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Log In"
+    >
+      <button
+        aria-label="Log In"
+        className="link_button"
+        type="button"
+      />
+    </a>
+    <a
+      aria-label="Register"
+      href="/register"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Register"
+    >
+      <button
+        aria-label="Register"
+        className="link_button"
+        type="button"
+      />
+    </a>
+  </div>
+  
+</nav>
+`;
+
+exports[`<NavBar> component renders the UI without authorization with the UserMenu showing 1`] = `
+<nav
+  role="navigation"
+>
+  <h1>
+    <a
+      href="/"
+      onClick={[Function]}
+      title="Go to Dashboard"
+    >
+      Expense Tracker
+    </a>
+  </h1>
+  <div
+    className="link_list"
+  >
+    <a
+      aria-label="Log In"
+      href="/login"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Log In"
+    >
+      <button
+        aria-label="Log In"
+        className="link_button"
+        type="button"
+      />
+    </a>
+    <a
+      aria-label="Register"
+      href="/register"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Register"
+    >
+      <button
+        aria-label="Register"
+        className="link_button"
+        type="button"
+      />
+    </a>
+  </div>
+  
+</nav>
+`;
+
+exports[`<NavBar> component renders the UI without authorization with the UserMenu showing 2`] = `
+<nav
+  role="navigation"
+>
+  <h1>
+    <a
+      href="/"
+      onClick={[Function]}
+      title="Go to Dashboard"
+    >
+      Expense Tracker
+    </a>
+  </h1>
+  <div
+    className="link_list"
+  >
+    <a
+      aria-label="Log In"
+      href="/login"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Log In"
+    >
+      <button
+        aria-label="Log In"
+        className="link_button"
+        type="button"
+      />
+    </a>
+    <a
+      aria-label="Register"
+      href="/register"
+      id="AddItemLinkButton"
+      onClick={[Function]}
+      title="Register"
+    >
+      <button
+        aria-label="Register"
+        className="link_button"
+        type="button"
+      />
+    </a>
+  </div>
+  
+</nav>
+`;

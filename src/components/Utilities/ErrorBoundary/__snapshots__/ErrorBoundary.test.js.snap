@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ErrorBoundary> component renders the UI with the default message (no message given) 1`] = `
+<h3
+  className="errorMessage"
+>
+  There was an error: 
+  Something didn't load correctly
+  .
+</h3>
+`;
+
+exports[`<ErrorBoundary> component renders the UI with the given message 1`] = `
+<h3
+  className="errorMessage"
+>
+  There was an error: 
+  This is an error message
+  .
+</h3>
+`;
