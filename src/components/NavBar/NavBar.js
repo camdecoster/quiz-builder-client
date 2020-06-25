@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Configuration
 import "./NavBar.css";
-import TrackerContext from "../../contexts/TrackerContext";
+import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 import TokenService from "../../services/token-service";
 
 // Components
@@ -13,7 +13,7 @@ import AddItemLinkButton from "../Utilities/AddItemLinkButton/AddItemLinkButton"
 
 export default function NavBar() {
     // Access context
-    const context = useContext(TrackerContext);
+    const context = useContext(QuizBuilderContext);
 
     // Access history
     const history = useHistory();

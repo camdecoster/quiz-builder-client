@@ -4,14 +4,14 @@ import { useHistory } from "react-router-dom";
 
 // Configuration
 import "./LoginPage.css";
-import TrackerContext from "../../contexts/TrackerContext";
+import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 
 // Components
 import LoginForm from "../../components/LoginForm/LoginForm";
 
 export default function LoginPage(props) {
     // Access context
-    const context = useContext(TrackerContext);
+    const context = useContext(QuizBuilderContext);
 
     // Access history
     const history = useHistory();

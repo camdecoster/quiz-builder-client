@@ -15,9 +15,9 @@ describe("<Footer> component", () => {
     //     const tree = renderer
     //         .create(
     //             <MemoryRouter>
-    //                 <TrackerContext.Provider>
+    //                 <QuizBuilderContext.Provider>
     //                     <Footer />
-    //                 </TrackerContext.Provider>
+    //                 </QuizBuilderContext.Provider>
     //             </MemoryRouter>
     //         )
     //         .toJSON();

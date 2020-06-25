@@ -15,3 +15,4 @@ Features that will be added in the future:
 
 -   Choose a color theme for the quiz and questions
 -   Add an image URL to the quiz and questions
+-   Random question order

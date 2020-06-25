@@ -5,7 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
 
 // Configuration
-import TrackerContext from "../../contexts/TrackerContext";
+import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 import TokenService from "../../services/token-service";
 
 // Components
@@ -17,11 +17,11 @@ jest.mock("../../services/token-service");
 function NavBarTest(props) {
     return (
         <MemoryRouter>
-            <TrackerContext.Provider
+            <QuizBuilderContext.Provider
                 value={{ showUserMenu: props.showUserMenu }}
             >
                 <NavBar />
-            </TrackerContext.Provider>
+            </QuizBuilderContext.Provider>
         </MemoryRouter>
     );
 }

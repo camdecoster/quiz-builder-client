@@ -22,8 +22,9 @@ import { faGithubSquare, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 // Configuration
 import "./App.css";
+import QuizApiService from "../../services/quiz-api-service";
 import TokenService from "../../services/token-service";
-import TrackerContext from "../../contexts/TrackerContext";
+import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 
 // Components
 import ErrorBoundary from "../Utilities/ErrorBoundary/ErrorBoundary";
@@ -38,12 +39,13 @@ import DashboardPage from "../../routes/DashboardPage/DashboardPage";
 import LandingPage from "../../routes/LandingPage/LandingPage";
 import LoginPage from "../../routes/LoginPage/LoginPage";
 import RegistrationPage from "../../routes/RegistrationPage/RegistrationPage";
+import QuizzesPage from "../../routes/QuizzesPage/QuizzesPage";
 
 export default function App() {
     // Initialize state
+    const [quizzes, setQuizzes] = useState([]);
     const [classNames, setClassNames] = useState({
         App_container_page: "container_page",
-        SideBar: "",
     });
     const [dateCurrent, setDateCurrent] = useState(new Date());
     const [error, setError] = useState(null);
@@ -111,47 +113,25 @@ export default function App() {
         });
     }
 
-    // useEffect(() => {
-    //     // Only get info from API if user is logged in
-
-    //     // Get categories from API, store in context
-    //     if (TokenService.hasAuthToken()) {
-    //         CategoryApiService.getCategories().then((categories) =>
-    //             setCategories(categories)
-    //         );
-    //     }
-
-    //     // Get payment methods from API, store in context
-    //     if (TokenService.hasAuthToken()) {
-    //         PaymentMethodApiService.getPayment_methods().then(
-    //             (payment_methods) => setPayment_methods(payment_methods)
-    //         );
-    //     }
-
-    //     // Get expenses from API, store in context
-    //     if (TokenService.hasAuthToken()) {
-    //         ExpenseApiService.getExpenses().then((expenses) =>
-    //             setExpenses(expenses)
-    //         );
-    //     }
-    // }, [
-    //     JSON.stringify(categories),
-    //     JSON.stringify(payment_methods),
-    //     JSON.stringify(expenses),
-    //     TokenService.hasAuthToken(),
-    // ]);
+    useEffect(() => {
+        // Only get info from API if user is logged in
+        if (TokenService.hasAuthToken()) {
+            QuizApiService.getQuizzes().then((quizzes) => setQuizzes(quizzes));
+            console.log("Quizzes:", quizzes);
+        }
+    }, [JSON.stringify(quizzes), TokenService.hasAuthToken()]);
 
     const contextValue = {
         dateCurrent: dateCurrent,
+        quizzes: quizzes,
         setClassNames: setClassNames,
+        setQuizzes: setQuizzes,
         toggleClassNames: toggleClassNames,
     };
 
     return (
         <div id='App'>
-            <TrackerContext.Provider value={contextValue}>
-                {/* <SideBar className={classNames.SideBar} /> */}
-
+            <QuizBuilderContext.Provider value={contextValue}>
                 <section
                     id='container_page'
                     className={classNames.App_container_page}
@@ -195,6 +175,20 @@ export default function App() {
                                         message={`Couldn't load Login page`}
                                     >
                                         <LoginPage />
+                                    </ErrorBoundary>
+                                )}
+                            />
+                            <Route
+                                path='/quizzes'
+                                render={(routerProps) => (
+                                    <ErrorBoundary
+                                        message={
+                                            TokenService.hasAuthToken()
+                                                ? `Couldn't load Dashboard page`
+                                                : `Couldn't load Landing page`
+                                        }
+                                    >
+                                        <QuizzesPage />
                                     </ErrorBoundary>
                                 )}
                             />
@@ -249,7 +243,7 @@ export default function App() {
                     </main>
                     <Footer />
                 </section>
-            </TrackerContext.Provider>
+            </QuizBuilderContext.Provider>
         </div>
     );
 }

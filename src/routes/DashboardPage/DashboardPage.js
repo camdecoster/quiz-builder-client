@@ -3,50 +3,44 @@ import React, { useState, useEffect, useContext } from "react";
 
 // Configuration
 import "./DashboardPage.css";
-import TrackerContext from "../../contexts/TrackerContext";
+import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 import { firstLetterUppercase } from "../../js-utilities";
 
 // Components
 import RandomQuizSection from "../../components/RandomQuizSection/RandomQuizSection";
+import { Link } from "react-router-dom";
 
 export default function DashboardPage() {
     // Access context
-    const context = useContext(TrackerContext);
-    const { dateCurrent = new Date() } = context;
+    const context = useContext(QuizBuilderContext);
+    const { dateCurrent = new Date(), quizzes } = context;
 
     // Initialize state
     const [dateSelected, setDateSelected] = useState(new Date(dateCurrent));
-    const [dateString, setDateString] = useState(
-        `${dateSelected.toLocaleString("default", {
-            month: "long",
-        })} ${dateSelected.getFullYear()}`
-    );
-    const [spendingInterval, setSpendingInterval] = useState("month");
 
-    const [categoryTotals, setCategoryTotals] = useState([]);
-    const [payment_methodTotals, setPayment_methodTotals] = useState([]);
+    // function shiftCurrentDateByMonths(months) {
+    //     const tempDate = new Date(dateCurrent);
+    //     tempDate.setMonth(tempDate.getMonth() + months);
+    //     return tempDate;
+    // }
 
-    // Update date string after selection changes
-    useEffect(() => {
-        setDateString(
-            `${dateSelected.toLocaleString("default", {
-                month: "long",
-            })} ${dateSelected.getFullYear()}`
-        );
-    }, [dateSelected]);
+    // function getShiftedDateString(prefixString, months) {
+    //     return `${prefixString} (${shiftCurrentDateByMonths(
+    //         months
+    //     ).toLocaleString("default", {
+    //         month: "long",
+    //     })} ${shiftCurrentDateByMonths(months).getFullYear()})`;
+    // }
 
-    function shiftCurrentDateByMonths(months) {
-        const tempDate = new Date(dateCurrent);
-        tempDate.setMonth(tempDate.getMonth() + months);
-        return tempDate;
-    }
-
-    function getShiftedDateString(prefixString, months) {
-        return `${prefixString} (${shiftCurrentDateByMonths(
-            months
-        ).toLocaleString("default", {
-            month: "long",
-        })} ${shiftCurrentDateByMonths(months).getFullYear()})`;
+    function QuizList() {
+        console.log(quizzes);
+        return quizzes.map((quiz) => {
+            return (
+                <Link to={`quizzes/${quiz.id}`} key={quiz.id}>
+                    {quiz.title}
+                </Link>
+            );
+        });
     }
 
     return (
@@ -56,6 +50,14 @@ export default function DashboardPage() {
             </header>
             <section>
                 <h3>Your Quizzes</h3>
+                {quizzes[0] ? (
+                    <QuizList />
+                ) : (
+                    <div>
+                        After you add some quizzes, they'll appear in this
+                        section
+                    </div>
+                )}
             </section>
             <RandomQuizSection />
         </section>

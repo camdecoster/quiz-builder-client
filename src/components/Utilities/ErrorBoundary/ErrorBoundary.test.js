@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import renderer from "react-test-renderer";
 
 // Configuration
-// import TrackerContext from "../../contexts/TrackerContext";
+// import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 // import TokenService from "../../services/token-service";
 
 // Components
