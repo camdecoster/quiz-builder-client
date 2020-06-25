@@ -11,13 +11,16 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // Configuration
 import "./QuizFormPrivate.css";
+import QuestionService from "./question-service";
 import QuizApiService from "../../../services/quiz-api-service";
 import QuizBuilderContext from "../../../contexts/QuizBuilderContext";
 import TokenService from "../../../services/token-service";
-import { faBreadSlice } from "@fortawesome/free-solid-svg-icons";
 
 // Components
 // import AddItemLinkButton from "../../../components/Utilities/AddItemLinkButton/AddItemLinkButton";
+
+const _QUESTION_LIMIT = 20;
+const _ANSWER_LIMIT = 8;
 
 export default function QuizFormPrivate() {
     // Access context
@@ -25,6 +28,7 @@ export default function QuizFormPrivate() {
 
     // Initialize state
     const [quiz, setQuiz] = useState({});
+    const [quizOriginal, setQuizOriginal] = useState({});
     const [showAnswers, setShowAnswers] = useState([]);
     const [queryCompleted, setQueryCompleted] = useState(false);
 
@@ -40,18 +44,21 @@ export default function QuizFormPrivate() {
 
     // Get quiz from API, store in state
     useEffect(() => {
-        console.log(id);
+        // NEED TO ADD IN ERROR CATCHING
         QuizApiService.getQuiz(id).then((res) => {
             // Show all question answers to start with
             setShowAnswers(res.quiz.questions.map(() => true));
 
             // Add quiz info to state
+            setQuizOriginal(res.quiz);
             setQuiz(res.quiz);
+
+            // Indicate that API query completed
             setQueryCompleted(true);
         });
     }, []);
 
-    // a little function to help us with reordering the result
+    // Function to reorder questions after drag and drop
     function reorder(list, startIndex, endIndex) {
         const result = Array.from(list);
         const [removed] = result.splice(startIndex, 1);
@@ -78,8 +85,8 @@ export default function QuizFormPrivate() {
     const getListStyle = (isDraggingOver) => ({
         background: isDraggingOver ? "lightblue" : "lightgrey",
         padding: grid,
-        minWidth: 250,
-        maxWidth: 400,
+        minWidth: "250px",
+        maxWidth: "100%",
     });
 
     function onDragEnd(result) {
@@ -224,19 +231,46 @@ export default function QuizFormPrivate() {
         ));
     }
 
+    function addNewQuestion(index) {
+        if (quiz.questions.length < _QUESTION_LIMIT) {
+            const emptyQuestion = {
+                id: null,
+                question: "Enter your question here",
+                answerIndex: 0,
+                answers: ["Enter your answer here"],
+                style: {
+                    image: {
+                        url: "",
+                        title: "",
+                    },
+                },
+            };
+            const newQuiz = { ...quiz };
+            newQuiz.questions.splice(index + 1, 0, emptyQuestion);
+            setQuiz(newQuiz);
+        }
+    }
+
+    function addNewAnswer(indexQuestion) {
+        console.log(
+            quiz.questions[indexQuestion].answers.length,
+            _ANSWER_LIMIT
+        );
+
+        if (quiz.questions[indexQuestion].answers.length < _ANSWER_LIMIT) {
+            console.log("adding new answer");
+            const newQuiz = { ...quiz };
+            newQuiz.questions[indexQuestion].answers.push("");
+            setQuiz(newQuiz);
+        }
+    }
+
     // Update quiz data when input is changed
     function handleInputChange(event, indices) {
-        // console.log(event.target);
         const indexQuestion = indices[0];
         const indexAnswer = indices[1];
 
         const { id, name, value } = event.target;
-        // const {
-        //     index_option: indexOption,
-        //     index_question: indexQuestion,
-        // } = event.target.dataset;
-        // console.log("id:", id);
-        // console.log("name:", name);
         console.log("value:", value);
 
         const newQuiz = { ...quiz };
@@ -261,6 +295,75 @@ export default function QuizFormPrivate() {
                 break;
         }
         setQuiz(newQuiz);
+    }
+
+    function handleAnswerIndexChange(indexQuestion, indexAnswer) {
+        const newQuiz = { ...quiz };
+        newQuiz.questions[indexQuestion].answerIndex = indexAnswer;
+        setQuiz(newQuiz);
+    }
+
+    function handleDeleteQuestion(index) {
+        // Don't delete the last question
+        // NEED TO FIGURE OUT HOW TO DELETE QUESTION FROM DB
+        if (quiz.questions.length > 1) {
+            const newQuiz = { ...quiz };
+            newQuiz.questions.splice(index, 1);
+            setQuiz(newQuiz);
+        }
+    }
+
+    function handleDeleteAnswer(indexQuestion, indexAnswer) {
+        // Don't delete the last answer
+        if (quiz.questions[indexQuestion].answers.length > 1) {
+            const newQuiz = { ...quiz };
+            // If answer to be deleted is selected as correct, select first answer as correct
+            if (newQuiz.questions[indexQuestion].answerIndex === indexAnswer) {
+                newQuiz.questions[indexQuestion].answerIndex = 0;
+            }
+            // Decrease answerIndex to account for deleted answer
+            else if (
+                newQuiz.questions[indexQuestion].answerIndex > indexAnswer
+            ) {
+                newQuiz.questions[indexQuestion].answerIndex -= 1;
+            }
+
+            // Delete answer from question
+            newQuiz.questions[indexQuestion].answers.splice(indexAnswer, 1);
+
+            setQuiz(newQuiz);
+        }
+    }
+
+    function Answer({ answer, indexAnswer, indexQuestion, question }) {
+        return (
+            <div key={indexAnswer}>
+                <input
+                    type='radio'
+                    id={`q${indexQuestion}a${indexAnswer}correct`}
+                    name={`q${indexQuestion}answer`}
+                    value={indexAnswer}
+                    checked={
+                        question.answerIndex === indexAnswer ? true : false
+                    }
+                    onChange={() =>
+                        handleAnswerIndexChange(indexQuestion, indexAnswer)
+                    }
+                />
+                <label
+                    htmlFor={`q${indexQuestion}a${indexAnswer}correct`}
+                >{`Answer ${indexAnswer + 1}`}</label>
+                <input
+                    // id will be like q0option-0
+                    id={`q${indexQuestion}a${indexAnswer}`}
+                    name='answers'
+                    value={answer}
+                    onChange={(event) =>
+                        handleInputChange(event, [indexQuestion, indexAnswer])
+                    }
+                />
+            </div>
+        );
     }
 
     return (
@@ -329,6 +432,7 @@ export default function QuizFormPrivate() {
                                                         )
                                                     }
                                                 />
+                                                {/* Add button to show/hide answers */}
                                                 <button
                                                     type='button'
                                                     onClick={() => {
@@ -345,9 +449,13 @@ export default function QuizFormPrivate() {
                                                         );
                                                     }}
                                                 >
-                                                    {showAnswers[indexQuestion]
-                                                        ? "Hide"
-                                                        : "Show"}
+                                                    {`${
+                                                        showAnswers[
+                                                            indexQuestion
+                                                        ]
+                                                            ? "Hide"
+                                                            : "Show"
+                                                    } Answers`}
                                                 </button>
                                                 {/* Only show if display not toggled off */}
                                                 {showAnswers[indexQuestion] ? (
@@ -360,20 +468,55 @@ export default function QuizFormPrivate() {
                                                                 answer,
                                                                 indexAnswer
                                                             ) => (
+                                                                // <Answer
+                                                                //     answer={
+                                                                //         answer
+                                                                //     }
+                                                                //     indexQuestion={
+                                                                //         indexQuestion
+                                                                //     }
+                                                                //     indexAnswer={
+                                                                //         indexAnswer
+                                                                //     }
+                                                                //     question={q}
+                                                                //     key={`q${indexQuestion}a${indexAnswer}`}
+                                                                // />
                                                                 <div
                                                                     key={
                                                                         indexAnswer
                                                                     }
                                                                 >
+                                                                    <input
+                                                                        type='radio'
+                                                                        id={`q${indexQuestion}a${indexAnswer}correct`}
+                                                                        name={`q${indexQuestion}answer`}
+                                                                        value={
+                                                                            indexAnswer
+                                                                        }
+                                                                        checked={
+                                                                            q.answerIndex ===
+                                                                            indexAnswer
+                                                                                ? true
+                                                                                : false
+                                                                        }
+                                                                        onChange={() =>
+                                                                            QuestionService.updateAnswerIndex(
+                                                                                indexQuestion,
+                                                                                indexAnswer,
+                                                                                quiz,
+                                                                                setQuiz
+                                                                            )
+                                                                        }
+                                                                    />
                                                                     <label
-                                                                        htmlFor={`q${indexQuestion}answer-${indexAnswer}`}
-                                                                    >{`Option ${
+                                                                        htmlFor={`q${indexQuestion}a${indexAnswer}correct`}
+                                                                    >{`Answer ${
                                                                         indexAnswer +
                                                                         1
                                                                     }`}</label>
                                                                     <input
                                                                         // id will be like q0option-0
-                                                                        id={`q${indexQuestion}option-${indexAnswer}`}
+                                                                        id={`q${indexQuestion}a${indexAnswer}`}
                                                                         name='answers'
                                                                         value={
                                                                             answer
@@ -390,8 +533,50 @@ export default function QuizFormPrivate() {
                                                                             )
                                                                         }
                                                                     />
+                                                                    {quiz
+                                                                        .questions[
+                                                                        indexQuestion
+                                                                    ].answers
+                                                                        .length >
+                                                                    1 ? (
+                                                                        <button
+                                                                            type='button'
+                                                                            className='button_delete_answer'
+                                                                            onClick={() =>
+                                                                                QuestionService.deleteAnswer(
+                                                                                    indexQuestion,
+                                                                                    indexAnswer,
+                                                                                    quiz,
+                                                                                    setQuiz
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            X
+                                                                        </button>
+                                                                    ) : (
+                                                                        ""
+                                                                    )}
                                                                 </div>
                                                             )
+                                                        )}
+                                                        {quiz.questions[
+                                                            indexQuestion
+                                                        ].answers.length <
+                                                        _ANSWER_LIMIT ? (
+                                                            <button
+                                                                type='button'
+                                                                onClick={() =>
+                                                                    QuestionService.addAnswer(
+                                                                        indexQuestion,
+                                                                        quiz,
+                                                                        setQuiz
+                                                                    )
+                                                                }
+                                                            >
+                                                                Add new answer
+                                                            </button>
+                                                        ) : (
+                                                            ""
                                                         )}
                                                         {/* Show the style info */}
                                                         <label
@@ -458,8 +643,36 @@ export default function QuizFormPrivate() {
                                                 ) : (
                                                     ""
                                                 )}
-                                                {quiz.questions.length < 20 ? (
-                                                    <p>Add question below</p>
+                                                {quiz.questions.length > 1 ? (
+                                                    <button
+                                                        type='button'
+                                                        onClick={() =>
+                                                            QuestionService.deleteQuestion(
+                                                                indexQuestion,
+                                                                quiz,
+                                                                setQuiz
+                                                            )
+                                                        }
+                                                    >
+                                                        Delete Question
+                                                    </button>
+                                                ) : (
+                                                    ""
+                                                )}
+                                                {quiz.questions.length <
+                                                _QUESTION_LIMIT ? (
+                                                    <button
+                                                        type='button'
+                                                        onClick={() =>
+                                                            QuestionService.addQuestion(
+                                                                indexQuestion,
+                                                                quiz,
+                                                                setQuiz
+                                                            )
+                                                        }
+                                                    >
+                                                        Add new question below
+                                                    </button>
                                                 ) : (
                                                     ""
                                                 )}

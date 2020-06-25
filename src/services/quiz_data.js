@@ -32,9 +32,6 @@ export default {
                         "Salem",
                         "Corvallis",
                         "Bend",
-                        "",
-                        "",
-                        "",
                     ],
                     style: {
                         image: {
@@ -68,7 +65,7 @@ export default {
                     id: 3,
                     question: "What is the best state?",
                     answerIndex: 0,
-                    answers: ["Colorado", "", "", "", "", "", "", ""],
+                    answers: ["Colorado"],
                     style: {
                         image: {
                             url: "",

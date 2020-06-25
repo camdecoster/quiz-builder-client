@@ -1,3 +1,14 @@
 #QuizFormPrivate .hidden {
     display: none;
 }
+
+#QuizFormPrivate input[type="radio"] {
+    display: inline-block;
+    min-width: auto;
+    width: 20px;
+    border: none;
+}
+
+#QuizFormPrivate label {
+    display: inline-block;
+}
