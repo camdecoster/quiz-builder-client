@@ -1,4 +1,4 @@
-const QuestionService = {
+const QuizFormService = {
     addAnswer(index, quiz, setQuiz) {
         const newQuiz = { ...quiz };
         newQuiz.questions[index].answers.push("");
@@ -7,6 +7,7 @@ const QuestionService = {
 
     addQuestion(index, quiz, setQuiz) {
         const emptyQuestion = {
+            // id: new Date().getTime(),
             id: null,
             question: "Enter your question here",
             answerIndex: 0,
@@ -21,6 +22,7 @@ const QuestionService = {
         const newQuiz = { ...quiz };
         newQuiz.questions.splice(index + 1, 0, emptyQuestion);
         setQuiz(newQuiz);
+        return emptyQuestion;
     },
 
     deleteAnswer(indexQuestion, indexAnswer, quiz, setQuiz) {
@@ -39,6 +41,36 @@ const QuestionService = {
         newQuiz.questions[indexQuestion].answers.splice(indexAnswer, 1);
 
         setQuiz(newQuiz);
+    },
+
+    getNewQuiz() {
+        return {
+            id: null,
+            title: "New Quiz",
+            description: "",
+            style: {
+                colors: {
+                    background: "",
+                    text: "",
+                },
+                image: {
+                    url: "",
+                    title: "",
+                },
+            },
+
+            final_message: {
+                low: "Low score message",
+                medium: "Medium score message.",
+                high: "High score message.",
+                perfect: "Perfect score message.",
+            },
+
+            questions: [],
+            date: {
+                modified: new Date().toISOString(),
+            },
+        };
     },
 
     deleteQuestion(index, quiz, setQuiz) {
@@ -61,6 +93,39 @@ const QuestionService = {
         newQuiz.questions[indexQuestion].answerIndex = indexAnswer;
         setQuiz(newQuiz);
     },
+
+    updateInput(
+        event,
+        quiz,
+        setQuiz,
+        indexQuestion = null,
+        indexAnswer = null
+    ) {
+        const { id, name, value } = event.target;
+
+        const newQuiz = { ...quiz };
+        switch (name) {
+            case "answers":
+                newQuiz.questions[indexQuestion].answers[indexAnswer] = value;
+                break;
+            case "description":
+                newQuiz.description = value;
+                break;
+            case "image_title":
+                newQuiz.questions[indexQuestion].style.image.title = value;
+                break;
+            case "image_url":
+                newQuiz.questions[indexQuestion].style.image.url = value;
+                break;
+            case "question":
+                newQuiz.questions[indexQuestion].question = value;
+                break;
+            case "title":
+                newQuiz.title = value;
+                break;
+        }
+        setQuiz(newQuiz);
+    },
 };
 
-export default QuestionService;
+export default QuizFormService;

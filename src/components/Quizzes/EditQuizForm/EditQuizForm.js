@@ -1,36 +1,37 @@
 // React
-import React, { useContext, useEffect, useState, useMemo } from "react";
-import {
-    Link,
-    Route,
-    Switch,
-    useParams,
-    useRouteMatch,
-} from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams, useRouteMatch } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // Configuration
-import "./QuizFormPrivate.css";
-import QuestionService from "./question-service";
+import "./EditQuizForm.css";
+import QuestionApiService from "../../../services/question-api-service";
 import QuizApiService from "../../../services/quiz-api-service";
+import QuizFormService from "./quiz-form-service";
 import QuizBuilderContext from "../../../contexts/QuizBuilderContext";
-import TokenService from "../../../services/token-service";
 
 // Components
-// import AddItemLinkButton from "../../../components/Utilities/AddItemLinkButton/AddItemLinkButton";
+// import AddItemLinkButton from "../../Utilities/AddItemLinkButton/AddItemLinkButton";
+import ErrorMessage from "../../Utilities/ErrorMessage/ErrorMessage";
 
 const _QUESTION_LIMIT = 20;
 const _ANSWER_LIMIT = 8;
 
-export default function QuizFormPrivate() {
+export default function EditQuizForm(props) {
     // Access context
     const context = useContext(QuizBuilderContext);
 
     // Initialize state
-    const [quiz, setQuiz] = useState({});
+    const [allowDelete, setAllowDelete] = useState(false);
+    const [deletedQuestions, setDeletedQuestions] = useState([]);
+    const [error, setError] = useState(null);
+    const [newQuestions, setNewQuestions] = useState([]);
+    const [queryCompleted, setQueryCompleted] = useState(false);
+    // Start with empty quiz in case this is for new quiz
+    const [quiz, setQuiz] = useState(QuizFormService.getNewQuiz());
+    // I might not need to save the original, but it could come in handy
     const [quizOriginal, setQuizOriginal] = useState({});
     const [showAnswers, setShowAnswers] = useState([]);
-    const [queryCompleted, setQueryCompleted] = useState(false);
 
     // How do I get quiz info for public page? Query API?
     // Do I query API for private page?
@@ -42,29 +43,191 @@ export default function QuizFormPrivate() {
     const { quizId } = useParams();
     const id = parseInt(quizId);
 
-    // Get quiz from API, store in state
+    // Get quiz or start new one
     useEffect(() => {
-        // NEED TO ADD IN ERROR CATCHING
-        QuizApiService.getQuiz(id).then((res) => {
-            // Show all question answers to start with
-            setShowAnswers(res.quiz.questions.map(() => true));
+        if (quizId === "new") {
+            console.log("Starting new quiz");
+            console.log(quiz);
+            handleAddQuestion(0);
+        } else {
+            console.log("Loading existing quiz");
+            // Get quiz from API, store in state
+            QuizApiService.getQuiz(id).then((res) => {
+                // Show all question answers to start with
+                setShowAnswers(res.quiz.questions.map(() => true));
 
-            // Add quiz info to state
-            setQuizOriginal(res.quiz);
-            setQuiz(res.quiz);
+                // Add quiz info to state
+                setQuizOriginal(res.quiz);
+                setQuiz(res.quiz);
 
-            // Indicate that API query completed
-            setQueryCompleted(true);
-        });
+                // Indicate that API query completed
+                setQueryCompleted(true);
+            });
+        }
     }, []);
 
-    // Function to reorder questions after drag and drop
-    function reorder(list, startIndex, endIndex) {
-        const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
+    function handleAddQuestion(index) {
+        // Add new question and keep track of new questions added
+        const newQuestion = QuizFormService.addQuestion(index, quiz, setQuiz);
+        const newNewQuestions = [...newQuestions];
+        newNewQuestions.push(newQuestion);
+        setNewQuestions(newNewQuestions);
 
-        return result;
+        // Add new show/hide answers variable to state
+        const newShowAnswers = [...showAnswers];
+        newShowAnswers.splice(index + 1, 0, true);
+        console.log(newShowAnswers);
+        setShowAnswers(newShowAnswers);
+    }
+
+    function handleDeleteQuestion(index) {
+        // Only track question for deletion if it was already part of quiz (id != null)
+        if (quiz.questions[index].id !== null) {
+            const questions = [...deletedQuestions];
+            questions.push(quiz.questions[index]);
+            setDeletedQuestions(questions);
+        }
+        QuizFormService.deleteQuestion(index, quiz, setQuiz);
+
+        // Remove new show/hide answers variable in state
+        const newShowAnswers = [...showAnswers];
+        newShowAnswers.splice(index, 1);
+        setShowAnswers(newShowAnswers);
+    }
+
+    async function handleDeleteQuiz(event) {
+        // Clear previous errors (if they exist)
+        setError(null);
+
+        if (quiz.id === null) {
+            // Follow successful path
+            props.onDeleteSuccess();
+        } else {
+            try {
+                const res = await QuizApiService.deleteQuiz(id);
+
+                // Disable item edit, don't show confirm delete button
+                setAllowDelete(false);
+
+                // Update item info in item array in state
+                const quizzes = context.quizzes;
+
+                // Get index of item in state
+                const index = quizzes.findIndex((quiz) => quiz.id === id);
+
+                // Follow successful path
+                props.onDeleteSuccess();
+
+                // Delete item from state, do this last so App state update doesn't
+                // call this page again
+                const newQuizzes = quizzes
+                    .slice(0, index)
+                    .concat(quizzes.slice(index + 1));
+                context.setQuizzes(newQuizzes);
+            } catch (error) {
+                setError(error.message);
+            }
+        }
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        // Clear previous errors (if they exist)
+        setError(null);
+
+        // Store new questions when they are added via API
+        const addedQuestions = [];
+
+        // Only delete questions if some were removed from quiz
+        if (deletedQuestions.length > 0) {
+            // Remove deleted questions from quiz
+
+            deletedQuestions.forEach(async (q) => {
+                try {
+                    const res = await QuestionApiService.deleteQuestion(q);
+                } catch (error) {
+                    setError(
+                        error.message || `Couldn't delete question from quiz`
+                    );
+                }
+            });
+            // Reset deleted questions
+            setDeletedQuestions([]);
+        }
+
+        // Only add questions if some were added to quiz
+        if (newQuestions.length > 0) {
+            let res;
+
+            // Add each new question to API
+            newQuestions.map(async (q) => {
+                try {
+                    res = await QuestionApiService.postQuestion(q);
+                    addedQuestions.push(res.question);
+                } catch (error) {
+                    setError(error.message || `Couldn't add question to quiz`);
+                }
+            });
+        }
+
+        // Now create question ID array for quiz update, add new question ID's to array
+        // if they exist
+        const questions = [];
+        quiz.questions.forEach((q) => {
+            // Add ID if it is missing from question (because it's a new question)
+            // TECHNICALLY, SOMEONE COULD ADD THE SAME QUESTION MULTIPLE TIMES
+            // I NEED TO FIND A DIFFERENT WAY TO COMPARE
+            if (q.id === null) {
+                addedQuestions.forEach((aq) => {
+                    if (aq.question === q.question) questions.push(aq.id);
+                });
+            } else {
+                questions.push(q.id);
+            }
+        });
+
+        // Update quiz with ID's of questions to submit back to API
+        const newQuiz = JSON.parse(JSON.stringify(quiz));
+        newQuiz.questions = questions;
+
+        console.log("Question ID's are", questions);
+
+        // Check if submitting a new quiz, or updating existing quiz
+        if (quiz.id === null) {
+            console.log("adding new quiz");
+            // Quiz is new, add via API
+            const res = await QuizApiService.postQuiz(newQuiz);
+            console.log("res is", res);
+
+            // Update item info in item array in state
+            const quizzes = context.quizzes;
+
+            // Add new item
+            quizzes.push(res.quiz);
+            context.setQuizzes(quizzes);
+            console.log(context.quizzes);
+
+            // Follow successful path
+            props.onSubmitSuccess(res.quiz.id);
+        } else {
+            const res = await QuizApiService.updateQuiz(newQuiz);
+
+            // Update item info in item array in state
+            const quizzes = context.quizzes;
+
+            // Get index of item in state
+            const index = quizzes.findIndex(
+                (oldQuiz) => oldQuiz.id === quiz.id
+            );
+
+            // Replace old item with updated item
+            quizzes.splice(index, 1, quiz);
+            context.setQuizzes(quizzes);
+
+            // Follow successful path
+            props.onSubmitSuccess(quiz.id);
+        }
     }
 
     const grid = 8;
@@ -100,7 +263,7 @@ export default function QuizFormPrivate() {
             return;
         }
 
-        const newQuestions = reorder(
+        const newQuestions = QuizFormService.reorderQuestions(
             quiz.questions,
             result.source.index,
             result.destination.index
@@ -111,271 +274,39 @@ export default function QuizFormPrivate() {
         setQuiz(newQuiz);
     }
 
-    // Create draggable question
-    function Question({ question: q, index: indexQuestion }) {
-        return (
-            <Draggable
-                draggableId={`draggable-${indexQuestion}`}
-                index={indexQuestion}
-                key={indexQuestion}
-            >
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                        )}
-                    >
-                        {/* Show the question text */}
-                        <label
-                            htmlFor={`question-${indexQuestion}`}
-                        >{`Question ${indexQuestion + 1}`}</label>
-                        <input
-                            id={`question-${indexQuestion}`}
-                            // data-index_question={indexQuestion}
-                            name='question'
-                            value={q.question}
-                            onChange={(event) =>
-                                handleInputChange(event, [indexQuestion])
-                            }
-                        />
-                        {showAnswers[indexQuestion] ? (
-                            <div id={`container_answers-${indexQuestion}`}>
-                                {/* Show the answer answers */}
-                                {q.answers.map((answer, indexAnswer) => (
-                                    <div key={indexAnswer}>
-                                        <label
-                                            htmlFor={`q${indexQuestion}answer-${indexAnswer}`}
-                                        >{`Option ${indexAnswer + 1}`}</label>
-                                        <input
-                                            // id will be like q0option-0
-                                            id={`q${indexQuestion}option-${indexAnswer}`}
-                                            // data-index_answer={indexAnswer}
-                                            name='answers'
-                                            value={answer}
-                                            onChange={(event) =>
-                                                handleInputChange(event, [
-                                                    indexQuestion,
-                                                    indexAnswer,
-                                                ])
-                                            }
-                                        />
-                                    </div>
-                                ))}
-                                {/* Show the style info */}
-                                <label htmlFor={`q${indexQuestion}image_url`}>
-                                    Image URL
-                                </label>
-                                <input
-                                    type='text'
-                                    id={`q${indexQuestion}image_url`}
-                                    name='image_url'
-                                    value={q.style.image.url}
-                                    onChange={(event) =>
-                                        handleInputChange(event, [
-                                            indexQuestion,
-                                        ])
-                                    }
-                                />
-                                <label htmlFor={`q${indexQuestion}image_title`}>
-                                    Image Description
-                                </label>
-                                <input
-                                    type='text'
-                                    id={`q${indexQuestion}image_title`}
-                                    name='image_title'
-                                    value={q.style.image.title}
-                                    onChange={(event) =>
-                                        handleInputChange(event, [
-                                            indexQuestion,
-                                        ])
-                                    }
-                                />
-                                {/* {q.style.image.url ? (
-                                                            <img
-                                                                src={
-                                                                    q.style
-                                                                        .image
-                                                                        .url
-                                                                }
-                                                                title={
-                                                                    q.style
-                                                                        .image
-                                                                        .title
-                                                                }
-                                                            />
-                                                        ) : (
-                                                            ""
-                                                        )} */}
-                            </div>
-                        ) : (
-                            ""
-                        )}
-                        {quiz.questions.length < 20 ? (
-                            <p>Add question below</p>
-                        ) : (
-                            ""
-                        )}
-                    </div>
-                )}
-            </Draggable>
-        );
-    }
-
-    function QuestionList({ questions }) {
-        return questions.map((q, index) => (
-            <Question question={q} index={index} key={index} />
-        ));
-    }
-
-    function addNewQuestion(index) {
-        if (quiz.questions.length < _QUESTION_LIMIT) {
-            const emptyQuestion = {
-                id: null,
-                question: "Enter your question here",
-                answerIndex: 0,
-                answers: ["Enter your answer here"],
-                style: {
-                    image: {
-                        url: "",
-                        title: "",
-                    },
-                },
-            };
-            const newQuiz = { ...quiz };
-            newQuiz.questions.splice(index + 1, 0, emptyQuestion);
-            setQuiz(newQuiz);
-        }
-    }
-
-    function addNewAnswer(indexQuestion) {
-        console.log(
-            quiz.questions[indexQuestion].answers.length,
-            _ANSWER_LIMIT
-        );
-
-        if (quiz.questions[indexQuestion].answers.length < _ANSWER_LIMIT) {
-            console.log("adding new answer");
-            const newQuiz = { ...quiz };
-            newQuiz.questions[indexQuestion].answers.push("");
-            setQuiz(newQuiz);
-        }
-    }
-
-    // Update quiz data when input is changed
-    function handleInputChange(event, indices) {
-        const indexQuestion = indices[0];
-        const indexAnswer = indices[1];
-
-        const { id, name, value } = event.target;
-        console.log("value:", value);
-
-        const newQuiz = { ...quiz };
-        switch (name) {
-            case "answers":
-                newQuiz.questions[indexQuestion].answers[indexAnswer] = value;
-                break;
-            case "description":
-                newQuiz.description = value;
-                break;
-            case "image_title":
-                newQuiz.questions[indexQuestion].style.image.title = value;
-                break;
-            case "image_url":
-                newQuiz.questions[indexQuestion].style.image.url = value;
-                break;
-            case "question":
-                newQuiz.questions[indexQuestion].question = value;
-                break;
-            case "title":
-                newQuiz.title = value;
-                break;
-        }
-        setQuiz(newQuiz);
-    }
-
-    function handleAnswerIndexChange(indexQuestion, indexAnswer) {
-        const newQuiz = { ...quiz };
-        newQuiz.questions[indexQuestion].answerIndex = indexAnswer;
-        setQuiz(newQuiz);
-    }
-
-    function handleDeleteQuestion(index) {
-        // Don't delete the last question
-        // NEED TO FIGURE OUT HOW TO DELETE QUESTION FROM DB
-        if (quiz.questions.length > 1) {
-            const newQuiz = { ...quiz };
-            newQuiz.questions.splice(index, 1);
-            setQuiz(newQuiz);
-        }
-    }
-
-    function handleDeleteAnswer(indexQuestion, indexAnswer) {
-        // Don't delete the last answer
-        if (quiz.questions[indexQuestion].answers.length > 1) {
-            const newQuiz = { ...quiz };
-            // If answer to be deleted is selected as correct, select first answer as correct
-            if (newQuiz.questions[indexQuestion].answerIndex === indexAnswer) {
-                newQuiz.questions[indexQuestion].answerIndex = 0;
-            }
-            // Decrease answerIndex to account for deleted answer
-            else if (
-                newQuiz.questions[indexQuestion].answerIndex > indexAnswer
-            ) {
-                newQuiz.questions[indexQuestion].answerIndex -= 1;
-            }
-
-            // Delete answer from question
-            newQuiz.questions[indexQuestion].answers.splice(indexAnswer, 1);
-
-            setQuiz(newQuiz);
-        }
-    }
-
-    function Answer({ answer, indexAnswer, indexQuestion, question }) {
-        return (
-            <div key={indexAnswer}>
-                <input
-                    type='radio'
-                    id={`q${indexQuestion}a${indexAnswer}correct`}
-                    name={`q${indexQuestion}answer`}
-                    value={indexAnswer}
-                    checked={
-                        question.answerIndex === indexAnswer ? true : false
-                    }
-                    onChange={() =>
-                        handleAnswerIndexChange(indexQuestion, indexAnswer)
-                    }
-                />
-                <label
-                    htmlFor={`q${indexQuestion}a${indexAnswer}correct`}
-                >{`Answer ${indexAnswer + 1}`}</label>
-                <input
-                    // id will be like q0option-0
-                    id={`q${indexQuestion}a${indexAnswer}`}
-                    name='answers'
-                    value={answer}
-                    onChange={(event) =>
-                        handleInputChange(event, [indexQuestion, indexAnswer])
-                    }
-                />
-            </div>
-        );
-    }
-
     return (
-        <div id='QuizFormPrivate'>
-            <p>Private Quiz Page</p>
+        <form id='QuizFormPrivate' onSubmit={(event) => handleSubmit(event)}>
+            {error ? <ErrorMessage message={error} /> : ""}
+            <button type='submit'>Submit Quiz</button>
+            <button type='button' onClick={() => props.onCancel()}>
+                Go Back
+            </button>
+            {!allowDelete ? (
+                <button type='button' onClick={() => setAllowDelete(true)}>
+                    Delete
+                </button>
+            ) : (
+                ""
+            )}
+            {allowDelete ? (
+                <button
+                    type='button'
+                    onClick={(event) => handleDeleteQuiz(event)}
+                >
+                    Confirm Deletion
+                </button>
+            ) : (
+                ""
+            )}
             <label htmlFor='title'>Quiz Title</label>
             <input
                 type='text'
                 id='title'
                 name='title'
                 value={quiz.title}
-                onChange={(event) => handleInputChange(event, [])}
+                onChange={(event) =>
+                    QuizFormService.updateInput(event, quiz, setQuiz)
+                }
             />
             <label htmlFor='description'>Description</label>
             <input
@@ -383,10 +314,12 @@ export default function QuizFormPrivate() {
                 id='description'
                 name='description'
                 value={quiz.description}
-                onChange={(event) => handleInputChange(event, [])}
+                onChange={(event) =>
+                    QuizFormService.updateInput(event, quiz, setQuiz)
+                }
             />
             {/* Only show question list if quiz is not empty */}
-            {queryCompleted ? (
+            {quiz.questions.length ? (
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId='droppable'>
                         {(provided, snapshot) => (
@@ -421,14 +354,16 @@ export default function QuizFormPrivate() {
                                                     indexQuestion + 1
                                                 }`}</label>
                                                 <input
+                                                    type='text'
                                                     id={`question-${indexQuestion}`}
-                                                    // data-index_question={indexQuestion}
                                                     name='question'
                                                     value={q.question}
                                                     onChange={(event) =>
-                                                        handleInputChange(
+                                                        QuizFormService.updateInput(
                                                             event,
-                                                            [indexQuestion]
+                                                            quiz,
+                                                            setQuiz,
+                                                            indexQuestion
                                                         )
                                                     }
                                                 />
@@ -468,19 +403,6 @@ export default function QuizFormPrivate() {
                                                                 answer,
                                                                 indexAnswer
                                                             ) => (
-                                                                // <Answer
-                                                                //     answer={
-                                                                //         answer
-                                                                //     }
-                                                                //     indexQuestion={
-                                                                //         indexQuestion
-                                                                //     }
-                                                                //     indexAnswer={
-                                                                //         indexAnswer
-                                                                //     }
-                                                                //     question={q}
-                                                                //     key={`q${indexQuestion}a${indexAnswer}`}
-                                                                // />
                                                                 <div
                                                                     key={
                                                                         indexAnswer
@@ -500,7 +422,7 @@ export default function QuizFormPrivate() {
                                                                                 : false
                                                                         }
                                                                         onChange={() =>
-                                                                            QuestionService.updateAnswerIndex(
+                                                                            QuizFormService.updateAnswerIndex(
                                                                                 indexQuestion,
                                                                                 indexAnswer,
                                                                                 quiz,
@@ -515,6 +437,7 @@ export default function QuizFormPrivate() {
                                                                         1
                                                                     }`}</label>
                                                                     <input
+                                                                        type='text'
                                                                         // id will be like q0option-0
                                                                         id={`q${indexQuestion}a${indexAnswer}`}
                                                                         name='answers'
@@ -524,15 +447,16 @@ export default function QuizFormPrivate() {
                                                                         onChange={(
                                                                             event
                                                                         ) =>
-                                                                            handleInputChange(
+                                                                            QuizFormService.updateInput(
                                                                                 event,
-                                                                                [
-                                                                                    indexQuestion,
-                                                                                    indexAnswer,
-                                                                                ]
+                                                                                quiz,
+                                                                                setQuiz,
+                                                                                indexQuestion,
+                                                                                indexAnswer
                                                                             )
                                                                         }
                                                                     />
+                                                                    {/* Only show delete button if there's more than 1 answer */}
                                                                     {quiz
                                                                         .questions[
                                                                         indexQuestion
@@ -543,7 +467,7 @@ export default function QuizFormPrivate() {
                                                                             type='button'
                                                                             className='button_delete_answer'
                                                                             onClick={() =>
-                                                                                QuestionService.deleteAnswer(
+                                                                                QuizFormService.deleteAnswer(
                                                                                     indexQuestion,
                                                                                     indexAnswer,
                                                                                     quiz,
@@ -559,6 +483,7 @@ export default function QuizFormPrivate() {
                                                                 </div>
                                                             )
                                                         )}
+                                                        {/* Only show add button if there are fewer than answer limit */}
                                                         {quiz.questions[
                                                             indexQuestion
                                                         ].answers.length <
@@ -566,7 +491,7 @@ export default function QuizFormPrivate() {
                                                             <button
                                                                 type='button'
                                                                 onClick={() =>
-                                                                    QuestionService.addAnswer(
+                                                                    QuizFormService.addAnswer(
                                                                         indexQuestion,
                                                                         quiz,
                                                                         setQuiz
@@ -593,11 +518,11 @@ export default function QuizFormPrivate() {
                                                                     .url
                                                             }
                                                             onChange={(event) =>
-                                                                handleInputChange(
+                                                                QuizFormService.updateInput(
                                                                     event,
-                                                                    [
-                                                                        indexQuestion,
-                                                                    ]
+                                                                    quiz,
+                                                                    setQuiz,
+                                                                    indexQuestion
                                                                 )
                                                             }
                                                         />
@@ -615,11 +540,11 @@ export default function QuizFormPrivate() {
                                                                     .title
                                                             }
                                                             onChange={(event) =>
-                                                                handleInputChange(
+                                                                QuizFormService.updateInput(
                                                                     event,
-                                                                    [
-                                                                        indexQuestion,
-                                                                    ]
+                                                                    quiz,
+                                                                    setQuiz,
+                                                                    indexQuestion
                                                                 )
                                                             }
                                                         />
@@ -643,14 +568,13 @@ export default function QuizFormPrivate() {
                                                 ) : (
                                                     ""
                                                 )}
+                                                {/* Only show delete button if there's more than 1 question */}
                                                 {quiz.questions.length > 1 ? (
                                                     <button
                                                         type='button'
                                                         onClick={() =>
-                                                            QuestionService.deleteQuestion(
-                                                                indexQuestion,
-                                                                quiz,
-                                                                setQuiz
+                                                            handleDeleteQuestion(
+                                                                indexQuestion
                                                             )
                                                         }
                                                     >
@@ -659,15 +583,21 @@ export default function QuizFormPrivate() {
                                                 ) : (
                                                     ""
                                                 )}
+                                                {/* Only show add button if there are fewer than answer limit */}
                                                 {quiz.questions.length <
                                                 _QUESTION_LIMIT ? (
                                                     <button
                                                         type='button'
+                                                        // onClick={() =>
+                                                        //     QuizFormService.addQuestion(
+                                                        //         indexQuestion,
+                                                        //         quiz,
+                                                        //         setQuiz
+                                                        //     )
+                                                        // }
                                                         onClick={() =>
-                                                            QuestionService.addQuestion(
-                                                                indexQuestion,
-                                                                quiz,
-                                                                setQuiz
+                                                            handleAddQuestion(
+                                                                indexQuestion
                                                             )
                                                         }
                                                     >
@@ -687,8 +617,10 @@ export default function QuizFormPrivate() {
                 </DragDropContext>
             ) : (
                 // Show add question button if it's a new quiz
-                ""
+                <button type='button' onClick={() => handleAddQuestion(0)}>
+                    Add new question
+                </button>
             )}
-        </div>
+        </form>
     );
 }

@@ -4,14 +4,15 @@ import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 
 // Configuration
 import "./QuizzesPage.css";
-import QuizBuilderContext from "../../contexts/QuizBuilderContext";
-import { firstLetterUppercase } from "../../js-utilities";
+import QuizBuilderContext from "../../../contexts/QuizBuilderContext";
+import { firstLetterUppercase } from "../../../js-utilities";
 
 // Components
-import AddItemLinkButton from "../../components/Utilities/AddItemLinkButton/AddItemLinkButton";
-import SimpleTable from "../../components/Tables/SimpleTable/SimpleTable";
-import PrivateRoute from "../../components/Utilities/PrivateRoute/PrivateRoute";
-import QuizPage from "../Quizzes/QuizPage/QuizPage";
+import AddItemLinkButton from "../../../components/Utilities/AddItemLinkButton/AddItemLinkButton";
+import EditQuizPage from "../EditQuizPage/EditQuizPage";
+import PrivateRoute from "../../../components/Utilities/PrivateRoute/PrivateRoute";
+import QuizPage from "../QuizPage/QuizPage";
+import SimpleTable from "../../../components/Tables/SimpleTable/SimpleTable";
 
 export default function QuizzesPage() {
     // Access context
@@ -41,6 +42,12 @@ export default function QuizzesPage() {
                 Header: "Description",
                 accessor: "description",
             },
+            {
+                Header: "Edit",
+                accessor: (quiz) => {
+                    return <Link to={`${url}/${quiz.id}/edit`}>Edit</Link>;
+                },
+            },
         ],
         []
     );
@@ -48,14 +55,17 @@ export default function QuizzesPage() {
     return (
         <section id='QuizzesPage' className='route_page'>
             <Switch>
-                <PrivateRoute
+                {/* <PrivateRoute
                     path={`${path}/new`}
                     render={(routerProps) => (
                         <div>
                             <p>New Quiz</p>
                         </div>
                     )}
-                />
+                /> */}
+                <Route path={`${path}/:quizId/edit`}>
+                    <EditQuizPage />
+                </Route>
                 <Route path={`${path}/:quizId`}>
                     <QuizPage />
                 </Route>
@@ -66,7 +76,7 @@ export default function QuizzesPage() {
                             <header role='banner'>
                                 <h1>Your Quizzes</h1>
                                 <AddItemLinkButton
-                                    to={`${url}/new`}
+                                    to={`${url}/new/edit`}
                                     name='Add New Quiz'
                                     icon='plus-circle'
                                 />

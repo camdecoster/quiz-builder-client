@@ -39,7 +39,7 @@ import DashboardPage from "../../routes/DashboardPage/DashboardPage";
 import LandingPage from "../../routes/LandingPage/LandingPage";
 import LoginPage from "../../routes/LoginPage/LoginPage";
 import RegistrationPage from "../../routes/RegistrationPage/RegistrationPage";
-import QuizzesPage from "../../routes/QuizzesPage/QuizzesPage";
+import QuizzesPage from "../../routes/Quizzes/QuizzesPage/QuizzesPage";
 
 export default function App() {
     // Initialize state
