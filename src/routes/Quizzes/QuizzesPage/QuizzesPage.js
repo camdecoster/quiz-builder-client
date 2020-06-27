@@ -1,5 +1,5 @@
 // React
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 
 // Configuration
@@ -17,6 +17,8 @@ import SimpleTable from "../../../components/Tables/SimpleTable/SimpleTable";
 export default function QuizzesPage() {
     // Access context
     const context = useContext(QuizBuilderContext);
+
+    // Initialize state
 
     // Get path info from Route
     const { path, url } = useRouteMatch();
@@ -45,7 +47,7 @@ export default function QuizzesPage() {
             {
                 Header: "Edit",
                 accessor: (quiz) => {
-                    return <Link to={`${url}/${quiz.id}/edit`}>Edit</Link>;
+                    return <Link to={`${url}/edit/${quiz.id}`}>Edit</Link>;
                 },
             },
         ],
@@ -63,20 +65,22 @@ export default function QuizzesPage() {
                         </div>
                     )}
                 /> */}
-                <Route path={`${path}/:quizId/edit`}>
-                    <EditQuizPage />
-                </Route>
+                <PrivateRoute
+                    path={`${path}/edit/:quizId`}
+                    render={(routerProps) => <EditQuizPage />}
+                />
                 <Route path={`${path}/:quizId`}>
                     <QuizPage />
                 </Route>
                 <PrivateRoute
                     path={path}
+                    // CONSIDER MOVING THIS TO COMPONENT
                     render={(routerProps) => (
                         <div>
                             <header role='banner'>
                                 <h1>Your Quizzes</h1>
                                 <AddItemLinkButton
-                                    to={`${url}/new/edit`}
+                                    to={`${url}/edit/new`}
                                     name='Add New Quiz'
                                     icon='plus-circle'
                                 />

@@ -3,6 +3,7 @@ export default {
         {
             id: 1,
             title: "United States Geography Quiz",
+            author: "Quiz Quizzington",
             description: "Test your knowledge of the State Capitols",
             style: {
                 colors: {
@@ -30,6 +31,7 @@ export default {
         {
             id: 2,
             title: "Directions Quiz",
+            author: "Quiz Quizzington",
             description: "Test your knowledge of directions",
             style: {
                 colors: {
@@ -64,8 +66,9 @@ export default {
             answers: ["Portland", "Eugene", "Salem", "Corvallis", "Bend"],
             style: {
                 image: {
-                    url: "",
-                    title: "",
+                    url:
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flag_of_Oregon.svg/320px-Flag_of_Oregon.svg.png",
+                    title: "flag of oregon",
                 },
             },
         },
@@ -85,20 +88,28 @@ export default {
             ],
             style: {
                 image: {
-                    url: "imgurl",
-                    title: "Broken Image",
+                    url:
+                        "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/320px-Flag_of_the_United_States.svg.png",
+                    title: "flag of united states",
                 },
             },
         },
         {
             id: 3,
-            question: "What is the best state?",
-            answerIndex: 0,
-            answers: ["Colorado"],
+            question: "What is capitol of Colorado?",
+            answerIndex: 3,
+            answers: [
+                "Boulder",
+                "Fort Collins",
+                "Colorado Springs",
+                "Denver",
+                "Grand Junction",
+            ],
             style: {
                 image: {
-                    url: "",
-                    title: "",
+                    url:
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colorado_designed_by_Andrew_Carlisle_Carson.svg/320px-Flag_of_Colorado_designed_by_Andrew_Carlisle_Carson.svg.png",
+                    title: "flag of colorado",
                 },
             },
         },

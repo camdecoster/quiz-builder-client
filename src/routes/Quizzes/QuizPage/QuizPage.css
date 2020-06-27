@@ -1,0 +1,8 @@
+#QuizPage input[type="radio"] {
+    min-width: auto;
+    height: 20px;
+}
+
+#QuizPage label {
+    display: inline-block;
+}

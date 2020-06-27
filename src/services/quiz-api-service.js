@@ -2,6 +2,7 @@
 import config from "../config";
 import TokenService from "./token-service";
 import quizData from "./quiz_data";
+import quiz_data from "./quiz_data";
 
 const QuizApiService = {
     async deleteQuiz(id) {
@@ -106,6 +107,14 @@ const QuizApiService = {
         return Promise.resolve({
             quiz: JSON.parse(JSON.stringify(quiz)),
         });
+    },
+    // This will eventually need to be async
+    getRandomQuizId() {
+        // MAGIC RANDOM QUIZ LOGIC PLACEHOLDER
+        const id = Math.round(
+            Math.random() * (quiz_data.quizzes.length - 1) + 1
+        );
+        return id;
     },
     async postQuiz(quiz) {
         // try {

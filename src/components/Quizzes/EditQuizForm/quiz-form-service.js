@@ -47,6 +47,7 @@ const QuizFormService = {
         return {
             id: null,
             title: "New Quiz",
+            author: "Your Name",
             description: "",
             style: {
                 colors: {
@@ -101,12 +102,15 @@ const QuizFormService = {
         indexQuestion = null,
         indexAnswer = null
     ) {
-        const { id, name, value } = event.target;
+        const { name, value } = event.target;
 
         const newQuiz = { ...quiz };
         switch (name) {
             case "answers":
                 newQuiz.questions[indexQuestion].answers[indexAnswer] = value;
+                break;
+            case "author":
+                newQuiz.author = value;
                 break;
             case "description":
                 newQuiz.description = value;

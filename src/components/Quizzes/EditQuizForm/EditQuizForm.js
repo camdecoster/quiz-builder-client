@@ -26,7 +26,7 @@ export default function EditQuizForm(props) {
     const [deletedQuestions, setDeletedQuestions] = useState([]);
     const [error, setError] = useState(null);
     const [newQuestions, setNewQuestions] = useState([]);
-    const [queryCompleted, setQueryCompleted] = useState(false);
+    // const [queryCompleted, setQueryCompleted] = useState(false);
     // Start with empty quiz in case this is for new quiz
     const [quiz, setQuiz] = useState(QuizFormService.getNewQuiz());
     // I might not need to save the original, but it could come in handy
@@ -61,7 +61,7 @@ export default function EditQuizForm(props) {
                 setQuiz(res.quiz);
 
                 // Indicate that API query completed
-                setQueryCompleted(true);
+                // setQueryCompleted(true);
             });
         }
     }, []);
@@ -314,6 +314,16 @@ export default function EditQuizForm(props) {
                 id='description'
                 name='description'
                 value={quiz.description}
+                onChange={(event) =>
+                    QuizFormService.updateInput(event, quiz, setQuiz)
+                }
+            />
+            <label htmlFor='author'>Quiz Title</label>
+            <input
+                type='text'
+                id='author'
+                name='author'
+                value={quiz.author}
                 onChange={(event) =>
                     QuizFormService.updateInput(event, quiz, setQuiz)
                 }

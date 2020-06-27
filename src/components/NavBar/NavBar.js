@@ -58,7 +58,7 @@ export default function NavBar() {
             // },
             {
                 name: "New Quiz",
-                link: "quizzes/new",
+                link: "quizzes/edit/new",
                 icon: "plus-circle",
             },
             {

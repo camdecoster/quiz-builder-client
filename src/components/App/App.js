@@ -182,46 +182,12 @@ export default function App() {
                                 path='/quizzes'
                                 render={(routerProps) => (
                                     <ErrorBoundary
-                                        message={
-                                            TokenService.hasAuthToken()
-                                                ? `Couldn't load Dashboard page`
-                                                : `Couldn't load Landing page`
-                                        }
+                                        message={`Couldn't load Quizzes page`}
                                     >
                                         <QuizzesPage />
                                     </ErrorBoundary>
                                 )}
                             />
-                            {/* <PrivateRoute
-                                path='/expenses'
-                                render={(routerProps) => (
-                                    <ErrorBoundary
-                                        message={`Couldn't load Expense Log page`}
-                                    >
-                                        <ExpensesPage {...routerProps} />
-                                    </ErrorBoundary>
-                                )}
-                            />
-                            <PrivateRoute
-                                path='/categories'
-                                render={(routerProps) => (
-                                    <ErrorBoundary
-                                        message={`Couldn't load Categories page`}
-                                    >
-                                        <CategoriesPage {...routerProps} />
-                                    </ErrorBoundary>
-                                )}
-                            />
-                            <PrivateRoute
-                                path='/payment-methods'
-                                render={(routerProps) => (
-                                    <ErrorBoundary
-                                        message={`Couldn't load Payment Methods page`}
-                                    >
-                                        <PaymentMethodsPage {...routerProps} />
-                                    </ErrorBoundary>
-                                )}
-                            /> */}
                             <PublicOnlyRoute
                                 path='/demo'
                                 render={(routerProps) => (
