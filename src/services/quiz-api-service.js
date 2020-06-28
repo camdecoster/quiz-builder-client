@@ -6,29 +6,30 @@ import quiz_data from "./quiz_data";
 
 const QuizApiService = {
     async deleteQuiz(id) {
-        try {
-            const res = await fetch(`${config.API_ENDPOINT}/quizzes/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: `bearer ${TokenService.getAuthToken()}`,
-                },
-            });
+        // try {
+        //     const res = await fetch(`${config.API_ENDPOINT}/quizzes/${id}`, {
+        //         method: "DELETE",
+        //         headers: {
+        //             "content-type": "application/json",
+        //             Authorization: `bearer ${TokenService.getAuthToken()}`,
+        //         },
+        //     });
 
-            // If response was bad, throw error
-            if (!res.ok) {
-                const response = await res.json();
-                throw new Error(
-                    response.error.message ||
-                        "There was an error deleting the quiz"
-                );
-            }
+        //     // If response was bad, throw error
+        //     if (!res.ok) {
+        //         const response = await res.json();
+        //         throw new Error(
+        //             response.error.message ||
+        //                 "There was an error deleting the quiz"
+        //         );
+        //     }
 
-            // No response content will be provided, so just pass response
-            return res;
-        } catch (error) {
-            throw new Error(error.message);
-        }
+        //     // No response content will be provided, so just pass response
+        //     return res;
+        // } catch (error) {
+        //     throw new Error(error.message);
+        // }
+        return Promise.resolve(true);
     },
     // Make this endpoint open to public?
     async getQuizzes() {

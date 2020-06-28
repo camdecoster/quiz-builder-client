@@ -50,19 +50,35 @@ export default function EditQuizForm(props) {
             console.log(quiz);
             handleAddQuestion(0);
         } else {
-            console.log("Loading existing quiz");
-            // Get quiz from API, store in state
-            QuizApiService.getQuiz(id).then((res) => {
+            // Get quiz from context, or use API, only get at first page load
+            if (context.quizzes.length > 0) {
+                console.log("getting quiz from context");
                 // Show all question answers to start with
-                setShowAnswers(res.quiz.questions.map(() => true));
+                setShowAnswers(
+                    context.quizzes
+                        .filter((quiz) => quiz.id === id)[0]
+                        .questions.map(() => true)
+                );
 
-                // Add quiz info to state
-                setQuizOriginal(res.quiz);
-                setQuiz(res.quiz);
+                setQuizOriginal(
+                    context.quizzes.filter((quiz) => quiz.id === id)[0]
+                );
+                setQuiz(context.quizzes.filter((quiz) => quiz.id === id)[0]);
+            } else {
+                console.log("Loading existing quiz");
 
-                // Indicate that API query completed
-                // setQueryCompleted(true);
-            });
+                QuizApiService.getQuiz(id).then((res) => {
+                    // Show all question answers to start with
+                    setShowAnswers(res.quiz.questions.map(() => true));
+
+                    // Add quiz info to state
+                    setQuizOriginal(res.quiz);
+                    setQuiz(res.quiz);
+
+                    // Indicate that API query completed
+                    // setQueryCompleted(true);
+                });
+            }
         }
     }, []);
 
@@ -106,13 +122,11 @@ export default function EditQuizForm(props) {
             try {
                 const res = await QuizApiService.deleteQuiz(id);
 
-                // Disable item edit, don't show confirm delete button
+                // Don't show confirm delete button
                 setAllowDelete(false);
 
                 // Update item info in item array in state
                 const quizzes = context.quizzes;
-
-                // Get index of item in state
                 const index = quizzes.findIndex((quiz) => quiz.id === id);
 
                 // Follow successful path
@@ -124,6 +138,7 @@ export default function EditQuizForm(props) {
                     .slice(0, index)
                     .concat(quizzes.slice(index + 1));
                 context.setQuizzes(newQuizzes);
+                console.log(newQuizzes);
             } catch (error) {
                 setError(error.message);
             }

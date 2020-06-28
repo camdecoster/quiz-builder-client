@@ -8,9 +8,9 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
     <a
       href="/"
       onClick={[Function]}
-      title="Go to Dashboard"
+      title="Go to Main Page"
     >
-      Expense Tracker
+      Quiz Builder
     </a>
   </h1>
   <div
@@ -55,9 +55,9 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
     <a
       href="/"
       onClick={[Function]}
-      title="Go to Dashboard"
+      title="Go to Main Page"
     >
-      Expense Tracker
+      Quiz Builder
     </a>
   </h1>
   <div
@@ -102,9 +102,9 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
     <a
       href="/"
       onClick={[Function]}
-      title="Go to Dashboard"
+      title="Go to Main Page"
     >
-      Expense Tracker
+      Quiz Builder
     </a>
   </h1>
   <div
@@ -149,9 +149,9 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
     <a
       href="/"
       onClick={[Function]}
-      title="Go to Dashboard"
+      title="Go to Main Page"
     >
-      Expense Tracker
+      Quiz Builder
     </a>
   </h1>
   <div
