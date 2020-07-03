@@ -43,6 +43,7 @@ export default function QuizPage(props) {
             console.log("getting quiz from API");
             // Get quiz from API, store in state
             QuizApiService.getQuiz(id).then((res) => {
+                console.log("API quiz", res);
                 // Add quiz info to state
                 setQuiz(res.quiz);
             });
@@ -73,7 +74,7 @@ export default function QuizPage(props) {
             const answer = parseInt(event.target.quiz_question.value);
 
             // Check if answer is correct
-            if (answer === question.answerIndex) {
+            if (answer === question.answer_index) {
                 setLocalScore(localScore + 1);
             }
 
@@ -102,10 +103,10 @@ export default function QuizPage(props) {
                     Question {number} out of {questions.length}
                 </p>
                 <h4>{question.question}</h4>
-                {!!question.style.image.url ? (
+                {!!question.image_url ? (
                     <img
-                        src={question.style.image.url}
-                        title={question.style.image.title || "no title given"}
+                        src={question.image_url}
+                        title={question.image_title || "no title given"}
                     />
                 ) : (
                     ""
@@ -125,10 +126,10 @@ export default function QuizPage(props) {
                     <div>
                         <p>
                             Correct answer:{" "}
-                            {question.answers[question.answerIndex]}
+                            {question.answers[question.answer_index]}
                         </p>
                         <p>Your answer: {question.answers[userAnswer]}</p>
-                        {question.answerIndex === userAnswer ? (
+                        {question.answer_index === userAnswer ? (
                             <p>You got it right!</p>
                         ) : (
                             <p>You got it wrong :(</p>
@@ -141,6 +142,7 @@ export default function QuizPage(props) {
                     </div>
                 )}
                 <p>
+                    {/* UPDATE SO TOTAL SCORE IS ONLY UP TO CURRENT QUIZ LENGTH */}
                     Score: {localScore} out of {questions.length}
                 </p>
             </div>
@@ -163,66 +165,81 @@ export default function QuizPage(props) {
 
     function getFinalMessage(scorePercent) {
         if (scorePercent === 1) {
-            return quiz.final_message.perfect;
+            return quiz.final_message_perfect;
         } else if (scorePercent >= 0.9) {
-            return quiz.final_message.high;
+            return quiz.final_message_high;
         } else if (scorePercent >= 0.7) {
-            return quiz.final_message.medium;
+            return quiz.final_message_medium;
         } else {
-            return quiz.final_message.low;
+            return quiz.final_message_low;
         }
     }
 
     return (
         <section id='QuizPage' className='route_page'>
-            <h3>{quiz.title}</h3>
-            <h5>By {quiz.author}</h5>
-            <Switch>
-                <Route path={`${path}/questions/:questionNum`}>
-                    {Object.entries(quiz).length > 0 ? (
-                        <QuizQuestion
-                            questions={quiz.questions}
-                            score={score}
-                            setScore={setScore}
-                        />
-                    ) : (
-                        <h3>Loading Quiz...</h3>
-                    )}
-                </Route>
-                {/* Show final summary page */}
-                <Route path={`${path}/summary`}>
-                    {Object.entries(quiz).length > 0 ? (
-                        <div>
-                            <p>Quiz Results</p>
-                            <p>
-                                Congratulations! You finished the quiz! You got{" "}
-                                {score} out of {quiz.questions.length} questions
-                                correct.{" "}
-                                {getFinalMessage(score / quiz.questions.length)}{" "}
-                                Press the button if you'd like to try again.
-                            </p>
+            {Object.entries(quiz).length > 0 ? (
+                <div>
+                    <h3>{quiz.title}</h3>
+                    <h5>By {quiz.author}</h5>
+                    <Switch>
+                        <Route path={`${path}/questions/:questionNum`}>
+                            {Object.entries(quiz).length > 0 ? (
+                                <QuizQuestion
+                                    questions={quiz.questions}
+                                    score={score}
+                                    setScore={setScore}
+                                />
+                            ) : (
+                                <h3>Loading Quiz...</h3>
+                            )}
+                        </Route>
+                        {/* Show final summary page */}
+                        <Route path={`${path}/summary`}>
+                            {Object.entries(quiz).length > 0 ? (
+                                <div>
+                                    <p>Quiz Results</p>
+                                    <p>
+                                        Congratulations! You finished the quiz!
+                                        You got {score} out of{" "}
+                                        {quiz.questions.length} questions
+                                        correct.{" "}
+                                        {getFinalMessage(
+                                            score / quiz.questions.length
+                                        )}{" "}
+                                        Press the button if you'd like to try
+                                        again.
+                                    </p>
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            history.push(`${url}`);
+                                            setScore(0);
+                                        }}
+                                    >
+                                        Restart Quiz
+                                    </button>
+                                </div>
+                            ) : (
+                                <h3>Loading Quiz Summary...</h3>
+                            )}
+                        </Route>
+                        <Route>
+                            {/* If no question number given, show quiz start page */}
+                            <p>{quiz.description}</p>
                             <button
                                 type='button'
-                                onClick={() => history.push(`${url}`)}
+                                onClick={() =>
+                                    history.push(`${url}/questions/1`)
+                                }
                             >
-                                Restart Quiz
+                                Start Quiz
                             </button>
-                        </div>
-                    ) : (
-                        <h3>Loading Quiz Summary...</h3>
-                    )}
-                </Route>
-                <Route>
-                    {/* If no question number given, show quiz start page */}
-                    <p>{quiz.description}</p>
-                    <button
-                        type='button'
-                        onClick={() => history.push(`${url}/questions/1`)}
-                    >
-                        Start Quiz
-                    </button>
-                </Route>
-            </Switch>
+                        </Route>
+                    </Switch>
+                </div>
+            ) : (
+                <h3>Loading Quiz...</h3>
+            )}
         </section>
     );
 }

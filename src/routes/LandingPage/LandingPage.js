@@ -1,12 +1,15 @@
 // React
 import React from "react";
 import { Link } from "react-router-dom";
-import ImageQuizKeyboard from "../../images/quiz-keyboard.jpg";
-import ImageFriendsWithPhone from "../../images/friends_talking_phone.jpg";
-import ImageItems from "../../images/groceries.jpg";
 
 // Configuration
 import "./LandingPage.css";
+
+// Components
+import ImageQuizKeyboard from "../../images/quiz-keyboard.jpg";
+import ImageFriendsWithPhone from "../../images/friends_talking_phone.jpg";
+import ImageItems from "../../images/groceries.jpg";
+import RandomQuizSection from "../../components/RandomQuizSection/RandomQuizSection";
 
 export default function LandingPage() {
     return (
@@ -57,6 +60,8 @@ export default function LandingPage() {
                     and try someone else's quiz. Get started today!
                 </p>
             </section>
+
+            <RandomQuizSection />
 
             <section>
                 <Link to='/register'>

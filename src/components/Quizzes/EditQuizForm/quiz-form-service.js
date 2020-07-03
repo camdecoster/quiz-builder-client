@@ -7,18 +7,17 @@ const QuizFormService = {
 
     addQuestion(index, quiz, setQuiz) {
         const emptyQuestion = {
-            // id: new Date().getTime(),
             id: null,
             question: "Enter your question here",
-            answerIndex: 0,
+            answer_index: 0,
             answers: ["Enter your answer here"],
-            style: {
-                image: {
-                    url: "",
-                    title: "",
-                },
-            },
+            color_background: "",
+            color_text: "",
+            image_url: "",
+            image_title: "",
         };
+
+        // Add new question to existing quiz
         const newQuiz = { ...quiz };
         newQuiz.questions.splice(index + 1, 0, emptyQuestion);
         setQuiz(newQuiz);
@@ -29,12 +28,12 @@ const QuizFormService = {
         const newQuiz = { ...quiz };
         // If answer to be deleted is selected as correct, select first answer as correct
         // IS THIS EVEN NECESSARY? ONCE AT 0, INDEX WON'T CHANGE WITH FURTHER DELETES.
-        if (newQuiz.questions[indexQuestion].answerIndex === indexAnswer) {
-            newQuiz.questions[indexQuestion].answerIndex = 0;
+        if (newQuiz.questions[indexQuestion].answer_index === indexAnswer) {
+            newQuiz.questions[indexQuestion].answer_index = 0;
         }
-        // Decrease answerIndex to account for deleted answer
-        else if (newQuiz.questions[indexQuestion].answerIndex > indexAnswer) {
-            newQuiz.questions[indexQuestion].answerIndex -= 1;
+        // Decrease answer_index to account for deleted answer
+        else if (newQuiz.questions[indexQuestion].answer_index > indexAnswer) {
+            newQuiz.questions[indexQuestion].answer_index -= 1;
         }
 
         // Delete answer from question
@@ -49,28 +48,16 @@ const QuizFormService = {
             title: "New Quiz",
             author: "Your Name",
             description: "",
-            style: {
-                colors: {
-                    background: "",
-                    text: "",
-                },
-                image: {
-                    url: "",
-                    title: "",
-                },
-            },
-
-            final_message: {
-                low: "Low score message",
-                medium: "Medium score message.",
-                high: "High score message.",
-                perfect: "Perfect score message.",
-            },
-
+            color_background: "",
+            color_text: "",
+            image_url: "",
+            image_title: "",
+            final_message_low: "Low score message",
+            final_message_medium: "Medium score message.",
+            final_message_high: "High score message.",
+            final_message_perfect: "Perfect score message.",
+            date_modified: new Date().toISOString(),
             questions: [],
-            date: {
-                modified: new Date().toISOString(),
-            },
         };
     },
 
@@ -91,7 +78,7 @@ const QuizFormService = {
 
     updateAnswerIndex(indexQuestion, indexAnswer, quiz, setQuiz) {
         const newQuiz = { ...quiz };
-        newQuiz.questions[indexQuestion].answerIndex = indexAnswer;
+        newQuiz.questions[indexQuestion].answer_index = indexAnswer;
         setQuiz(newQuiz);
     },
 
@@ -116,10 +103,10 @@ const QuizFormService = {
                 newQuiz.description = value;
                 break;
             case "image_title":
-                newQuiz.questions[indexQuestion].style.image.title = value;
+                newQuiz.questions[indexQuestion].image_title = value;
                 break;
             case "image_url":
-                newQuiz.questions[indexQuestion].style.image.url = value;
+                newQuiz.questions[indexQuestion].image_url = value;
                 break;
             case "question":
                 newQuiz.questions[indexQuestion].question = value;

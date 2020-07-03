@@ -148,101 +148,142 @@ export default function EditQuizForm(props) {
     async function handleSubmit(event) {
         event.preventDefault();
 
+        // NEED TO SWITCH ORDER OF API REQUESTS: FIRST QUIZ (TO GET ID), THEN QUESTIONS
+        // UPDATE CONTEXT AT END
+
         // Clear previous errors (if they exist)
         setError(null);
 
-        // Store new questions when they are added via API
-        const addedQuestions = [];
-
-        // Only delete questions if some were removed from quiz
-        if (deletedQuestions.length > 0) {
-            // Remove deleted questions from quiz
-
-            deletedQuestions.forEach(async (q) => {
-                try {
-                    const res = await QuestionApiService.deleteQuestion(q);
-                } catch (error) {
-                    setError(
-                        error.message || `Couldn't delete question from quiz`
-                    );
-                }
-            });
-            // Reset deleted questions
-            setDeletedQuestions([]);
-        }
-
-        // Only add questions if some were added to quiz
-        if (newQuestions.length > 0) {
-            let res;
-
-            // Add each new question to API
-            newQuestions.map(async (q) => {
-                try {
-                    res = await QuestionApiService.postQuestion(q);
-                    addedQuestions.push(res.question);
-                } catch (error) {
-                    setError(error.message || `Couldn't add question to quiz`);
-                }
-            });
-        }
-
-        // Now create question ID array for quiz update, add new question ID's to array
-        // if they exist
-        const questions = [];
-        quiz.questions.forEach((q) => {
-            // Add ID if it is missing from question (because it's a new question)
-            // TECHNICALLY, SOMEONE COULD ADD THE SAME QUESTION MULTIPLE TIMES
-            // I NEED TO FIND A DIFFERENT WAY TO COMPARE
-            if (q.id === null) {
-                addedQuestions.forEach((aq) => {
-                    if (aq.question === q.question) questions.push(aq.id);
-                });
-            } else {
-                questions.push(q.id);
-            }
-        });
-
         // Update quiz with ID's of questions to submit back to API
         const newQuiz = JSON.parse(JSON.stringify(quiz));
-        newQuiz.questions = questions;
+        // newQuiz.questions = questions;
+        delete newQuiz.questions;
 
-        console.log("Question ID's are", questions);
+        // console.log("Question ID's are", questions);
 
         // Check if submitting a new quiz, or updating existing quiz
         if (quiz.id === null) {
             console.log("adding new quiz");
             // Quiz is new, add via API
             const res = await QuizApiService.postQuiz(newQuiz);
+
+            // Get new quiz ID, save in state
+            quiz.id = res.quiz.id;
+            setQuiz(quiz);
+
             console.log("res is", res);
 
-            // Update item info in item array in state
-            const quizzes = context.quizzes;
+            // // Update item info in item array in state
+            // const quizzes = context.quizzes;
 
-            // Add new item
-            quizzes.push(res.quiz);
-            context.setQuizzes(quizzes);
-            console.log(context.quizzes);
+            // // Add new item
+            // quizzes.push(res.quiz);
+            // context.setQuizzes(quizzes);
+            // console.log(context.quizzes);
 
             // Follow successful path
             props.onSubmitSuccess(res.quiz.id);
         } else {
+            console.log("figure out what to do with quiz updates");
             const res = await QuizApiService.updateQuiz(newQuiz);
 
-            // Update item info in item array in state
-            const quizzes = context.quizzes;
+            // // Update item info in item array in state
+            // const quizzes = context.quizzes;
 
-            // Get index of item in state
-            const index = quizzes.findIndex(
-                (oldQuiz) => oldQuiz.id === quiz.id
-            );
+            // // Get index of item in state
+            // const index = quizzes.findIndex(
+            //     (oldQuiz) => oldQuiz.id === quiz.id
+            // );
 
-            // Replace old item with updated item
-            quizzes.splice(index, 1, quiz);
-            context.setQuizzes(quizzes);
+            // // Replace old item with updated item
+            // quizzes.splice(index, 1, quiz);
+            // context.setQuizzes(quizzes);
 
             // Follow successful path
             props.onSubmitSuccess(quiz.id);
         }
+
+        // Store new questions when they are added via API
+        // const addedQuestions = [];
+
+        // Only delete questions if some were removed from quiz
+        if (deletedQuestions.length > 0) {
+            const newQuiz = JSON.parse(JSON.stringify(quiz));
+            // Remove deleted questions from quiz
+            deletedQuestions.forEach(async (q) => {
+                try {
+                    const res = await QuestionApiService.deleteQuestion(q.id);
+                    // Also delete question from quiz in state
+                    quiz.questions.forEach((question, index) => {
+                        if (question.id === q.id) {
+                            // Delete question from array
+                            newQuiz.questions.splice(index, 1);
+                        }
+                    });
+                } catch (error) {
+                    setError(
+                        error.message || `Couldn't delete question from quiz`
+                    );
+                }
+            });
+            // Update quiz to remove deleted questions
+            setQuiz(newQuiz);
+
+            // Reset deleted questions
+            setDeletedQuestions([]);
+        }
+
+        // Only add questions if some were added to quiz
+        if (newQuestions.length > 0) {
+            // Add each new question to API
+            newQuestions.map(async (q) => {
+                try {
+                    // Add quiz ID to each question
+                    q.quiz_id = quiz.id;
+
+                    const res = await QuestionApiService.postQuestion(q);
+                    // addedQuestions.push(res.question);
+                } catch (error) {
+                    setError(error.message || `Couldn't add question to quiz`);
+                }
+            });
+        }
+
+        // ADD CODE TO UPDATE QUESTIONS
+        // Update other questions
+        // Do comparison to see if question actually updated?
+        // Need to check if question was deleted
+        for (const question of quiz.questions) {
+            // Don't update new questions (those with id of null)
+            if (question.id !== null) {
+                try {
+                    const res = await QuestionApiService.updateQuestion(
+                        question
+                    );
+                } catch (error) {
+                    setError(error.message || `Couldn't update question`);
+                }
+            }
+        }
+
+        // Trigger a new API call by resetting the quizzes in context
+        context.setQuizzes([]);
+
+        // // Now create question ID array for quiz update, add new question ID's to array
+        // // if they exist
+        // const questions = [];
+        // quiz.questions.forEach((q) => {
+        //     // Add ID if it is missing from question (because it's a new question)
+        //     // TECHNICALLY, SOMEONE COULD ADD THE SAME QUESTION MULTIPLE TIMES
+        //     // I NEED TO FIND A DIFFERENT WAY TO COMPARE
+        //     if (q.id === null) {
+        //         addedQuestions.forEach((aq) => {
+        //             if (aq.question === q.question) questions.push(aq.id);
+        //         });
+        //     } else {
+        //         questions.push(q.id);
+        //     }
+        // });
     }
 
     const grid = 8;
@@ -293,7 +334,14 @@ export default function EditQuizForm(props) {
         <form id='QuizFormPrivate' onSubmit={(event) => handleSubmit(event)}>
             {error ? <ErrorMessage message={error} /> : ""}
             <button type='submit'>Submit Quiz</button>
-            <button type='button' onClick={() => props.onCancel()}>
+            <button
+                type='button'
+                onClick={() => {
+                    // Reset quiz to original state
+                    setQuiz(quizOriginal);
+                    props.onCancel();
+                }}
+            >
                 Go Back
             </button>
             {!allowDelete ? (
@@ -333,7 +381,7 @@ export default function EditQuizForm(props) {
                     QuizFormService.updateInput(event, quiz, setQuiz)
                 }
             />
-            <label htmlFor='author'>Quiz Title</label>
+            <label htmlFor='author'>Quiz Author</label>
             <input
                 type='text'
                 id='author'
@@ -441,7 +489,7 @@ export default function EditQuizForm(props) {
                                                                             indexAnswer
                                                                         }
                                                                         checked={
-                                                                            q.answerIndex ===
+                                                                            q.answer_index ===
                                                                             indexAnswer
                                                                                 ? true
                                                                                 : false
@@ -538,10 +586,7 @@ export default function EditQuizForm(props) {
                                                             type='text'
                                                             id={`q${indexQuestion}image_url`}
                                                             name='image_url'
-                                                            value={
-                                                                q.style.image
-                                                                    .url
-                                                            }
+                                                            value={q.image_url}
                                                             onChange={(event) =>
                                                                 QuizFormService.updateInput(
                                                                     event,
@@ -561,8 +606,7 @@ export default function EditQuizForm(props) {
                                                             id={`q${indexQuestion}image_title`}
                                                             name='image_title'
                                                             value={
-                                                                q.style.image
-                                                                    .title
+                                                                q.image_title
                                                             }
                                                             onChange={(event) =>
                                                                 QuizFormService.updateInput(

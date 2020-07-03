@@ -24,7 +24,7 @@ export default function EditQuizPage() {
     }
 
     function handleFormCancel() {
-        history.push("/quizzes");
+        history.push("");
     }
 
     function handleFormSuccess() {

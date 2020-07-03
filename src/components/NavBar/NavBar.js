@@ -57,13 +57,13 @@ export default function NavBar() {
             //     link: "",
             // },
             {
-                name: "New Quiz",
+                name: "Create New Quiz",
                 link: "quizzes/edit/new",
                 icon: "plus-circle",
             },
             {
                 name: "Quizzes",
-                link: "quizzes",
+                link: "",
                 icon: "list-alt",
             },
         ];
@@ -91,12 +91,12 @@ export default function NavBar() {
     function renderUnauthorized() {
         const navLinkTargets = [
             {
-                name: "Log In",
+                name: "Go to Login Page",
                 link: "login",
                 icon: "sign-in-alt",
             },
             {
-                name: "Register",
+                name: "Go to Register Page",
                 link: "register",
                 icon: "plus-square",
             },
