@@ -174,13 +174,7 @@ export default function App() {
                                     <ErrorBoundary
                                         message={`Couldn't load Login page`}
                                     >
-                                        <LoginPage
-                                            // REMOVE PROPS DOWN THE ROAD
-                                            // Pass in info to log in to demo account
-                                            message='LOG IN TO THE DEMO ACCOUNT'
-                                            email={"testuser_1@test.com"}
-                                            password={"test12$FOUR"}
-                                        />
+                                        <LoginPage />
                                     </ErrorBoundary>
                                 )}
                             />
@@ -203,7 +197,7 @@ export default function App() {
                                         <LoginPage
                                             // Pass in info to log in to demo account
                                             message='LOG IN TO THE DEMO ACCOUNT'
-                                            email={"testuser_1@test.com"}
+                                            email={"test1@test.com"}
                                             password={"test12$FOUR"}
                                         />
                                     </ErrorBoundary>

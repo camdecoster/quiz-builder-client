@@ -4,7 +4,7 @@
 #App {
     display: flex;
     flex-direction: row;
-    background-color: var(--blue-dark);
+    background-color: var(--background);
     color: var(--light);
     font-family: "Roboto Condensed", sans-serif;
 }
@@ -62,7 +62,7 @@ section h2 {
 }
 
 main > section {
-    background-color: var(--blue-dark);
+    background-color: var(--background);
 }
 
 a {
@@ -100,14 +100,14 @@ select {
 
 button {
     height: 40px;
-    border: 2px solid var(--blue-medium);
+    border: 2px solid var(--border);
     border-radius: 20px;
-    background-color: var(--blue-light);
+    background-color: var(--button-fill);
     color: inherit;
 }
 
 button:active {
-    background-color: var(--blue-medium);
+    background-color: var(--button-active);
     border-color: var(--blue-light);
 }
 

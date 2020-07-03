@@ -12,8 +12,14 @@
     --light: white;
     --light-accent: rgb(175, 175, 175);
     --light-accent-2: rgb(125, 125, 125);
-    --link-color: var(--orange-medium);
-    --link-color-active: var(--orange-light);
+    /* Define general colors */
+    --background: #4e85bf;
+    /* --border: #7fc7af; */
+    --border: #66c4ba;
+    --button-active: #a9e8a6;
+    --button-fill: #573dd9;
+    --link-color: #f7ed93;
+    --link-color-active: #573dd9;
     --link-color-hover: blue;
 }
 
@@ -24,7 +30,7 @@ body {
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--blue-dark);
+    background-color: var(--background);
 }
 
 code {

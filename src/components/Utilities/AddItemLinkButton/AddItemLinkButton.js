@@ -1,6 +1,6 @@
 // React
 import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Configuration
 import "./AddItemLinkButton.css";
@@ -19,7 +19,8 @@ export default function AddItemLinkButton(props) {
                 type='button'
                 aria-label={props.name}
             >
-                <FontAwesomeIcon className='faIcon' icon={props.icon} />
+                <FontAwesomeIcon className='faIcon' icon={props.icon} />{" "}
+                <div className='button_label'>{props.label.toUpperCase()}</div>
             </button>
         </Link>
     );

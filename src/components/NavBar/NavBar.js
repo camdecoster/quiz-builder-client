@@ -40,6 +40,7 @@ export default function NavBar() {
             return (
                 <AddItemLinkButton
                     to={"/" + navLink.link}
+                    label={navLink.label}
                     name={navLink.name}
                     icon={navLink.icon}
                     key={navLink.name}
@@ -52,17 +53,15 @@ export default function NavBar() {
 
     function renderAuthorized() {
         const navLinkTargets = [
-            // {
-            //     name: "Dashboard",
-            //     link: "",
-            // },
             {
+                label: "New Quiz",
                 name: "Create New Quiz",
                 link: "quizzes/edit/new",
                 icon: "plus-circle",
             },
             {
-                name: "Quizzes",
+                label: "Quizzes",
+                name: "Go To Quizzes",
                 link: "",
                 icon: "list-alt",
             },
@@ -82,6 +81,7 @@ export default function NavBar() {
                 onClick={() => handleLogOutClick()}
             >
                 <FontAwesomeIcon className='faIcon' icon='sign-out-alt' />
+                <div className='button_label'>LOG OUT</div>
             </button>
         );
 
@@ -91,11 +91,13 @@ export default function NavBar() {
     function renderUnauthorized() {
         const navLinkTargets = [
             {
+                label: "Log In",
                 name: "Go to Login Page",
                 link: "login",
                 icon: "sign-in-alt",
             },
             {
+                label: "Register",
                 name: "Go to Register Page",
                 link: "register",
                 icon: "plus-square",
@@ -116,7 +118,7 @@ export default function NavBar() {
                             : "Go to Main Page"
                     }
                 >
-                    Quiz Builder
+                    QUIZ BUILDER
                 </Link>
             </h1>
             <div className='link_list'>

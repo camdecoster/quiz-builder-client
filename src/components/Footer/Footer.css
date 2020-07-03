@@ -4,7 +4,7 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    border-top: 2px solid var(--blue-medium);
+    border-top: 2px solid var(--border);
     display: flex;
     justify-content: center;
     background-color: inherit;

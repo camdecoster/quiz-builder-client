@@ -361,36 +361,38 @@ export default function EditQuizForm(props) {
             ) : (
                 ""
             )}
-            <label htmlFor='title'>Quiz Title</label>
-            <input
-                type='text'
-                id='title'
-                name='title'
-                value={quiz.title}
-                onChange={(event) =>
-                    QuizFormService.updateInput(event, quiz, setQuiz)
-                }
-            />
-            <label htmlFor='description'>Description</label>
-            <input
-                type='text'
-                id='description'
-                name='description'
-                value={quiz.description}
-                onChange={(event) =>
-                    QuizFormService.updateInput(event, quiz, setQuiz)
-                }
-            />
-            <label htmlFor='author'>Quiz Author</label>
-            <input
-                type='text'
-                id='author'
-                name='author'
-                value={quiz.author}
-                onChange={(event) =>
-                    QuizFormService.updateInput(event, quiz, setQuiz)
-                }
-            />
+            <div>
+                <label htmlFor='title'>Quiz Title</label>
+                <input
+                    type='text'
+                    id='title'
+                    name='title'
+                    value={quiz.title}
+                    onChange={(event) =>
+                        QuizFormService.updateInput(event, quiz, setQuiz)
+                    }
+                />
+                <label htmlFor='description'>Description</label>
+                <input
+                    type='text'
+                    id='description'
+                    name='description'
+                    value={quiz.description}
+                    onChange={(event) =>
+                        QuizFormService.updateInput(event, quiz, setQuiz)
+                    }
+                />
+                <label htmlFor='author'>Quiz Author</label>
+                <input
+                    type='text'
+                    id='author'
+                    name='author'
+                    value={quiz.author}
+                    onChange={(event) =>
+                        QuizFormService.updateInput(event, quiz, setQuiz)
+                    }
+                />
+            </div>
             {/* Only show question list if quiz is not empty */}
             {quiz.questions.length ? (
                 <DragDropContext onDragEnd={onDragEnd}>
