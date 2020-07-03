@@ -11,7 +11,12 @@ describe("<AddItemLinkButton> component", () => {
         const div = document.createElement("div");
         ReactDOM.render(
             <MemoryRouter>
-                <AddItemLinkButton />
+                <AddItemLinkButton
+                    to={"/"}
+                    label='test'
+                    name='test'
+                    icon='test'
+                />
             </MemoryRouter>,
             div
         );

@@ -3,12 +3,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 // Configuration
-import QuizApiService from "../../services/quiz-api-service";
-
-// Components
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import "./RandomQuizSection.css";
+import QuizApiService from "../../services/quiz-api-service";
 
 export default function RandomQuizSection() {
     // Acces history
@@ -24,11 +20,10 @@ export default function RandomQuizSection() {
                 </p>
                 <button
                     type='button'
-                    onClick={() =>
-                        history.push(
-                            `/quizzes/${QuizApiService.getRandomQuizId()}`
-                        )
-                    }
+                    onClick={async () => {
+                        const res = await QuizApiService.getRandomQuizId();
+                        history.push(`/quizzes/${res.id}`);
+                    }}
                 >
                     Go!
                 </button>

@@ -17,6 +17,7 @@ const AuthApiService = {
         // });
     },
     postUser(user) {
+        console.log(process.env);
         return fetch(`${config.API_ENDPOINT}/users`, {
             method: "POST",
             headers: {

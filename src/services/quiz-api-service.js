@@ -85,8 +85,6 @@ const QuizApiService = {
                 }
             );
 
-            console.log("res", res);
-
             // If response was bad, throw error
             if (!res.ok) {
                 const response = await res.json();
@@ -119,12 +117,32 @@ const QuizApiService = {
         // });
     },
     // This will eventually need to be async
-    getRandomQuizId() {
+    async getRandomQuizId() {
+        try {
+            const res = await fetch(`${config.API_ENDPOINT}/quizzes/random`, {
+                headers: {
+                    authorization: `bearer ${TokenService.getAuthToken()}`,
+                },
+            });
+
+            // If response was bad, throw error
+            if (!res.ok) {
+                const response = await res.json();
+                throw new Error(
+                    response.error.message ||
+                        "There was an error getting the random quiz"
+                );
+            }
+
+            return await res.json();
+        } catch (error) {
+            throw new Error(error.message);
+        }
         // MAGIC RANDOM QUIZ LOGIC PLACEHOLDER
-        const id = Math.round(
-            Math.random() * (quiz_data.quizzes.length - 1) + 1
-        );
-        return id;
+        // const id = Math.round(
+        //     Math.random() * (quiz_data.quizzes.length - 1) + 1
+        // );
+        // return id;
     },
     async postQuiz(quiz) {
         try {

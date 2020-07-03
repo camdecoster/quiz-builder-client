@@ -371,6 +371,7 @@ export default function EditQuizForm(props) {
                     onChange={(event) =>
                         QuizFormService.updateInput(event, quiz, setQuiz)
                     }
+                    required
                 />
                 <label htmlFor='description'>Description</label>
                 <input
@@ -381,6 +382,7 @@ export default function EditQuizForm(props) {
                     onChange={(event) =>
                         QuizFormService.updateInput(event, quiz, setQuiz)
                     }
+                    required
                 />
                 <label htmlFor='author'>Quiz Author</label>
                 <input
@@ -391,6 +393,48 @@ export default function EditQuizForm(props) {
                     onChange={(event) =>
                         QuizFormService.updateInput(event, quiz, setQuiz)
                     }
+                    required
+                />
+                <label htmlFor='final_message_low'>Low Score Message</label>
+                <input
+                    type='text'
+                    id='final_message_low'
+                    name='final_message_low'
+                    value={quiz.final_message_low}
+                    onChange={(event) =>
+                        QuizFormService.updateInput(event, quiz, setQuiz)
+                    }
+                    required
+                />
+                <input
+                    type='text'
+                    id='final_message_medium'
+                    name='final_message_medium'
+                    value={quiz.final_message_medium}
+                    onChange={(event) =>
+                        QuizFormService.updateInput(event, quiz, setQuiz)
+                    }
+                    required
+                />
+                <input
+                    type='text'
+                    id='final_message_high'
+                    name='final_message_high'
+                    value={quiz.final_message_high}
+                    onChange={(event) =>
+                        QuizFormService.updateInput(event, quiz, setQuiz)
+                    }
+                    required
+                />
+                <input
+                    type='text'
+                    id='final_message_perfect'
+                    name='final_message_perfect'
+                    value={quiz.final_message_perfect}
+                    onChange={(event) =>
+                        QuizFormService.updateInput(event, quiz, setQuiz)
+                    }
+                    required
                 />
             </div>
             {/* Only show question list if quiz is not empty */}
@@ -441,6 +485,7 @@ export default function EditQuizForm(props) {
                                                             indexQuestion
                                                         )
                                                     }
+                                                    required
                                                 />
                                                 {/* Add button to show/hide answers */}
                                                 <button
@@ -530,6 +575,7 @@ export default function EditQuizForm(props) {
                                                                                 indexAnswer
                                                                             )
                                                                         }
+                                                                        required
                                                                     />
                                                                     {/* Only show delete button if there's more than 1 answer */}
                                                                     {quiz

@@ -20,16 +20,18 @@ export default function EditQuizPage() {
     const { quizId } = useParams();
 
     function handleDeleteSuccess() {
-        history.push("/quizzes");
+        // Route user to new main page
+        history.push("");
     }
 
     function handleFormCancel() {
+        // Route user to new main page
         history.push("");
     }
 
     function handleFormSuccess() {
-        // Route user to new quiz
-        history.push("/quizzes");
+        // Route user to new main page
+        history.push("");
     }
 
     return (

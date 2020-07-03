@@ -102,6 +102,18 @@ const QuizFormService = {
             case "description":
                 newQuiz.description = value;
                 break;
+            case "final_message_low":
+                newQuiz.final_message_low = value;
+                break;
+            case "final_message_medium":
+                newQuiz.final_message_low = value;
+                break;
+            case "final_message_high":
+                newQuiz.final_message_high = value;
+                break;
+            case "final_message_perfect":
+                newQuiz.final_message_perfect = value;
+                break;
             case "image_title":
                 newQuiz.questions[indexQuestion].image_title = value;
                 break;

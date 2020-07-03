@@ -72,7 +72,7 @@ export default function QuizzesPage() {
                 <Route path={`${path}/:quizId`}>
                     <QuizPage />
                 </Route>
-                <PrivateRoute
+                {/* <PrivateRoute
                     path={path}
                     // CONSIDER MOVING THIS TO COMPONENT
                     render={(routerProps) => (
@@ -95,7 +95,7 @@ export default function QuizzesPage() {
                             )}
                         </div>
                     )}
-                />
+                /> */}
             </Switch>
         </section>
     );

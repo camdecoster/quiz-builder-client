@@ -27,7 +27,7 @@ export default function LoginPage(props) {
     return (
         <section id='LoginPage' className='route_page'>
             <header role='banner'>
-                <h1>Log in to Expense Tracker</h1>
+                <h1>Log in to Quiz Builder</h1>
             </header>
             {!!props.message ? <h2 id='demo_message'>{props.message}</h2> : ""}
 
