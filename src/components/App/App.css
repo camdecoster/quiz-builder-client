@@ -1,12 +1,13 @@
 /* Import fonts */
-@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Raleway:wght@400&family=Roboto+Condensed&family=Roboto+Slab:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Raleway:wght@400&family=Roboto+Condensed&family=Roboto+Slab:wght@300&family=Montserrat&family=Comfortaa&family=Open+Sans&display=swap");
 
 #App {
     display: flex;
     flex-direction: row;
     background-color: var(--background);
     color: var(--light);
-    font-family: "Roboto Condensed", sans-serif;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
 }
 
 h1,
@@ -14,7 +15,8 @@ h2,
 h3,
 h4,
 th {
-    font-family: "Roboto Slab", serif;
+    font-family: "Comfortaa", cursive;
+    font-weight: 600;
 }
 
 section h1 {
@@ -57,7 +59,7 @@ section h2 {
 
 .route_page form {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     margin: auto;
 }
 
@@ -137,6 +139,11 @@ header {
 
 header h1 {
     display: inline-block;
+}
+
+.instruction_small {
+    margin: 0;
+    font-size: 13px;
 }
 
 @media screen and (min-width: 400px) {

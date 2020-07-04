@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Configuration
 import "./NavBar.css";
+import QuizApiService from "../../services/quiz-api-service";
 import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 import TokenService from "../../services/token-service";
 
@@ -39,10 +40,11 @@ export default function NavBar() {
         navLinks = navLinkTargets.map((navLink) => {
             return (
                 <AddItemLinkButton
-                    to={"/" + navLink.link}
+                    to={navLink.to}
                     label={navLink.label}
                     name={navLink.name}
                     icon={navLink.icon}
+                    onClick={navLink.onClick}
                     key={navLink.name}
                 />
             );
@@ -56,14 +58,29 @@ export default function NavBar() {
             {
                 label: "New Quiz",
                 name: "Create New Quiz",
-                link: "quizzes/edit/new",
+                to: "/quizzes/edit/new",
                 icon: "plus-circle",
             },
             {
                 label: "Quizzes",
                 name: "Go To Quizzes",
-                link: "",
+                to: "/",
                 icon: "list-alt",
+            },
+            {
+                label: "Random",
+                name: "Try a random quiz",
+                icon: "random",
+                onClick: async () => {
+                    const res = await QuizApiService.getRandomQuizId();
+                    history.push(`/quizzes/${res.id}`);
+                },
+            },
+            {
+                label: "Log Out",
+                name: "Log out of Quiz Builder",
+                icon: "sign-out-alt",
+                onClick: () => handleLogOutClick(),
             },
         ];
 
@@ -71,19 +88,19 @@ export default function NavBar() {
         const navLinks = createNavLinkList(navLinkTargets);
 
         // Add log out button
-        navLinks.push(
-            <button
-                className='link_button'
-                type='button'
-                title='Log Out'
-                key='Log Out'
-                aria-label='Log Out'
-                onClick={() => handleLogOutClick()}
-            >
-                <FontAwesomeIcon className='faIcon' icon='sign-out-alt' />
-                <div className='button_label'>LOG OUT</div>
-            </button>
-        );
+        // navLinks.push(
+        //     <button
+        //         className='link_button'
+        //         type='button'
+        //         title='Log Out'
+        //         key='Log Out'
+        //         aria-label='Log Out'
+        //         onClick={() => handleLogOutClick()}
+        //     >
+        //         <FontAwesomeIcon className='faIcon' icon='sign-out-alt' />
+        //         <div className='button_label'>LOG OUT</div>
+        //     </button>
+        // );
 
         return navLinks;
     }
@@ -93,14 +110,23 @@ export default function NavBar() {
             {
                 label: "Log In",
                 name: "Go to Login Page",
-                link: "login",
+                to: "/login",
                 icon: "sign-in-alt",
             },
             {
                 label: "Register",
                 name: "Go to Register Page",
-                link: "register",
+                to: "/register",
                 icon: "plus-square",
+            },
+            {
+                label: "Random",
+                name: "Try a random quiz",
+                icon: "random",
+                onClick: async () => {
+                    const res = await QuizApiService.getRandomQuizId();
+                    history.push(`/quizzes/${res.id}`);
+                },
             },
         ];
 

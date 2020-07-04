@@ -21,6 +21,8 @@
     --link-color: #f7ed93;
     --link-color-active: #573dd9;
     --link-color-hover: blue;
+    --table-background: #573dd9;
+    --table-header-background: #66c4ba;
 }
 
 body {

@@ -35,7 +35,7 @@ export default function RegistrationForm(props) {
             .then((res) => {
                 email.value = "";
                 password.value = "";
-                TokenService.saveAuthToken(res.authToken);
+                // TokenService.saveAuthToken(res.authToken);
                 props.onRegistrationSuccess();
             })
             .catch((res) => {

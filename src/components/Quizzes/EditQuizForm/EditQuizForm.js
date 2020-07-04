@@ -333,109 +333,124 @@ export default function EditQuizForm(props) {
     return (
         <form id='QuizFormPrivate' onSubmit={(event) => handleSubmit(event)}>
             {error ? <ErrorMessage message={error} /> : ""}
-            <button type='submit'>Submit Quiz</button>
-            <button
-                type='button'
-                onClick={() => {
-                    // Reset quiz to original state
-                    setQuiz(quizOriginal);
-                    props.onCancel();
-                }}
-            >
-                Go Back
-            </button>
-            {!allowDelete ? (
-                <button type='button' onClick={() => setAllowDelete(true)}>
-                    Delete
-                </button>
-            ) : (
-                ""
-            )}
-            {allowDelete ? (
+            <div id='container_buttons'>
+                <button type='submit'>Submit Quiz</button>
                 <button
                     type='button'
-                    onClick={(event) => handleDeleteQuiz(event)}
+                    onClick={() => {
+                        // Reset quiz to original state
+                        setQuiz(quizOriginal);
+                        props.onCancel();
+                    }}
                 >
-                    Confirm Deletion
+                    Go Back
                 </button>
-            ) : (
-                ""
-            )}
-            <div>
-                <label htmlFor='title'>Quiz Title</label>
-                <input
-                    type='text'
-                    id='title'
-                    name='title'
-                    value={quiz.title}
-                    onChange={(event) =>
-                        QuizFormService.updateInput(event, quiz, setQuiz)
-                    }
-                    required
-                />
-                <label htmlFor='description'>Description</label>
-                <input
-                    type='text'
-                    id='description'
-                    name='description'
-                    value={quiz.description}
-                    onChange={(event) =>
-                        QuizFormService.updateInput(event, quiz, setQuiz)
-                    }
-                    required
-                />
-                <label htmlFor='author'>Quiz Author</label>
-                <input
-                    type='text'
-                    id='author'
-                    name='author'
-                    value={quiz.author}
-                    onChange={(event) =>
-                        QuizFormService.updateInput(event, quiz, setQuiz)
-                    }
-                    required
-                />
-                <label htmlFor='final_message_low'>Low Score Message</label>
-                <input
-                    type='text'
-                    id='final_message_low'
-                    name='final_message_low'
-                    value={quiz.final_message_low}
-                    onChange={(event) =>
-                        QuizFormService.updateInput(event, quiz, setQuiz)
-                    }
-                    required
-                />
-                <input
-                    type='text'
-                    id='final_message_medium'
-                    name='final_message_medium'
-                    value={quiz.final_message_medium}
-                    onChange={(event) =>
-                        QuizFormService.updateInput(event, quiz, setQuiz)
-                    }
-                    required
-                />
-                <input
-                    type='text'
-                    id='final_message_high'
-                    name='final_message_high'
-                    value={quiz.final_message_high}
-                    onChange={(event) =>
-                        QuizFormService.updateInput(event, quiz, setQuiz)
-                    }
-                    required
-                />
-                <input
-                    type='text'
-                    id='final_message_perfect'
-                    name='final_message_perfect'
-                    value={quiz.final_message_perfect}
-                    onChange={(event) =>
-                        QuizFormService.updateInput(event, quiz, setQuiz)
-                    }
-                    required
-                />
+                {!allowDelete ? (
+                    <button type='button' onClick={() => setAllowDelete(true)}>
+                        Delete
+                    </button>
+                ) : (
+                    ""
+                )}
+                {allowDelete ? (
+                    <button
+                        type='button'
+                        onClick={(event) => handleDeleteQuiz(event)}
+                    >
+                        Confirm Deletion
+                    </button>
+                ) : (
+                    ""
+                )}
+            </div>
+            <div id='container_quiz_info'>
+                <div>
+                    <label htmlFor='title'>Quiz Title</label>
+                    <input
+                        type='text'
+                        id='title'
+                        name='title'
+                        value={quiz.title}
+                        onChange={(event) =>
+                            QuizFormService.updateInput(event, quiz, setQuiz)
+                        }
+                        required
+                    />
+                    <label htmlFor='description'>Description</label>
+                    <input
+                        type='text'
+                        id='description'
+                        name='description'
+                        value={quiz.description}
+                        onChange={(event) =>
+                            QuizFormService.updateInput(event, quiz, setQuiz)
+                        }
+                        required
+                    />
+                    <label htmlFor='author'>Quiz Author</label>
+                    <input
+                        type='text'
+                        id='author'
+                        name='author'
+                        value={quiz.author}
+                        onChange={(event) =>
+                            QuizFormService.updateInput(event, quiz, setQuiz)
+                        }
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor='final_message_low'>Low Score Message</label>
+                    <input
+                        type='text'
+                        id='final_message_low'
+                        name='final_message_low'
+                        value={quiz.final_message_low}
+                        onChange={(event) =>
+                            QuizFormService.updateInput(event, quiz, setQuiz)
+                        }
+                        required
+                    />
+                    <label htmlFor='final_message_medium'>
+                        Medium Score Message
+                    </label>
+                    <input
+                        type='text'
+                        id='final_message_medium'
+                        name='final_message_medium'
+                        value={quiz.final_message_medium}
+                        onChange={(event) =>
+                            QuizFormService.updateInput(event, quiz, setQuiz)
+                        }
+                        required
+                    />
+                    <label htmlFor='final_message_high'>
+                        High Score Message
+                    </label>
+                    <input
+                        type='text'
+                        id='final_message_high'
+                        name='final_message_high'
+                        value={quiz.final_message_high}
+                        onChange={(event) =>
+                            QuizFormService.updateInput(event, quiz, setQuiz)
+                        }
+                        required
+                    />
+                    <label htmlFor='final_message_perfect'>
+                        Perfect Score Message
+                    </label>
+                    <input
+                        type='text'
+                        id='final_message_perfect'
+                        name='final_message_perfect'
+                        value={quiz.final_message_perfect}
+                        onChange={(event) =>
+                            QuizFormService.updateInput(event, quiz, setQuiz)
+                        }
+                        required
+                    />
+                </div>
             </div>
             {/* Only show question list if quiz is not empty */}
             {quiz.questions.length ? (
@@ -517,7 +532,13 @@ export default function EditQuizForm(props) {
                                                     <div
                                                         id={`container_answers-${indexQuestion}`}
                                                     >
-                                                        {/* Show the answer answers */}
+                                                        <p className='instruction_small'>
+                                                            Choose the correct
+                                                            answer by clicking
+                                                            the appropriate
+                                                            selector
+                                                        </p>
+                                                        {/* Show the answers */}
                                                         {q.answers.map(
                                                             (
                                                                 answer,
@@ -624,47 +645,56 @@ export default function EditQuizForm(props) {
                                                         ) : (
                                                             ""
                                                         )}
-                                                        {/* Show the style info */}
-                                                        <label
-                                                            htmlFor={`q${indexQuestion}image_url`}
-                                                        >
-                                                            Image URL
-                                                        </label>
-                                                        <input
-                                                            type='text'
-                                                            id={`q${indexQuestion}image_url`}
-                                                            name='image_url'
-                                                            value={q.image_url}
-                                                            onChange={(event) =>
-                                                                QuizFormService.updateInput(
-                                                                    event,
-                                                                    quiz,
-                                                                    setQuiz,
-                                                                    indexQuestion
-                                                                )
-                                                            }
-                                                        />
-                                                        <label
-                                                            htmlFor={`q${indexQuestion}image_title`}
-                                                        >
-                                                            Image Description
-                                                        </label>
-                                                        <input
-                                                            type='text'
-                                                            id={`q${indexQuestion}image_title`}
-                                                            name='image_title'
-                                                            value={
-                                                                q.image_title
-                                                            }
-                                                            onChange={(event) =>
-                                                                QuizFormService.updateInput(
-                                                                    event,
-                                                                    quiz,
-                                                                    setQuiz,
-                                                                    indexQuestion
-                                                                )
-                                                            }
-                                                        />
+                                                        <div>
+                                                            {/* Show the style info */}
+                                                            <label
+                                                                htmlFor={`q${indexQuestion}image_url`}
+                                                            >
+                                                                Image URL
+                                                            </label>
+                                                            <input
+                                                                type='text'
+                                                                id={`q${indexQuestion}image_url`}
+                                                                name='image_url'
+                                                                value={
+                                                                    q.image_url
+                                                                }
+                                                                onChange={(
+                                                                    event
+                                                                ) =>
+                                                                    QuizFormService.updateInput(
+                                                                        event,
+                                                                        quiz,
+                                                                        setQuiz,
+                                                                        indexQuestion
+                                                                    )
+                                                                }
+                                                            />
+                                                            <label
+                                                                htmlFor={`q${indexQuestion}image_title`}
+                                                            >
+                                                                Image
+                                                                Description
+                                                            </label>
+                                                            <input
+                                                                type='text'
+                                                                id={`q${indexQuestion}image_title`}
+                                                                name='image_title'
+                                                                value={
+                                                                    q.image_title
+                                                                }
+                                                                onChange={(
+                                                                    event
+                                                                ) =>
+                                                                    QuizFormService.updateInput(
+                                                                        event,
+                                                                        quiz,
+                                                                        setQuiz,
+                                                                        indexQuestion
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
                                                         {/* {q.style.image.url ? (
                                                             <img
                                                                 src={

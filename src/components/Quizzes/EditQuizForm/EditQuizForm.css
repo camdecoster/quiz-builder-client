@@ -12,3 +12,23 @@
 #QuizFormPrivate label {
     display: inline-block;
 }
+
+#container_buttons {
+    /* width: 320px; */
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#container_buttons button {
+    /* box-sizing: content-box; */
+    width: 100px;
+}
+
+@media screen and (min-width: 700px) {
+    #container_quiz_info {
+        display: flex;
+        align-content: space-between;
+    }
+}

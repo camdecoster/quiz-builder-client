@@ -16,46 +16,71 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
   <div
     className="link_list"
   >
-    <a
-      aria-label="Go to Login Page"
-      href="/login"
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Login Page"
     >
-      <button
+      <a
         aria-label="Go to Login Page"
-        className="link_button"
-        type="button"
+        href="/login"
+        onClick={[Function]}
+        title="Go to Login Page"
       >
-         
-        <div
-          className="button_label"
+        <button
+          aria-label="Go to Login Page"
+          className="link_button"
+          onClick=""
+          type="button"
         >
-          LOG IN
-        </div>
-      </button>
-    </a>
-    <a
-      aria-label="Go to Register Page"
-      href="/register"
+           
+          <div
+            className="button_label"
+          >
+            LOG IN
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Register Page"
+    >
+      <a
+        aria-label="Go to Register Page"
+        href="/register"
+        onClick={[Function]}
+        title="Go to Register Page"
+      >
+        <button
+          aria-label="Go to Register Page"
+          className="link_button"
+          onClick=""
+          type="button"
+        >
+           
+          <div
+            className="button_label"
+          >
+            REGISTER
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
+      id="AddItemLinkButton"
     >
       <button
-        aria-label="Go to Register Page"
+        aria-label="Try a random quiz"
         className="link_button"
+        onClick={[Function]}
         type="button"
       >
          
         <div
           className="button_label"
         >
-          REGISTER
+          RANDOM
         </div>
       </button>
-    </a>
+    </div>
   </div>
   
 </nav>
@@ -77,46 +102,71 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
   <div
     className="link_list"
   >
-    <a
-      aria-label="Go to Login Page"
-      href="/login"
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Login Page"
     >
-      <button
+      <a
         aria-label="Go to Login Page"
-        className="link_button"
-        type="button"
+        href="/login"
+        onClick={[Function]}
+        title="Go to Login Page"
       >
-         
-        <div
-          className="button_label"
+        <button
+          aria-label="Go to Login Page"
+          className="link_button"
+          onClick=""
+          type="button"
         >
-          LOG IN
-        </div>
-      </button>
-    </a>
-    <a
-      aria-label="Go to Register Page"
-      href="/register"
+           
+          <div
+            className="button_label"
+          >
+            LOG IN
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Register Page"
+    >
+      <a
+        aria-label="Go to Register Page"
+        href="/register"
+        onClick={[Function]}
+        title="Go to Register Page"
+      >
+        <button
+          aria-label="Go to Register Page"
+          className="link_button"
+          onClick=""
+          type="button"
+        >
+           
+          <div
+            className="button_label"
+          >
+            REGISTER
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
+      id="AddItemLinkButton"
     >
       <button
-        aria-label="Go to Register Page"
+        aria-label="Try a random quiz"
         className="link_button"
+        onClick={[Function]}
         type="button"
       >
          
         <div
           className="button_label"
         >
-          REGISTER
+          RANDOM
         </div>
       </button>
-    </a>
+    </div>
   </div>
   
 </nav>
@@ -138,46 +188,71 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
   <div
     className="link_list"
   >
-    <a
-      aria-label="Go to Login Page"
-      href="/login"
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Login Page"
     >
-      <button
+      <a
         aria-label="Go to Login Page"
-        className="link_button"
-        type="button"
+        href="/login"
+        onClick={[Function]}
+        title="Go to Login Page"
       >
-         
-        <div
-          className="button_label"
+        <button
+          aria-label="Go to Login Page"
+          className="link_button"
+          onClick=""
+          type="button"
         >
-          LOG IN
-        </div>
-      </button>
-    </a>
-    <a
-      aria-label="Go to Register Page"
-      href="/register"
+           
+          <div
+            className="button_label"
+          >
+            LOG IN
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Register Page"
+    >
+      <a
+        aria-label="Go to Register Page"
+        href="/register"
+        onClick={[Function]}
+        title="Go to Register Page"
+      >
+        <button
+          aria-label="Go to Register Page"
+          className="link_button"
+          onClick=""
+          type="button"
+        >
+           
+          <div
+            className="button_label"
+          >
+            REGISTER
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
+      id="AddItemLinkButton"
     >
       <button
-        aria-label="Go to Register Page"
+        aria-label="Try a random quiz"
         className="link_button"
+        onClick={[Function]}
         type="button"
       >
          
         <div
           className="button_label"
         >
-          REGISTER
+          RANDOM
         </div>
       </button>
-    </a>
+    </div>
   </div>
   
 </nav>
@@ -199,46 +274,71 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
   <div
     className="link_list"
   >
-    <a
-      aria-label="Go to Login Page"
-      href="/login"
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Login Page"
     >
-      <button
+      <a
         aria-label="Go to Login Page"
-        className="link_button"
-        type="button"
+        href="/login"
+        onClick={[Function]}
+        title="Go to Login Page"
       >
-         
-        <div
-          className="button_label"
+        <button
+          aria-label="Go to Login Page"
+          className="link_button"
+          onClick=""
+          type="button"
         >
-          LOG IN
-        </div>
-      </button>
-    </a>
-    <a
-      aria-label="Go to Register Page"
-      href="/register"
+           
+          <div
+            className="button_label"
+          >
+            LOG IN
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
       id="AddItemLinkButton"
-      onClick={[Function]}
-      title="Go to Register Page"
+    >
+      <a
+        aria-label="Go to Register Page"
+        href="/register"
+        onClick={[Function]}
+        title="Go to Register Page"
+      >
+        <button
+          aria-label="Go to Register Page"
+          className="link_button"
+          onClick=""
+          type="button"
+        >
+           
+          <div
+            className="button_label"
+          >
+            REGISTER
+          </div>
+        </button>
+      </a>
+    </div>
+    <div
+      id="AddItemLinkButton"
     >
       <button
-        aria-label="Go to Register Page"
+        aria-label="Try a random quiz"
         className="link_button"
+        onClick={[Function]}
         type="button"
       >
          
         <div
           className="button_label"
         >
-          REGISTER
+          RANDOM
         </div>
       </button>
-    </a>
+    </div>
   </div>
   
 </nav>

@@ -106,7 +106,7 @@ const QuizFormService = {
                 newQuiz.final_message_low = value;
                 break;
             case "final_message_medium":
-                newQuiz.final_message_low = value;
+                newQuiz.final_message_medium = value;
                 break;
             case "final_message_high":
                 newQuiz.final_message_high = value;

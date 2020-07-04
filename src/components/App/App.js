@@ -5,15 +5,13 @@ import { Route, Switch } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faBars,
-    faCreditCard,
-    faDollarSign,
     faList,
     faListAlt,
-    faMoneyBill,
-    faMoneyBillWave,
     faPlayCircle,
     faPlusCircle,
     faPlusSquare,
+    faQuestionCircle,
+    faRandom,
     faSignInAlt,
     faSignOutAlt,
     faUserCircle,
@@ -53,17 +51,15 @@ export default function App() {
     // Add Font Awesome icons to library
     library.add(
         faBars,
-        faCreditCard,
-        faDollarSign,
         faGithubSquare,
         faLinkedin,
         faList,
         faListAlt,
-        faMoneyBill,
-        faMoneyBillWave,
         faPlayCircle,
         faPlusCircle,
         faPlusSquare,
+        faQuestionCircle,
+        faRandom,
         faSignInAlt,
         faSignOutAlt,
         faUserCircle

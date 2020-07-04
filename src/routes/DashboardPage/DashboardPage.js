@@ -26,7 +26,7 @@ export default function DashboardPage() {
     const columns = React.useMemo(
         () => [
             {
-                Header: "Quiz",
+                Header: "Edit Quiz",
                 accessor: (quiz) => {
                     return (
                         <Link to={`quizzes/edit/${quiz.id}`}>{quiz.title}</Link>
@@ -42,6 +42,7 @@ export default function DashboardPage() {
             {
                 Header: "Description",
                 accessor: "description",
+                headerClassName: "left_align",
             },
             {
                 Header: "Launch Quiz",
@@ -67,19 +68,24 @@ export default function DashboardPage() {
     return (
         <section id='DashboardPage' className='route_page'>
             <header role='banner'>
-                <h1>Welcome to Quiz Builder</h1>
+                <h3>Welcome to Quiz Builder</h3>
             </header>
+            <p className='intro'>
+                Here are your quizzes. Use the navigation buttons to create a
+                new quiz or try a random one. When you're done with a quiz, send
+                the link to your friends.
+            </p>
             <section>
                 <h3>Your Quizzes</h3>
                 {context.quizzes[0] ? (
                     <SimpleTable columns={columns} data={data} />
                 ) : (
                     <div>
-                        After you add some quizzes, they'll appear on this page.
+                        Your quizzes are loading or you haven't built one yet.
+                        Try clicking that plus sign up above.
                     </div>
                 )}
             </section>
-            <RandomQuizSection />
         </section>
     );
 }

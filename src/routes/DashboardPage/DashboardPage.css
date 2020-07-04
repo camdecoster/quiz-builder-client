@@ -12,6 +12,10 @@
     align-items: center;
 }
 
+#DashboardPage .intro {
+    margin: 0;
+}
+
 .intervalSelector {
     width: 250px;
     margin-bottom: 10px;

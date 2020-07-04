@@ -24,6 +24,8 @@ nav .container_flex {
 
 nav h1 {
     font-size: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 nav a {
@@ -52,6 +54,8 @@ nav .link_list {
 }
 
 #logged_in_note {
+    margin-top: 5px;
+    margin-bottom: 0;
     font-size: 12px;
 }
 
