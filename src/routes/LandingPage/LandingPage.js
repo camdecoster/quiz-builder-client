@@ -8,8 +8,7 @@ import "./LandingPage.css";
 // Components
 import ImageQuizKeyboard from "../../images/quiz-keyboard.jpg";
 import ImageFriendsWithPhone from "../../images/friends_talking_phone.jpg";
-import ImageItems from "../../images/groceries.jpg";
-import RandomQuizSection from "../../components/RandomQuizSection/RandomQuizSection";
+import ImageDashboard from "../../images/dashboard_quiz_table.png";
 
 export default function LandingPage() {
     return (
@@ -34,9 +33,11 @@ export default function LandingPage() {
 
             <section>
                 <h3>What is it?</h3>
-                <p>
-                    [<em>Placeholder for image of Quiz Builder interface</em>]
-                </p>
+                <img
+                    className='landing_image'
+                    src={ImageDashboard}
+                    alt='screenshot of quiz builder dashboard'
+                />
                 <p>
                     Quiz Builder is a site that helps you create simple multiple
                     choice quizzes and share them with your friends. To get
@@ -60,9 +61,6 @@ export default function LandingPage() {
                     and try someone else's quiz. Get started today!
                 </p>
             </section>
-
-            <RandomQuizSection />
-
             <section>
                 <Link to='/register'>
                     <h3 className='landing_link'>Sign up for Quiz Builder</h3>

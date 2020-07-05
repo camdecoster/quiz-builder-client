@@ -1,4 +1,6 @@
-# Quiz Builder
+# [Quiz Builder](https://quiz-builder-client.vercel.app)
+
+![Quiz Builder Dashboard](src/images/dashboard_quiz_table.png)
 
 Quiz Builder is a site that helps you create simple multiple choice quizzes and share them with your friends. To get started, create an account and build your first quiz! Each quiz can have up to 20 questions and each question can have up to 8 answer choices.
 
@@ -16,3 +18,5 @@ Features that will be added in the future:
 -   Choose a color theme for the quiz and questions
 -   Add an image URL to the quiz and questions
 -   Random question order
+
+[Quiz Builder](https://quiz-builder-client.vercel.app) is built using React for the frontend and Node/Express/PostgreSQL for the [backend](https://github.com/camdecoster/quiz-builder-api). Give it a try and let me know if you have any [feedback or suggestions](https://github.com/camdecoster/quiz-builder-client/issues) on the client.

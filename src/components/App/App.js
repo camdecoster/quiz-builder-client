@@ -109,12 +109,20 @@ export default function App() {
         });
     }
 
+    // THIS IS RESULTING IN TWO API CALLS PER REQUEST
+    // PROBABLY BECAUSE THE EFFECT IS CHANGING THE VALUE WHICH IS BEING CHECKED
+    // FOR CHANGES BEFORE RUNNING THE EFFECT
     useEffect(() => {
-        // Only get info from API if user is logged in
-        if (TokenService.hasAuthToken()) {
-            QuizApiService.getQuizzes().then((quizzes) => setQuizzes(quizzes));
-            console.log("Quizzes:", quizzes);
+        async function fetchData() {
+            // Only get info from API if user is logged in
+            if (TokenService.hasAuthToken()) {
+                await QuizApiService.getQuizzes().then((quizzes) =>
+                    setQuizzes(quizzes)
+                );
+                console.log("Quizzes:", quizzes);
+            }
         }
+        fetchData();
     }, [JSON.stringify(quizzes), TokenService.hasAuthToken()]);
 
     const contextValue = {

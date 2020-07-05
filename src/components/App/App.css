@@ -10,6 +10,10 @@
     font-weight: 300;
 }
 
+body {
+    font-size: 14px;
+}
+
 h1,
 h2,
 h3,
@@ -148,6 +152,6 @@ header h1 {
 
 @media screen and (min-width: 400px) {
     body {
-        font-size: 20px;
+        font-size: 16px;
     }
 }

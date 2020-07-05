@@ -12,7 +12,7 @@ function Button(props) {
             className='link_button'
             type='button'
             aria-label={props.name}
-            onClick={props.onClick ? () => props.onClick() : ""}
+            onClick={props.onClick ? () => props.onClick() : undefined}
         >
             <FontAwesomeIcon className='faIcon' icon={props.icon} />{" "}
             <div className='button_label'>{props.label.toUpperCase()}</div>

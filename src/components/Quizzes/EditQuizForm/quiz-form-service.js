@@ -8,9 +8,9 @@ const QuizFormService = {
     addQuestion(index, quiz, setQuiz) {
         const emptyQuestion = {
             id: null,
-            question: "Enter your question here",
+            question: "",
             answer_index: 0,
-            answers: ["Enter your answer here"],
+            answers: [""],
             color_background: "",
             color_text: "",
             image_url: "",
@@ -45,17 +45,17 @@ const QuizFormService = {
     getNewQuiz() {
         return {
             id: null,
-            title: "New Quiz",
-            author: "Your Name",
+            title: "",
+            author: "",
             description: "",
             color_background: "",
             color_text: "",
             image_url: "",
             image_title: "",
-            final_message_low: "Low score message",
-            final_message_medium: "Medium score message.",
-            final_message_high: "High score message.",
-            final_message_perfect: "Perfect score message.",
+            final_message_low: "",
+            final_message_medium: "",
+            final_message_high: "",
+            final_message_perfect: "",
             date_modified: new Date().toISOString(),
             questions: [],
         };
