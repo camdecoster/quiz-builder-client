@@ -28,7 +28,6 @@ import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 import ErrorBoundary from "../Utilities/ErrorBoundary/ErrorBoundary";
 import Footer from "../Footer/Footer";
 import NavBar from "../NavBar/NavBar";
-import PrivateRoute from "../Utilities/PrivateRoute/PrivateRoute";
 import PublicOnlyRoute from "../Utilities/PublicOnlyRoute/PublicOnlyRoute";
 import PageNotFound from "../PageNotFound/PageNotFound";
 
@@ -41,12 +40,13 @@ import QuizzesPage from "../../routes/Quizzes/QuizzesPage/QuizzesPage";
 
 export default function App() {
     // Initialize state
-    const [quizzes, setQuizzes] = useState([]);
     const [classNames, setClassNames] = useState({
         App_container_page: "container_page",
     });
     const [dateCurrent, setDateCurrent] = useState(new Date());
+    const [doFetchData, setDoFetchData] = useState(true);
     const [error, setError] = useState(null);
+    const [quizzes, setQuizzes] = useState([]);
 
     // Add Font Awesome icons to library
     library.add(
@@ -120,8 +120,11 @@ export default function App() {
                     setQuizzes(quizzes)
                 );
                 console.log("Quizzes:", quizzes);
+                // setDoFetchData(false);
             }
         }
+
+        console.log("fetching data");
         fetchData();
     }, [JSON.stringify(quizzes), TokenService.hasAuthToken()]);
 

@@ -28,7 +28,6 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
         <button
           aria-label="Go to Login Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            
@@ -52,7 +51,6 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
         <button
           aria-label="Go to Register Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            
@@ -114,7 +112,6 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
         <button
           aria-label="Go to Login Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            
@@ -138,7 +135,6 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
         <button
           aria-label="Go to Register Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            
@@ -200,7 +196,6 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
         <button
           aria-label="Go to Login Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            
@@ -224,7 +219,6 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
         <button
           aria-label="Go to Register Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            
@@ -286,7 +280,6 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
         <button
           aria-label="Go to Login Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            
@@ -310,7 +303,6 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
         <button
           aria-label="Go to Register Page"
           className="link_button"
-          onClick=""
           type="button"
         >
            

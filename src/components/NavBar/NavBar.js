@@ -1,7 +1,6 @@
 // React
 import React, { useContext } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link, useHistory } from "react-router-dom";
 
 // Configuration
 import "./NavBar.css";
@@ -28,9 +27,7 @@ export default function NavBar() {
         history.push("/");
 
         // Clear out User information
-        // context.setExpenses([]);
-        // context.setPayment_methods([]);
-        // context.setCategories([]);
+        context.setQuizzes([]);
     }
 
     function createNavLinkList(navLinkTargets) {
@@ -73,6 +70,7 @@ export default function NavBar() {
                 icon: "random",
                 onClick: async () => {
                     const res = await QuizApiService.getRandomQuizId();
+                    console.log("Loading Quiz", res.id);
                     history.push(`/quizzes/${res.id}`);
                 },
             },

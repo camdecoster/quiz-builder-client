@@ -26,18 +26,11 @@ export default function EditQuizForm(props) {
     const [deletedQuestions, setDeletedQuestions] = useState([]);
     const [error, setError] = useState(null);
     const [newQuestions, setNewQuestions] = useState([]);
-    // const [queryCompleted, setQueryCompleted] = useState(false);
     // Start with empty quiz in case this is for new quiz
     const [quiz, setQuiz] = useState(QuizFormService.getNewQuiz());
     // I might not need to save the original, but it could come in handy
     const [quizOriginal, setQuizOriginal] = useState({});
     const [showAnswers, setShowAnswers] = useState([]);
-
-    // How do I get quiz info for public page? Query API?
-    // Do I query API for private page?
-
-    // Get path info from Route
-    const { path, url } = useRouteMatch();
 
     // Get category ID from path parameter
     const { quizId } = useParams();
@@ -47,7 +40,6 @@ export default function EditQuizForm(props) {
     useEffect(() => {
         if (quizId === "new") {
             console.log("Starting new quiz");
-            console.log(quiz);
             handleAddQuestion(0);
         } else {
             // Get quiz from context, or use API, only get at first page load
@@ -92,7 +84,6 @@ export default function EditQuizForm(props) {
         // Add new show/hide answers variable to state
         const newShowAnswers = [...showAnswers];
         newShowAnswers.splice(index + 1, 0, true);
-        console.log(newShowAnswers);
         setShowAnswers(newShowAnswers);
     }
 
@@ -148,9 +139,6 @@ export default function EditQuizForm(props) {
     async function handleSubmit(event) {
         event.preventDefault();
 
-        // NEED TO SWITCH ORDER OF API REQUESTS: FIRST QUIZ (TO GET ID), THEN QUESTIONS
-        // UPDATE CONTEXT AT END
-
         // Clear previous errors (if they exist)
         setError(null);
 
@@ -171,40 +159,15 @@ export default function EditQuizForm(props) {
             quiz.id = res.quiz.id;
             setQuiz(quiz);
 
-            console.log("res is", res);
-
-            // // Update item info in item array in state
-            // const quizzes = context.quizzes;
-
-            // // Add new item
-            // quizzes.push(res.quiz);
-            // context.setQuizzes(quizzes);
-            // console.log(context.quizzes);
-
             // Follow successful path
             props.onSubmitSuccess(res.quiz.id);
         } else {
-            console.log("figure out what to do with quiz updates");
+            // Update quiz
             const res = await QuizApiService.updateQuiz(newQuiz);
-
-            // // Update item info in item array in state
-            // const quizzes = context.quizzes;
-
-            // // Get index of item in state
-            // const index = quizzes.findIndex(
-            //     (oldQuiz) => oldQuiz.id === quiz.id
-            // );
-
-            // // Replace old item with updated item
-            // quizzes.splice(index, 1, quiz);
-            // context.setQuizzes(quizzes);
 
             // Follow successful path
             props.onSubmitSuccess(quiz.id);
         }
-
-        // Store new questions when they are added via API
-        // const addedQuestions = [];
 
         // Only delete questions if some were removed from quiz
         if (deletedQuestions.length > 0) {
@@ -266,7 +229,8 @@ export default function EditQuizForm(props) {
         }
 
         // Trigger a new API call by resetting the quizzes in context
-        context.setQuizzes([]);
+        console.log("triggering quiz update");
+        context.setQuizzes([...context.quizzes, quiz]);
     }
 
     const grid = 8;
@@ -276,7 +240,7 @@ export default function EditQuizForm(props) {
         userSelect: "none",
         padding: grid * 2,
         margin: `0 0 ${grid}px 0`,
-        "border-radius": "10px",
+        borderRadius: "10px",
 
         // change background colour if dragging
         background: isDragging ? "#573DD9" : "#66c4ba",
@@ -290,7 +254,7 @@ export default function EditQuizForm(props) {
         padding: grid,
         minWidth: "250px",
         maxWidth: "100%",
-        "border-radius": "20px",
+        borderRadius: "20px",
     });
 
     function onDragEnd(result) {

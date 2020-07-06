@@ -82,7 +82,7 @@ export default function DashboardPage() {
                 ) : (
                     <div>
                         Your quizzes are loading or you haven't built one yet.
-                        Try clicking that plus sign up above.
+                        Try clicking that plus sign in the navigation buttons.
                     </div>
                 )}
             </section>

@@ -36,19 +36,27 @@ export default function QuizPage(props) {
 
     // Get quiz from context, or use API, only get at first page load
     useEffect(() => {
-        if (context.quizzes.length > 0) {
-            console.log("getting quiz from context");
-            setQuiz(context.quizzes.filter((quiz) => quiz.id === id)[0]);
-        } else {
-            console.log("getting quiz from API");
-            // Get quiz from API, store in state
-            QuizApiService.getQuiz(id).then((res) => {
-                console.log("API quiz", res);
-                // Add quiz info to state
-                setQuiz(res.quiz);
-            });
-        }
-    }, []);
+        // if (context.quizzes.length > 0) {
+        //     console.log("getting quiz from context");
+        //     console.log(context.quizzes.filter((quiz) => quiz.id === id)[0]);
+        //     setQuiz(context.quizzes.filter((quiz) => quiz.id === id)[0]);
+        // } else {
+        //     console.log("getting quiz from API");
+        //     // Get quiz from API, store in state
+        //     QuizApiService.getQuiz(id).then((res) => {
+        //         console.log("API quiz", res);
+        //         // Add quiz info to state
+        //         setQuiz(res.quiz);
+        //     });
+        // }
+        console.log("getting quiz from API");
+        // Get quiz from API, store in state
+        QuizApiService.getQuiz(id).then((res) => {
+            // Add quiz info to state
+            setQuiz(res.quiz);
+            setScore(0);
+        });
+    }, [quizId]);
 
     // Get path info from Route
     const { path, url } = useRouteMatch();
