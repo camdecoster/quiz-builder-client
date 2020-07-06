@@ -18,7 +18,7 @@ export default function LoginPage(props) {
 
     function handleLoginSuccess() {
         // Trigger fetching of these items by causing rerender
-        context.setQuizzes([]);
+        context.setDoFetchData(true);
 
         // Route user to dashboard
         history.push("/");

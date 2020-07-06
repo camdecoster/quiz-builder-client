@@ -1,18 +1,15 @@
 // React
-import React, { useContext, useState } from "react";
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, Route, Redirect, Switch, useRouteMatch } from "react-router-dom";
 
 // Configuration
 import "./QuizzesPage.css";
 import QuizBuilderContext from "../../../contexts/QuizBuilderContext";
-import { firstLetterUppercase } from "../../../js-utilities";
 
 // Components
-import AddItemLinkButton from "../../../components/Utilities/AddItemLinkButton/AddItemLinkButton";
 import EditQuizPage from "../EditQuizPage/EditQuizPage";
 import PrivateRoute from "../../../components/Utilities/PrivateRoute/PrivateRoute";
 import QuizPage from "../QuizPage/QuizPage";
-import SimpleTable from "../../../components/Tables/SimpleTable/SimpleTable";
 
 export default function QuizzesPage() {
     // Access context
@@ -96,6 +93,9 @@ export default function QuizzesPage() {
                         </div>
                     )}
                 /> */}
+                <Route exact path={`${path}`}>
+                    <Redirect to='' />
+                </Route>
             </Switch>
         </section>
     );

@@ -9,6 +9,7 @@ const QuizFormService = {
         const emptyQuestion = {
             id: null,
             question: "",
+            index_quiz_order: index + 1,
             answer_index: 0,
             answers: [""],
             color_background: "",
@@ -17,9 +18,14 @@ const QuizFormService = {
             image_title: "",
         };
 
-        // Add new question to existing quiz
+        // Add new question to copy of quiz
         const newQuiz = { ...quiz };
         newQuiz.questions.splice(index + 1, 0, emptyQuestion);
+
+        // Update quiz order indices
+        QuizFormService.setQuizOrderIndex(newQuiz.questions);
+
+        // Update quiz
         setQuiz(newQuiz);
         return emptyQuestion;
     },
@@ -69,11 +75,29 @@ const QuizFormService = {
 
     // Function to reorder questions after drag and drop
     reorderQuestions(list, startIndex, endIndex) {
+        console.log(startIndex, endIndex);
+        // Copy array
         const result = Array.from(list);
+
+        // Remove element that is shifted
         const [removed] = result.splice(startIndex, 1);
+
+        // Add it back in at the new location
         result.splice(endIndex, 0, removed);
 
+        // Reset quiz_order_index for questions
+        this.setQuizOrderIndex(result);
+
         return result;
+    },
+
+    setQuizOrderIndex(questions) {
+        // Update each question with its current quiz order index
+        questions.forEach(
+            (question, index, arr) =>
+                (arr[index] = { ...question, index_quiz_order: index })
+        );
+        return;
     },
 
     updateAnswerIndex(indexQuestion, indexAnswer, quiz, setQuiz) {

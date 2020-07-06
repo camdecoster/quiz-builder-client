@@ -75,11 +75,11 @@ export default function EditQuizForm(props) {
     }, []);
 
     function handleAddQuestion(index) {
-        // Add new question and keep track of new questions added
-        const newQuestion = QuizFormService.addQuestion(index, quiz, setQuiz);
-        const newNewQuestions = [...newQuestions];
-        newNewQuestions.push(newQuestion);
-        setNewQuestions(newNewQuestions);
+        // Add new question
+        QuizFormService.addQuestion(index, quiz, setQuiz);
+        // const newNewQuestions = [...newQuestions];
+        // newNewQuestions.push(newQuestion);
+        // setNewQuestions(newNewQuestions);
 
         // Add new show/hide answers variable to state
         const newShowAnswers = [...showAnswers];
@@ -125,11 +125,11 @@ export default function EditQuizForm(props) {
 
                 // Delete item from state, do this last so App state update doesn't
                 // call this page again
-                const newQuizzes = quizzes
-                    .slice(0, index)
-                    .concat(quizzes.slice(index + 1));
-                context.setQuizzes(newQuizzes);
-                console.log(newQuizzes);
+                // const newQuizzes = quizzes
+                //     .slice(0, index)
+                //     .concat(quizzes.slice(index + 1));
+                // context.setQuizzes(newQuizzes);
+                // console.log(newQuizzes);
             } catch (error) {
                 setError(error.message);
             }
@@ -142,12 +142,9 @@ export default function EditQuizForm(props) {
         // Clear previous errors (if they exist)
         setError(null);
 
-        // Update quiz with ID's of questions to submit back to API
+        // Copy current quiz, prep for database
         const newQuiz = JSON.parse(JSON.stringify(quiz));
-        // newQuiz.questions = questions;
         delete newQuiz.questions;
-
-        // console.log("Question ID's are", questions);
 
         // Check if submitting a new quiz, or updating existing quiz
         if (quiz.id === null) {
@@ -158,15 +155,9 @@ export default function EditQuizForm(props) {
             // Get new quiz ID, save in state
             quiz.id = res.quiz.id;
             setQuiz(quiz);
-
-            // Follow successful path
-            props.onSubmitSuccess(res.quiz.id);
         } else {
             // Update quiz
             const res = await QuizApiService.updateQuiz(newQuiz);
-
-            // Follow successful path
-            props.onSubmitSuccess(quiz.id);
         }
 
         // Only delete questions if some were removed from quiz
@@ -197,24 +188,39 @@ export default function EditQuizForm(props) {
         }
 
         // Only add questions if some were added to quiz
+        const newQuestions = quiz.questions.filter((q) => q.id === null);
+        console.log("newQuestions", newQuestions);
+
         if (newQuestions.length > 0) {
+            const newQuiz = JSON.parse(JSON.stringify(quiz));
+
             // Add each new question to API
             newQuestions.map(async (q) => {
                 try {
                     // Add quiz ID to each question
-                    q.quiz_id = quiz.id;
+                    q.quiz_id = newQuiz.id;
+
+                    console.log("question is", q);
 
                     const res = await QuestionApiService.postQuestion(q);
-                    // addedQuestions.push(res.question);
+
+                    // Delete question from quiz in state
+                    newQuiz.questions.forEach((question, index) => {
+                        if (question.index_quiz_order === q.index_quiz_order) {
+                            // Delete question from array
+                            newQuiz.questions.splice(index, 1);
+                        }
+                    });
                 } catch (error) {
                     setError(error.message || `Couldn't add question to quiz`);
                 }
             });
+
+            // Update quiz to remove new questions
+            setQuiz(newQuiz);
         }
 
         // Update other questions
-        // Do comparison to see if question actually updated?
-        // Need to check if question was deleted
         for (const question of quiz.questions) {
             // Don't update new questions (those with id of null)
             if (question.id !== null) {
@@ -229,8 +235,7 @@ export default function EditQuizForm(props) {
         }
 
         // Trigger a new API call by resetting the quizzes in context
-        console.log("triggering quiz update");
-        context.setQuizzes([...context.quizzes, quiz]);
+        props.onSubmitSuccess(quiz.id);
     }
 
     const grid = 8;
@@ -268,12 +273,14 @@ export default function EditQuizForm(props) {
             return;
         }
 
+        // Reorder the questions based upon the new element location
         const newQuestions = QuizFormService.reorderQuestions(
             quiz.questions,
             result.source.index,
             result.destination.index
         );
 
+        // Save the new question order
         const newQuiz = { ...quiz };
         newQuiz.questions = newQuestions;
         setQuiz(newQuiz);

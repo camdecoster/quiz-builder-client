@@ -1,15 +1,19 @@
 // React
-import React from "react";
-import { Link, useRouteMatch, useHistory, useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { useRouteMatch, useHistory, useParams } from "react-router-dom";
 
 // Configuration
 import "./EditQuizPage.css";
+import QuizBuilderContext from "../../../contexts/QuizBuilderContext";
 
 // Components
 import EditQuizForm from "../../../components/Quizzes/EditQuizForm/EditQuizForm";
 
 // Show form to edit category
 export default function EditQuizPage() {
+    // Access context
+    const context = useContext(QuizBuilderContext);
+
     // Access history
     const history = useHistory();
 
@@ -20,6 +24,9 @@ export default function EditQuizPage() {
     const { quizId } = useParams();
 
     function handleDeleteSuccess() {
+        // Trigger new API call
+        context.setDoFetchData(true);
+
         // Route user to new main page
         history.push("");
     }
@@ -30,6 +37,9 @@ export default function EditQuizPage() {
     }
 
     function handleFormSuccess() {
+        // Trigger new API call
+        context.setDoFetchData(true);
+
         // Route user to new main page
         history.push("");
     }

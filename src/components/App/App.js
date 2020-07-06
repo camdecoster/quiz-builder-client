@@ -116,22 +116,31 @@ export default function App() {
         async function fetchData() {
             // Only get info from API if user is logged in
             if (TokenService.hasAuthToken()) {
-                await QuizApiService.getQuizzes().then((quizzes) =>
-                    setQuizzes(quizzes)
-                );
-                console.log("Quizzes:", quizzes);
-                // setDoFetchData(false);
+                await QuizApiService.getQuizzes().then((quizzes) => {
+                    // Sort quizzes by ID, ascending. Old quizzes show up first.
+                    const quizzesById = quizzes.sort((a, b) => {
+                        if (a.id < b.id) return -1;
+                        else return 1;
+                    });
+                    setQuizzes(quizzesById);
+                    console.log("Quizzes:", quizzesById);
+                });
             }
         }
 
-        console.log("fetching data");
-        fetchData();
-    }, [JSON.stringify(quizzes), TokenService.hasAuthToken()]);
+        if (doFetchData) {
+            setDoFetchData(false);
+            console.log("fetching data");
+            fetchData();
+        }
+        // }, [JSON.stringify(quizzes), TokenService.hasAuthToken()]);
+    });
 
     const contextValue = {
         dateCurrent: dateCurrent,
         quizzes: quizzes,
         setClassNames: setClassNames,
+        setDoFetchData: setDoFetchData,
         setQuizzes: setQuizzes,
         toggleClassNames: toggleClassNames,
     };

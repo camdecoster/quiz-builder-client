@@ -1,6 +1,6 @@
 // React
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 // Configuration
 import "./RegistrationPage.css";
@@ -8,24 +8,38 @@ import "./RegistrationPage.css";
 // Components
 import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
 
-class RegistrationPage extends Component {
-    handleRegistrationSuccess = () => {
-        // Route user to login page
-        this.props.history.push("/login");
-    };
+export default function RegistrationPage() {
+    // Access history
+    const history = useHistory();
 
-    render() {
+    // Initialize state
+    const [showRegSuccess, setShowRegSuccess] = useState(false);
+
+    function RegistrationSuccess() {
+        // Redirect to login page after 10 seconds
+        useEffect(() => {
+            setTimeout(() => history.push("/login"), 10000);
+        }, []);
+
         return (
-            <section id='RegistrationPage' className='route_page'>
-                <header>
-                    <h3>Sign up for Expense Tracker</h3>
-                </header>
-                <RegistrationForm
-                    onRegistrationSuccess={this.handleRegistrationSuccess}
-                />
-            </section>
+            <div>
+                Your account was successfully created. Now you can{" "}
+                <Link to='/login'>log in</Link> and create your first quiz.
+                You'll be redirected in 10 seconds.
+            </div>
         );
     }
-}
 
-export default withRouter(RegistrationPage);
+    return (
+        <section id='RegistrationPage' className='route_page'>
+            <header>
+                <h3>Sign up for Expense Tracker</h3>
+            </header>
+            {!showRegSuccess ? (
+                <RegistrationForm onRegistrationSuccess={setShowRegSuccess} />
+            ) : (
+                <RegistrationSuccess />
+            )}
+        </section>
+    );
+}
