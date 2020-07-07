@@ -11,7 +11,7 @@
 }
 
 body {
-    font-size: 14px;
+    font-size: 17px;
 }
 
 h1,
@@ -47,9 +47,8 @@ section h2 {
 
 #App main {
     box-sizing: border-box;
-    min-width: 100%;
-    max-width: min(100vw, 800px);
-    padding: 10px;
+    width: 90%;
+    max-width: 800px;
     padding-bottom: 60px;
     display: flex;
     flex-direction: column;
@@ -59,11 +58,16 @@ section h2 {
 .route_page {
     width: 100%;
     max-width: 800px;
+    margin-top: 120px;
+}
+
+.landing_page {
+    margin-top: 0;
 }
 
 .route_page form {
     width: 100%;
-    max-width: 600px;
+    /* max-width: 600px; */
     margin: auto;
 }
 
@@ -83,6 +87,7 @@ a:active {
 label {
     display: block;
     margin-bottom: 5px;
+    font-size: 17px;
 }
 
 form input,
@@ -92,29 +97,39 @@ form select {
 
 input,
 select {
-    height: 40px;
+    /* height: 40px; */
     box-sizing: border-box;
     min-width: 100%;
-    height: 30px;
+    height: 40px;
     padding-left: 10px;
     background-color: var(--light);
     border: 2px solid var(--blue-medium);
     border-radius: 15px;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 17px;
 }
 
 button {
-    height: 40px;
+    height: 50px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: 2px solid var(--border);
     border-radius: 20px;
     background-color: var(--button-fill);
     color: inherit;
+    font-size: 17px;
 }
 
 button:active {
     background-color: var(--button-active);
     border-color: var(--blue-light);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(256, 256, 256, 0.4);
 }
 
 textarea#description {
@@ -152,6 +167,14 @@ header h1 {
 
 @media screen and (min-width: 400px) {
     body {
-        font-size: 16px;
+        font-size: 18px;
+    }
+
+    .route_page {
+        margin-top: 200px;
+    }
+
+    .landing_page {
+        margin-top: 0;
     }
 }

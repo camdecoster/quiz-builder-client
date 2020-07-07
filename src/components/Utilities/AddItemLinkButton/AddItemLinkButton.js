@@ -9,13 +9,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Button(props) {
     return (
         <button
-            className='link_button'
+            className={`link_button ${props.classes ? props.classes : ""}`}
             type='button'
             aria-label={props.name}
             onClick={props.onClick ? () => props.onClick() : undefined}
         >
-            <FontAwesomeIcon className='faIcon' icon={props.icon} />{" "}
-            <div className='button_label'>{props.label.toUpperCase()}</div>
+            {props.icon ? (
+                <FontAwesomeIcon className='faIcon' icon={props.icon} />
+            ) : (
+                ""
+            )}
+            <div
+                className={`button_label ${
+                    !props.alwaysShowLabel ? "hide_label" : ""
+                }`}
+                style={props.labelSize ? { fontSize: props.labelSize } : null}
+            >
+                {props.label.toUpperCase()}
+            </div>
         </button>
     );
 }

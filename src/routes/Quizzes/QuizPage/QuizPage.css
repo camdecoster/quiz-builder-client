@@ -1,8 +1,122 @@
+#QuizPage header {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#QuizPage h1,
+#QuizPage h3,
+#QuizPage h5 {
+    text-align: center;
+}
+
+#QuizPage h1 {
+    margin-bottom: 5px;
+}
+
+#QuizPage button {
+    background-color: var(--quiz-button-background);
+    border-color: var(--quiz-button-border);
+    color: var(--light);
+}
+
+#QuizPage #container_quiz {
+    /* padding: 10px; */
+    border: 2px solid var(--light);
+    border-radius: 20px;
+    background-color: var(--quiz-background);
+    color: var(--quiz-info);
+}
+
+#QuizPage #quiz_intro {
+    margin: 10px;
+}
+
+#QuizPage #container_quiz_body {
+    border-radius: 20px;
+    background-color: var(--quiz-body-background);
+    color: var(--quiz-info);
+}
+
+#QuizPage #quiz_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#QuizPage #container_question {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    /* max-width: 600px; */
+    padding: 50px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border-radius: 20px;
+    background-color: var(--question-background);
+    color: var(--question-text);
+}
+
+#QuizPage #question {
+    font-size: 20px;
+}
+
+#QuizPage #question_image {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+#QuizPage .question_answer {
+    display: flex;
+    flex-direction: row;
+}
+
 #QuizPage input[type="radio"] {
     min-width: auto;
     height: 20px;
+    margin-right: 5px;
 }
 
 #QuizPage label {
     display: inline-block;
+}
+
+#QuizPage #question_result {
+    width: 100%;
+    font-size: 17px;
+}
+
+#QuizPage .result_answer {
+    font-weight: 600;
+}
+
+#QuizPage #result_correct {
+    padding: 10px;
+    background: lightgreen;
+    color: var(--result-correct-text);
+    border-radius: 15px;
+}
+
+#QuizPage #result_wrong {
+    padding: 10px;
+    background-color: lightcoral;
+    border-radius: 15px;
+}
+
+#QuizPage #quiz_results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    font-size: 18px;
+}
+
+#QuizPage #quiz_results p {
+    text-align: center;
 }

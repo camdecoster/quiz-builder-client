@@ -1,8 +1,6 @@
 // Configuration
 import config from "../config";
 import TokenService from "./token-service";
-import quizData from "./quiz_data";
-import quiz_data from "./quiz_data";
 
 const QuizApiService = {
     async deleteQuiz(id) {
@@ -29,9 +27,8 @@ const QuizApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // return Promise.resolve(true);
     },
-    // Make this endpoint open to public?
+
     async getQuizzes() {
         try {
             const res = await fetch(`${config.API_ENDPOINT}/quizzes`, {
@@ -51,31 +48,10 @@ const QuizApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // const newQuizzes = JSON.parse(JSON.stringify(quizData.quizzes));
-
-        // const mergedQuizzes = [];
-
-        // newQuizzes.forEach((quiz) => {
-        //     const questions = [];
-        //     quiz.questions.forEach((id, index) => {
-        //         // questions starts as just question ID's. Replace ID's with questions.
-        //         questions.push(
-        //             quizData.questions.filter((q) => q.id === id)[0]
-        //         );
-        //     });
-
-        //     quiz.questions = [...questions];
-        //     mergedQuizzes.push(quiz);
-        // });
-        // console.log(mergedQuizzes);
-
-        // return Promise.resolve(JSON.parse(JSON.stringify(mergedQuizzes)));
     },
-    // Make this endpoint open to public?
+
     async getQuiz(quizId) {
         try {
-            console.log("`getQuiz` ran");
-            console.log(`${config.API_ENDPOINT}/quizzes/${quizId}`);
             const res = await fetch(
                 `${config.API_ENDPOINT}/quizzes/${quizId}`,
                 {
@@ -98,25 +74,8 @@ const QuizApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // const quiz = JSON.parse(
-        //     JSON.stringify(
-        //         quizData.quizzes.filter((quiz) => quiz.id === quizId)[0]
-        //     )
-        // );
-
-        // const questions = [];
-        // quiz.questions.forEach((id, index) => {
-        //     // questions starts as just question ID's. Replace ID's with questions.
-        //     questions.push(quizData.questions.filter((q) => q.id === id)[0]);
-        // });
-
-        // quiz.questions = [...questions];
-
-        // return Promise.resolve({
-        //     quiz: JSON.parse(JSON.stringify(quiz)),
-        // });
     },
-    // This will eventually need to be async
+
     async getRandomQuizId() {
         try {
             const res = await fetch(`${config.API_ENDPOINT}/quizzes/random`, {
@@ -138,12 +97,8 @@ const QuizApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // MAGIC RANDOM QUIZ LOGIC PLACEHOLDER
-        // const id = Math.round(
-        //     Math.random() * (quiz_data.quizzes.length - 1) + 1
-        // );
-        // return id;
     },
+
     async postQuiz(quiz) {
         try {
             const res = await fetch(`${config.API_ENDPOINT}/quizzes`, {
@@ -171,9 +126,8 @@ const QuizApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // quiz.id = new Date().getTime();
-        // return { quiz: quiz };
     },
+
     async updateQuiz(quiz) {
         try {
             const res = await fetch(
@@ -202,7 +156,6 @@ const QuizApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // return Promise.resolve(true);
     },
 };
 

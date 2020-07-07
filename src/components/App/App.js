@@ -43,7 +43,6 @@ export default function App() {
     const [classNames, setClassNames] = useState({
         App_container_page: "container_page",
     });
-    const [dateCurrent, setDateCurrent] = useState(new Date());
     const [doFetchData, setDoFetchData] = useState(true);
     const [error, setError] = useState(null);
     const [quizzes, setQuizzes] = useState([]);
@@ -109,35 +108,23 @@ export default function App() {
         });
     }
 
-    // THIS IS RESULTING IN TWO API CALLS PER REQUEST
-    // PROBABLY BECAUSE THE EFFECT IS CHANGING THE VALUE WHICH IS BEING CHECKED
-    // FOR CHANGES BEFORE RUNNING THE EFFECT
     useEffect(() => {
         async function fetchData() {
             // Only get info from API if user is logged in
             if (TokenService.hasAuthToken()) {
                 await QuizApiService.getQuizzes().then((quizzes) => {
-                    // Sort quizzes by ID, ascending. Old quizzes show up first.
-                    const quizzesById = quizzes.sort((a, b) => {
-                        if (a.id < b.id) return -1;
-                        else return 1;
-                    });
-                    setQuizzes(quizzesById);
-                    console.log("Quizzes:", quizzesById);
+                    setQuizzes(quizzes);
                 });
             }
         }
 
         if (doFetchData) {
             setDoFetchData(false);
-            console.log("fetching data");
             fetchData();
         }
-        // }, [JSON.stringify(quizzes), TokenService.hasAuthToken()]);
     });
 
     const contextValue = {
-        dateCurrent: dateCurrent,
         quizzes: quizzes,
         setClassNames: setClassNames,
         setDoFetchData: setDoFetchData,
@@ -152,7 +139,6 @@ export default function App() {
                     id='container_page'
                     className={classNames.App_container_page}
                 >
-                    <NavBar />
                     <main>
                         <Switch>
                             <Route
@@ -167,7 +153,10 @@ export default function App() {
                                         }
                                     >
                                         {TokenService.hasAuthToken() ? (
-                                            <DashboardPage />
+                                            <div>
+                                                <NavBar />
+                                                <DashboardPage />
+                                            </div>
                                         ) : (
                                             <LandingPage />
                                         )}
@@ -180,6 +169,7 @@ export default function App() {
                                     <ErrorBoundary
                                         message={`Couldn't load Registration page`}
                                     >
+                                        <NavBar />
                                         <RegistrationPage {...routerProps} />
                                     </ErrorBoundary>
                                 )}
@@ -190,6 +180,7 @@ export default function App() {
                                     <ErrorBoundary
                                         message={`Couldn't load Login page`}
                                     >
+                                        <NavBar />
                                         <LoginPage />
                                     </ErrorBoundary>
                                 )}
@@ -200,6 +191,7 @@ export default function App() {
                                     <ErrorBoundary
                                         message={`Couldn't load Quizzes page`}
                                     >
+                                        <NavBar />
                                         <QuizzesPage />
                                     </ErrorBoundary>
                                 )}
@@ -210,6 +202,7 @@ export default function App() {
                                     <ErrorBoundary
                                         message={`Couldn't load Demo page`}
                                     >
+                                        <NavBar />
                                         <LoginPage
                                             // Pass in info to log in to demo account
                                             message='LOG IN TO THE DEMO ACCOUNT'
@@ -220,7 +213,15 @@ export default function App() {
                                 )}
                             />
                             {/* Catch requests to pages that don't exist */}
-                            <Route component={PageNotFound} />
+                            <Route
+                                render={(routerProps) => (
+                                    <div>
+                                        <NavBar />
+                                        <PageNotFound />
+                                    </div>
+                                )}
+                                // component={PageNotFound}
+                            />
                         </Switch>
                     </main>
                     <Footer />

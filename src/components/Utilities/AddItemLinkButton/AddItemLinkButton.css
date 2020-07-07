@@ -3,6 +3,10 @@
 }
 
 #AddItemLinkButton button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 40px;
     width: 40px;
     border-radius: 16px;
@@ -11,16 +15,24 @@
 }
 
 #AddItemLinkButton .button_label {
+    font-size: 12px;
+}
+
+#AddItemLinkButton .hide_label {
     display: none;
 }
 
 @media screen and (min-width: 400px) {
     #AddItemLinkButton button {
-        height: 80px;
-        width: 80px;
-        border-radius: 30px;
+        height: 100px;
+        width: 100px;
+        border-radius: 40px;
         margin-left: 15px;
         margin-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     #AddItemLinkButton .faIcon {
@@ -28,8 +40,7 @@
         margin-bottom: 5px;
     }
 
-    #AddItemLinkButton .button_label {
-        display: inherit;
-        font-size: 12px;
+    #AddItemLinkButton .hide_label {
+        display: block;
     }
 }

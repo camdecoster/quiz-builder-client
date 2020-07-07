@@ -1,20 +1,9 @@
 :root {
-    --blue-dark: #040084;
-    --blue-medium: #0141cf;
-    --blue-light: #1874d2;
-    --blue-lighter: #5392d1;
-    --orange-dark: #fd6600;
-    --orange-medium: #fd7f00;
-    --orange-light: #fecc98;
-    --red-dark: #ff3c31;
-    --red-medium: #ff635c;
-    --red-light: #ff9995;
     --light: white;
     --light-accent: rgb(175, 175, 175);
     --light-accent-2: rgb(125, 125, 125);
     /* Define general colors */
     --background: #4e85bf;
-    /* --border: #7fc7af; */
     --border: #66c4ba;
     --border-2: #4e85bf;
     --button-active: #a9e8a6;
@@ -22,6 +11,14 @@
     --link-color: #f7ed93;
     --link-color-active: #573dd9;
     --link-color-hover: blue;
+    --quiz-background: #66c4ba;
+    --quiz-button-background: #4e85bf;
+    --quiz-button-border: var(--light);
+    --quiz-info: #573dd9;
+    --quiz-body-background: #a9e8a6;
+    --question-background: #573dd9;
+    --question-text: white;
+    --result-correct-text: #573dd9;
     --table-background: #573dd9;
     --table-header-background: #66c4ba;
 }

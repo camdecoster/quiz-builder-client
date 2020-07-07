@@ -1,6 +1,6 @@
 // React
 import React, { useContext } from "react";
-import { useRouteMatch, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 // Configuration
 import "./EditQuizPage.css";
@@ -16,9 +16,6 @@ export default function EditQuizPage() {
 
     // Access history
     const history = useHistory();
-
-    // Get path info from Route
-    const { url } = useRouteMatch();
 
     // Get category ID from path parameter
     const { quizId } = useParams();

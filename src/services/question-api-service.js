@@ -1,7 +1,6 @@
 // Configuration
 import config from "../config";
 import TokenService from "./token-service";
-import quizData from "./quiz_data";
 
 const QuestionApiService = {
     async deleteQuestion(id) {
@@ -28,9 +27,8 @@ const QuestionApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // return Promise.resolve(true);
     },
-    // Make this endpoint open to public?
+
     async getQuestions() {
         try {
             const res = await fetch(`${config.API_ENDPOINT}/questions`, {
@@ -50,9 +48,8 @@ const QuestionApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // return Promise.resolve(quizData.quizzes);
     },
-    // Make this endpoint open to public?
+
     async getQuestion(questionId) {
         try {
             const res = await fetch(
@@ -78,6 +75,7 @@ const QuestionApiService = {
             throw new Error(error.message);
         }
     },
+
     async postQuestion(question) {
         try {
             const res = await fetch(`${config.API_ENDPOINT}/questions`, {
@@ -105,9 +103,8 @@ const QuestionApiService = {
         } catch (error) {
             throw new Error(error.message);
         }
-        // question.id = new Date().getTime();
-        // return { question: question };
     },
+
     async updateQuestion(question) {
         try {
             const res = await fetch(

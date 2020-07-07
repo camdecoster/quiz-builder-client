@@ -1,7 +1,6 @@
 // React
-import React, { useContext, useEffect, useState, prop } from "react";
+import React, { useEffect, useState } from "react";
 import {
-    Link,
     Route,
     Switch,
     useHistory,
@@ -12,17 +11,8 @@ import {
 // Configuration
 import "./QuizPage.css";
 import QuizApiService from "../../../services/quiz-api-service";
-import QuizBuilderContext from "../../../contexts/QuizBuilderContext";
-import TokenService from "../../../services/token-service";
 
-// Components
-import AddItemLinkButton from "../../../components/Utilities/AddItemLinkButton/AddItemLinkButton";
-import SimpleTable from "../../../components/Tables/SimpleTable/SimpleTable";
-
-export default function QuizPage(props) {
-    // Access context
-    const context = useContext(QuizBuilderContext);
-
+export default function QuizPage() {
     // Access history
     const history = useHistory();
 
@@ -34,29 +24,17 @@ export default function QuizPage(props) {
     const { quizId } = useParams();
     const id = parseInt(quizId);
 
-    // Get quiz from context, or use API, only get at first page load
     useEffect(() => {
-        // if (context.quizzes.length > 0) {
-        //     console.log("getting quiz from context");
-        //     console.log(context.quizzes.filter((quiz) => quiz.id === id)[0]);
-        //     setQuiz(context.quizzes.filter((quiz) => quiz.id === id)[0]);
-        // } else {
-        //     console.log("getting quiz from API");
-        //     // Get quiz from API, store in state
-        //     QuizApiService.getQuiz(id).then((res) => {
-        //         console.log("API quiz", res);
-        //         // Add quiz info to state
-        //         setQuiz(res.quiz);
-        //     });
-        // }
-        console.log("getting quiz from API");
+        // Clear out the previous quiz, if already loaded
+        setQuiz({});
+
         // Get quiz from API, store in state
         QuizApiService.getQuiz(id).then((res) => {
             // Add quiz info to state
             setQuiz(res.quiz);
             setScore(0);
         });
-    }, [quizId]);
+    }, [id]);
 
     // Get path info from Route
     const { path, url } = useRouteMatch();
@@ -106,60 +84,72 @@ export default function QuizPage(props) {
         }
 
         return (
-            <div>
-                <p>
-                    Question {number} out of {questions.length}
-                </p>
-                <h4>{question.question}</h4>
-                {!!question.image_url ? (
-                    <img
-                        src={question.image_url}
-                        title={question.image_title || "no title given"}
-                    />
-                ) : (
-                    ""
-                )}
-                {!answerSubmitted ? (
-                    <form onSubmit={(event) => handleSubmit(event)}>
-                        {question.answers.map((answer, index) => (
-                            <QuizAnswer
-                                answer={answer}
-                                index={index}
-                                key={index}
-                            />
-                        ))}
-                        <button type='submit'>Submit Answer</button>
-                    </form>
-                ) : (
-                    <div>
-                        <p>
-                            Correct answer:{" "}
-                            {question.answers[question.answer_index]}
-                        </p>
-                        <p>Your answer: {question.answers[userAnswer]}</p>
-                        {question.answer_index === userAnswer ? (
-                            <p>You got it right!</p>
-                        ) : (
-                            <p>You got it wrong :(</p>
-                        )}
-                        <button type='button' onClick={() => handleNextClick()}>
-                            {number < questions.length
-                                ? "Next Question"
-                                : "Finish Quiz"}
-                        </button>
-                    </div>
-                )}
-                <p>
-                    {/* UPDATE SO TOTAL SCORE IS ONLY UP TO CURRENT QUIZ LENGTH */}
-                    Score: {localScore} out of {questions.length}
-                </p>
+            <div id='container_quiz_body'>
+                <div id='quiz_info'>
+                    <p>
+                        Question {number} out of {questions.length}
+                    </p>
+                    <p>
+                        {/* UPDATE SO TOTAL SCORE IS ONLY UP TO CURRENT QUIZ LENGTH */}
+                        Score: {localScore} out of {questions.length}
+                    </p>
+                </div>
+                <div id='container_question'>
+                    <h4 id='question'>{question.question}</h4>
+                    {!!question.image_url ? (
+                        <img
+                            id='question_image'
+                            src={question.image_url}
+                            alt={question.image_title || "no title given"}
+                        />
+                    ) : (
+                        ""
+                    )}
+                    {!answerSubmitted ? (
+                        <form onSubmit={(event) => handleSubmit(event)}>
+                            {question.answers.map((answer, index) => (
+                                <QuizAnswer
+                                    answer={answer}
+                                    index={index}
+                                    key={index}
+                                />
+                            ))}
+                            <button type='submit'>Submit Answer</button>
+                        </form>
+                    ) : (
+                        <div id='question_result'>
+                            <p className='result_answer'>
+                                Correct answer:{" "}
+                                {question.answers[question.answer_index]}
+                            </p>
+                            <p className='result_answer'>
+                                Your answer: {question.answers[userAnswer]}
+                            </p>
+                            {question.answer_index === userAnswer ? (
+                                <p id='result_correct'>
+                                    You got it right! Good job!
+                                </p>
+                            ) : (
+                                <p id='result_wrong'>You got it wrong.</p>
+                            )}
+                            <button
+                                type='button'
+                                onClick={() => handleNextClick()}
+                            >
+                                {number < questions.length
+                                    ? "Next Question"
+                                    : "Finish Quiz"}
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
 
     function QuizAnswer({ answer, index }) {
         return (
-            <div>
+            <div className='question_answer'>
                 <input
                     type='radio'
                     name='quiz_question'
@@ -184,11 +174,13 @@ export default function QuizPage(props) {
     }
 
     return (
-        <section id='QuizPage' className='route_page'>
+        <section id='QuizPage'>
             {Object.entries(quiz).length > 0 ? (
-                <div>
-                    <h3>{quiz.title}</h3>
-                    <h5>By {quiz.author}</h5>
+                <div id='container_quiz'>
+                    <header>
+                        <h1>{quiz.title}</h1>
+                        <h5>By {quiz.author}</h5>
+                    </header>
                     <Switch>
                         <Route path={`${path}/questions/:questionNum`}>
                             {Object.entries(quiz).length > 0 ? (
@@ -204,16 +196,20 @@ export default function QuizPage(props) {
                         {/* Show final summary page */}
                         <Route path={`${path}/summary`}>
                             {Object.entries(quiz).length > 0 ? (
-                                <div>
-                                    <p>Quiz Results</p>
+                                <div id='quiz_results'>
+                                    <h3>Quiz Results</h3>
                                     <p>
                                         Congratulations! You finished the quiz!
                                         You got {score} out of{" "}
                                         {quiz.questions.length} questions
                                         correct.{" "}
+                                    </p>
+                                    <p>
                                         {getFinalMessage(
                                             score / quiz.questions.length
-                                        )}{" "}
+                                        )}
+                                    </p>
+                                    <p>
                                         Press the button if you'd like to try
                                         again.
                                     </p>
@@ -233,15 +229,17 @@ export default function QuizPage(props) {
                         </Route>
                         <Route>
                             {/* If no question number given, show quiz start page */}
-                            <p>{quiz.description}</p>
-                            <button
-                                type='button'
-                                onClick={() =>
-                                    history.push(`${url}/questions/1`)
-                                }
-                            >
-                                Start Quiz
-                            </button>
+                            <div id='quiz_intro'>
+                                <p>{quiz.description}</p>
+                                <button
+                                    type='button'
+                                    onClick={() =>
+                                        history.push(`${url}/questions/1`)
+                                    }
+                                >
+                                    Start Quiz
+                                </button>
+                            </div>
                         </Route>
                     </Switch>
                 </div>

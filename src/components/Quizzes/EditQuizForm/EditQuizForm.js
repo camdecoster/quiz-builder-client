@@ -1,6 +1,6 @@
 // React
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, useRouteMatch } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // Configuration
@@ -39,12 +39,11 @@ export default function EditQuizForm(props) {
     // Get quiz or start new one
     useEffect(() => {
         if (quizId === "new") {
-            console.log("Starting new quiz");
             handleAddQuestion(0);
         } else {
             // Get quiz from context, or use API, only get at first page load
             if (context.quizzes.length > 0) {
-                console.log("getting quiz from context");
+                // console.log("getting quiz from context");
                 // Show all question answers to start with
                 setShowAnswers(
                     context.quizzes
@@ -57,7 +56,7 @@ export default function EditQuizForm(props) {
                 );
                 setQuiz(context.quizzes.filter((quiz) => quiz.id === id)[0]);
             } else {
-                console.log("Loading existing quiz");
+                // console.log("Loading existing quiz");
 
                 QuizApiService.getQuiz(id).then((res) => {
                     // Show all question answers to start with
@@ -148,7 +147,7 @@ export default function EditQuizForm(props) {
 
         // Check if submitting a new quiz, or updating existing quiz
         if (quiz.id === null) {
-            console.log("adding new quiz");
+            // console.log("adding new quiz");
             // Quiz is new, add via API
             const res = await QuizApiService.postQuiz(newQuiz);
 
@@ -189,7 +188,6 @@ export default function EditQuizForm(props) {
 
         // Only add questions if some were added to quiz
         const newQuestions = quiz.questions.filter((q) => q.id === null);
-        console.log("newQuestions", newQuestions);
 
         if (newQuestions.length > 0) {
             const newQuiz = JSON.parse(JSON.stringify(quiz));
@@ -199,8 +197,6 @@ export default function EditQuizForm(props) {
                 try {
                     // Add quiz ID to each question
                     q.quiz_id = newQuiz.id;
-
-                    console.log("question is", q);
 
                     const res = await QuestionApiService.postQuestion(q);
 
@@ -290,7 +286,7 @@ export default function EditQuizForm(props) {
         <form id='QuizFormPrivate' onSubmit={(event) => handleSubmit(event)}>
             {error ? <ErrorMessage message={error} /> : ""}
             <div id='container_buttons'>
-                <button type='submit'>Submit Quiz</button>
+                <button type='submit'>Submit</button>
                 <button
                     type='button'
                     onClick={() => {
@@ -321,6 +317,7 @@ export default function EditQuizForm(props) {
             </div>
             <div id='container_quiz_info'>
                 <div id='container_main_info'>
+                    <h3>Quiz Info</h3>
                     <label htmlFor='title'>Quiz Title</label>
                     <input
                         type='text'
@@ -359,6 +356,7 @@ export default function EditQuizForm(props) {
                     />
                 </div>
                 <div id='container_messages'>
+                    <h3>Final Messages</h3>
                     <label htmlFor='final_message_low'>Low Score Message</label>
                     <input
                         type='text'
@@ -549,7 +547,7 @@ export default function EditQuizForm(props) {
                                                                                 1
                                                                             }`}
                                                                         </label>
-                                                                        <div>
+                                                                        <div className='container_quiz_answer'>
                                                                             <input
                                                                                 className='input_answer'
                                                                                 type='text'

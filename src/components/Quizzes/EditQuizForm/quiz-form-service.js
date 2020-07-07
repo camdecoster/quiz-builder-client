@@ -75,7 +75,6 @@ const QuizFormService = {
 
     // Function to reorder questions after drag and drop
     reorderQuestions(list, startIndex, endIndex) {
-        console.log(startIndex, endIndex);
         // Copy array
         const result = Array.from(list);
 

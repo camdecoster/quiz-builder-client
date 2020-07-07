@@ -9,9 +9,9 @@ import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 import TokenService from "../../services/token-service";
 
 // Components
-import AddItemLinkButton from "../Utilities/AddItemLinkButton/AddItemLinkButton";
+import NavLinkList from "../Utilities/NavLinkList/NavLinkList";
 
-export default function NavBar() {
+export default function NavBar({ sticky, startHidden }) {
     // Access context
     const context = useContext(QuizBuilderContext);
 
@@ -28,26 +28,6 @@ export default function NavBar() {
 
         // Clear out User information
         context.setQuizzes([]);
-    }
-
-    function createNavLinkList(navLinkTargets) {
-        // Build list of NavLinks for <ul> in SideBar
-        let navLinks = "";
-
-        navLinks = navLinkTargets.map((navLink) => {
-            return (
-                <AddItemLinkButton
-                    to={navLink.to}
-                    label={navLink.label}
-                    name={navLink.name}
-                    icon={navLink.icon}
-                    onClick={navLink.onClick}
-                    key={navLink.name}
-                />
-            );
-        });
-
-        return navLinks;
     }
 
     function renderAuthorized() {
@@ -70,7 +50,6 @@ export default function NavBar() {
                 icon: "random",
                 onClick: async () => {
                     const res = await QuizApiService.getRandomQuizId();
-                    console.log("Loading Quiz", res.id);
                     history.push(`/quizzes/${res.id}`);
                 },
             },
@@ -82,25 +61,7 @@ export default function NavBar() {
             },
         ];
 
-        // Get NavLinks for NavBar
-        const navLinks = createNavLinkList(navLinkTargets);
-
-        // Add log out button
-        // navLinks.push(
-        //     <button
-        //         className='link_button'
-        //         type='button'
-        //         title='Log Out'
-        //         key='Log Out'
-        //         aria-label='Log Out'
-        //         onClick={() => handleLogOutClick()}
-        //     >
-        //         <FontAwesomeIcon className='faIcon' icon='sign-out-alt' />
-        //         <div className='button_label'>LOG OUT</div>
-        //     </button>
-        // );
-
-        return navLinks;
+        return <NavLinkList navLinks={navLinkTargets} />;
     }
 
     function renderUnauthorized() {
@@ -128,11 +89,16 @@ export default function NavBar() {
             },
         ];
 
-        return createNavLinkList(navLinkTargets);
+        return <NavLinkList navLinks={navLinkTargets} />;
     }
 
     return (
-        <nav role='navigation'>
+        <nav
+            className={`${
+                startHidden ? `${sticky ? "sticky" : "not_sticky"}` : ""
+            }`}
+            role='navigation'
+        >
             <h1>
                 <Link
                     to='/'
