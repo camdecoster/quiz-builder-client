@@ -4,14 +4,14 @@ import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
 
 // Components
-import PaymentMethodExpensesTable from "./PaymentMethodExpensesTable";
+import NavLinkList from "./NavLinkList";
 
-describe("<PaymentMethodExpensesTable> component", () => {
+describe("<NavLinkList> component", () => {
     it("renders without crashing", () => {
         const div = document.createElement("div");
         ReactDOM.render(
             <MemoryRouter>
-                <PaymentMethodExpensesTable />
+                <NavLinkList navLinks={[]} />
             </MemoryRouter>,
             div
         );

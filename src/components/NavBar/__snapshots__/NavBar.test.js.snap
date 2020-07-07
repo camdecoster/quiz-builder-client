@@ -2,6 +2,7 @@
 
 exports[`<NavBar> component renders the UI with authorization with the UserMenu showing 1`] = `
 <nav
+  className=""
   role="navigation"
 >
   <h1>
@@ -27,12 +28,12 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
       >
         <button
           aria-label="Go to Login Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             LOG IN
           </div>
@@ -50,12 +51,12 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
       >
         <button
           aria-label="Go to Register Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             REGISTER
           </div>
@@ -67,13 +68,13 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
     >
       <button
         aria-label="Try a random quiz"
-        className="link_button"
+        className="link_button "
         onClick={[Function]}
         type="button"
       >
-         
         <div
-          className="button_label"
+          className="button_label hide_label"
+          style={null}
         >
           RANDOM
         </div>
@@ -86,6 +87,7 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
 
 exports[`<NavBar> component renders the UI with authorization with the UserMenu showing 2`] = `
 <nav
+  className=""
   role="navigation"
 >
   <h1>
@@ -111,12 +113,12 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
       >
         <button
           aria-label="Go to Login Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             LOG IN
           </div>
@@ -134,12 +136,12 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
       >
         <button
           aria-label="Go to Register Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             REGISTER
           </div>
@@ -151,13 +153,13 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
     >
       <button
         aria-label="Try a random quiz"
-        className="link_button"
+        className="link_button "
         onClick={[Function]}
         type="button"
       >
-         
         <div
-          className="button_label"
+          className="button_label hide_label"
+          style={null}
         >
           RANDOM
         </div>
@@ -170,6 +172,7 @@ exports[`<NavBar> component renders the UI with authorization with the UserMenu 
 
 exports[`<NavBar> component renders the UI without authorization with the UserMenu showing 1`] = `
 <nav
+  className=""
   role="navigation"
 >
   <h1>
@@ -195,12 +198,12 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
       >
         <button
           aria-label="Go to Login Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             LOG IN
           </div>
@@ -218,12 +221,12 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
       >
         <button
           aria-label="Go to Register Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             REGISTER
           </div>
@@ -235,13 +238,13 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
     >
       <button
         aria-label="Try a random quiz"
-        className="link_button"
+        className="link_button "
         onClick={[Function]}
         type="button"
       >
-         
         <div
-          className="button_label"
+          className="button_label hide_label"
+          style={null}
         >
           RANDOM
         </div>
@@ -254,6 +257,7 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
 
 exports[`<NavBar> component renders the UI without authorization with the UserMenu showing 2`] = `
 <nav
+  className=""
   role="navigation"
 >
   <h1>
@@ -279,12 +283,12 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
       >
         <button
           aria-label="Go to Login Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             LOG IN
           </div>
@@ -302,12 +306,12 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
       >
         <button
           aria-label="Go to Register Page"
-          className="link_button"
+          className="link_button "
           type="button"
         >
-           
           <div
-            className="button_label"
+            className="button_label hide_label"
+            style={null}
           >
             REGISTER
           </div>
@@ -319,13 +323,13 @@ exports[`<NavBar> component renders the UI without authorization with the UserMe
     >
       <button
         aria-label="Try a random quiz"
-        className="link_button"
+        className="link_button "
         onClick={[Function]}
         type="button"
       >
-         
         <div
-          className="button_label"
+          className="button_label hide_label"
+          style={null}
         >
           RANDOM
         </div>
