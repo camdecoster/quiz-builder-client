@@ -31,15 +31,6 @@ export default function QuizPage() {
         try {
             // Get quiz from API, store in state
             QuizApiService.getQuiz(id).then((res) => {
-                // If response was bad, throw error
-                if (!res.ok) {
-                    const response = res.json();
-                    throw new Error(
-                        response.error.message ||
-                            "There was an error accessing that quiz"
-                    );
-                }
-
                 // Add quiz info to state
                 setQuiz(res.quiz);
                 setScore(0);
