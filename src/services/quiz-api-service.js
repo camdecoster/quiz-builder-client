@@ -72,6 +72,7 @@ const QuizApiService = {
 
             return { quiz: await res.json() };
         } catch (error) {
+            console.log(error.message);
             throw new Error(error.message);
         }
     },

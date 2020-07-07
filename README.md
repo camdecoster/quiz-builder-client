@@ -1,6 +1,6 @@
 # [Quiz Builder](https://quiz-builder-client.vercel.app)
 
-![Quiz Builder Dashboard](src/images/dashboard_quiz_table.png)
+![Quiz Builder Dashboard](src/images/quiz_question.png)
 
 Quiz Builder is a site that helps you create simple multiple choice quizzes and share them with your friends. To get started, create an account and build your first quiz! Each quiz can have up to 20 questions and each question can have up to 8 answer choices.
 
