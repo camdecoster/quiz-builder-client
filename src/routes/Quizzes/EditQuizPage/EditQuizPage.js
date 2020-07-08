@@ -9,7 +9,7 @@ import QuizBuilderContext from "../../../contexts/QuizBuilderContext";
 // Components
 import EditQuizForm from "../../../components/Quizzes/EditQuizForm/EditQuizForm";
 
-// Show form to edit category
+// Show form to edit quiz
 export default function EditQuizPage() {
     // Access context
     const context = useContext(QuizBuilderContext);
@@ -17,7 +17,7 @@ export default function EditQuizPage() {
     // Access history
     const history = useHistory();
 
-    // Get category ID from path parameter
+    // Get quiz ID from path parameter
     const { quizId } = useParams();
 
     function handleDeleteSuccess() {

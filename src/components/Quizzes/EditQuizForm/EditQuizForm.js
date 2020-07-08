@@ -31,7 +31,7 @@ export default function EditQuizForm(props) {
     const [quizOriginal, setQuizOriginal] = useState({});
     const [showAnswers, setShowAnswers] = useState([]);
 
-    // Get category ID from path parameter
+    // Get quiz ID from path parameter
     const { quizId } = useParams();
     const id = parseInt(quizId);
 

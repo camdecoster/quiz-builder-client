@@ -33,7 +33,7 @@ export default function RegistrationPage() {
     return (
         <section id='RegistrationPage' className='route_page'>
             <header>
-                <h3>Sign up for Expense Tracker</h3>
+                <h3>Sign up for Quiz Builder</h3>
             </header>
             {!showRegSuccess ? (
                 <RegistrationForm onRegistrationSuccess={setShowRegSuccess} />

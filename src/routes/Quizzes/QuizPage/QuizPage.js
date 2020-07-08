@@ -20,7 +20,7 @@ export default function QuizPage() {
     const [quiz, setQuiz] = useState({});
     const [score, setScore] = useState(0);
 
-    // Get category ID from path parameter
+    // Get quiz ID from path parameter
     const { quizId } = useParams();
     const id = parseInt(quizId);
 

@@ -1,51 +1,15 @@
 #DashboardPage {
-    padding: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: var(--background);
 }
 
-#DashboardPage section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #DashboardPage .intro {
     margin: 0;
-}
-
-.intervalSelector {
-    width: 250px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-a.interval {
-    margin-left: 5px;
-    margin-right: 5px;
-    cursor: pointer;
-}
-
-#DashboardPage button {
-    width: 75px;
-}
-
-#DashboardPage button.intervalActive {
-    font-weight: bolder;
-    color: var(--orange-medium);
 }
 
 .left_align {
     width: 100%;
     text-align: right;
-}
-
-.spending_category,
-.spending_payment_method {
-    width: inherit;
 }
