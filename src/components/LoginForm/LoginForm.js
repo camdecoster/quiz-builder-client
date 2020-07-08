@@ -4,14 +4,22 @@ import { Link } from "react-router-dom";
 
 // Configuration
 import "./LoginForm.css";
-import TokenService from "../../services/token-service";
 import AuthApiService from "../../services/auth-api-service";
+import TokenService from "../../services/token-service";
+
+// Components
+import LoadingAnimation from "../Utilities/LoadingAnimation/LoadingAnimation";
 
 export default function LoginForm(props) {
+    // Initialize state
     const [error, setError] = useState(null);
+    const [showLoading, setShowLoading] = useState(false);
 
     function handleSubmit(ev) {
         ev.preventDefault();
+
+        // Show loading animation
+        setShowLoading(true);
 
         // Get info from form
         const { email, password } = ev.target;
@@ -28,8 +36,10 @@ export default function LoginForm(props) {
                 password.value = "";
                 TokenService.saveAuthToken(res.authToken);
                 props.onLoginSuccess();
+                // Might need to hide loading animation here
             })
             .catch((res) => {
+                setShowLoading(false);
                 setError(res.error);
             });
     }
@@ -68,6 +78,7 @@ export default function LoginForm(props) {
                     <Link to='/register'>Register</Link> for a new account
                 </p>
             </div>
+            {showLoading ? <LoadingAnimation /> : ""}
             <div role='alert'>
                 {error && <p className='errorMessage'>{error}</p>}
             </div>

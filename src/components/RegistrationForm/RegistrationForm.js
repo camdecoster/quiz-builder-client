@@ -6,18 +6,25 @@ import { Link } from "react-router-dom";
 import "./RegistrationForm.css";
 import AuthApiService from "../../services/auth-api-service";
 
+// Components
+import LoadingAnimation from "../Utilities/LoadingAnimation/LoadingAnimation";
+
 export default function RegistrationForm(props) {
     // Initialize state
     const [error, setError] = useState(null);
-    const [showPasswordReqs, setShowPasswordReqs] = useState(false);
     const [passwords, setPasswords] = useState({
         password: "",
         passwordRepeat: "",
         match: true,
     });
+    const [showLoading, setShowLoading] = useState(false);
+    const [showPasswordReqs, setShowPasswordReqs] = useState(false);
 
     function handleSubmit(ev) {
         ev.preventDefault();
+
+        // Show loading animation
+        setShowLoading(true);
 
         // Get info from form
         const { email, password } = ev.target;
@@ -36,6 +43,7 @@ export default function RegistrationForm(props) {
                 props.onRegistrationSuccess(true);
             })
             .catch((res) => {
+                setShowLoading(false);
                 setError(res.error);
             });
     }
@@ -125,6 +133,7 @@ export default function RegistrationForm(props) {
                     Already have an account? <Link to='/login'>Login</Link>.
                 </p>
             </div>
+            {showLoading ? <LoadingAnimation /> : ""}
             <div role='alert'>
                 {error && <p className='errorMessage'>{error}</p>}
             </div>

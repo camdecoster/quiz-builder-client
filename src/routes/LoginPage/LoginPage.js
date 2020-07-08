@@ -17,7 +17,7 @@ export default function LoginPage(props) {
     const history = useHistory();
 
     function handleLoginSuccess() {
-        // Trigger fetching of these items by causing rerender
+        // Trigger fetching of quizzes
         context.setDoFetchData(true);
 
         // Route user to dashboard

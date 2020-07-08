@@ -25,7 +25,6 @@ export default function EditQuizForm(props) {
     const [allowDelete, setAllowDelete] = useState(false);
     const [deletedQuestions, setDeletedQuestions] = useState([]);
     const [error, setError] = useState(null);
-    const [newQuestions, setNewQuestions] = useState([]);
     // Start with empty quiz in case this is for new quiz
     const [quiz, setQuiz] = useState(QuizFormService.getNewQuiz());
     // I might not need to save the original, but it could come in handy
@@ -65,9 +64,6 @@ export default function EditQuizForm(props) {
                     // Add quiz info to state
                     setQuizOriginal(res.quiz);
                     setQuiz(res.quiz);
-
-                    // Indicate that API query completed
-                    // setQueryCompleted(true);
                 });
             }
         }
@@ -76,9 +72,6 @@ export default function EditQuizForm(props) {
     function handleAddQuestion(index) {
         // Add new question
         QuizFormService.addQuestion(index, quiz, setQuiz);
-        // const newNewQuestions = [...newQuestions];
-        // newNewQuestions.push(newQuestion);
-        // setNewQuestions(newNewQuestions);
 
         // Add new show/hide answers variable to state
         const newShowAnswers = [...showAnswers];
@@ -121,14 +114,6 @@ export default function EditQuizForm(props) {
 
                 // Follow successful path
                 props.onDeleteSuccess();
-
-                // Delete item from state, do this last so App state update doesn't
-                // call this page again
-                // const newQuizzes = quizzes
-                //     .slice(0, index)
-                //     .concat(quizzes.slice(index + 1));
-                // context.setQuizzes(newQuizzes);
-                // console.log(newQuizzes);
             } catch (error) {
                 setError(error.message);
             }
@@ -163,7 +148,7 @@ export default function EditQuizForm(props) {
         if (deletedQuestions.length > 0) {
             const newQuiz = JSON.parse(JSON.stringify(quiz));
             // Remove deleted questions from quiz
-            deletedQuestions.forEach(async (q) => {
+            for (const q of deletedQuestions) {
                 try {
                     const res = await QuestionApiService.deleteQuestion(q.id);
                     // Also delete question from quiz in state
@@ -178,7 +163,7 @@ export default function EditQuizForm(props) {
                         error.message || `Couldn't delete question from quiz`
                     );
                 }
-            });
+            }
             // Update quiz to remove deleted questions
             setQuiz(newQuiz);
 
@@ -193,7 +178,8 @@ export default function EditQuizForm(props) {
             const newQuiz = JSON.parse(JSON.stringify(quiz));
 
             // Add each new question to API
-            newQuestions.map(async (q) => {
+            for (const q of newQuestions) {
+                // newQuestions.map(async (q) => {
                 try {
                     // Add quiz ID to each question
                     q.quiz_id = newQuiz.id;
@@ -210,7 +196,7 @@ export default function EditQuizForm(props) {
                 } catch (error) {
                     setError(error.message || `Couldn't add question to quiz`);
                 }
-            });
+            }
 
             // Update quiz to remove new questions
             setQuiz(newQuiz);
