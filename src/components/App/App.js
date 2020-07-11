@@ -45,7 +45,7 @@ export default function App() {
     });
     const [doFetchData, setDoFetchData] = useState(true);
     const [error, setError] = useState(null);
-    const [quizzes, setQuizzes] = useState([]);
+    const [quizzes, setQuizzes] = useState(null);
 
     // Add Font Awesome icons to library
     library.add(

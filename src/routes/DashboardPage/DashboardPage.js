@@ -7,6 +7,7 @@ import "./DashboardPage.css";
 import QuizBuilderContext from "../../contexts/QuizBuilderContext";
 
 // Components
+import LoadingAnimation from "../../components/Utilities/LoadingAnimation/LoadingAnimation";
 import SimpleTable from "../../components/Tables/SimpleTable/SimpleTable";
 
 export default function DashboardPage() {
@@ -61,13 +62,18 @@ export default function DashboardPage() {
             </p>
             <section>
                 <h3>Your Quizzes</h3>
-                {context.quizzes[0] ? (
-                    <SimpleTable columns={columns} data={data} />
+                {/* Check if quizzes have loaded then check if there are any quizzes */}
+                {Array.isArray(context.quizzes) ? (
+                    context.quizzes.length > 0 ? (
+                        <SimpleTable columns={columns} data={data} />
+                    ) : (
+                        <div>
+                            You haven't built any quizzes yet. Try clicking that
+                            plus sign in the navigation buttons.
+                        </div>
+                    )
                 ) : (
-                    <div>
-                        Your quizzes are loading or you haven't built one yet.
-                        Try clicking that plus sign in the navigation buttons.
-                    </div>
+                    <LoadingAnimation />
                 )}
             </section>
         </section>
